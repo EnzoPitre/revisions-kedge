@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Cours · KEDGE Revisions</title>
-<meta name="description" content="Toutes les matières de ta bibliothèque de révision.">
+<title>Favoris · KEDGE Revisions</title>
+<meta name="description" content="Tes fiches et matières favorites.">
 <meta name="theme-color" content="#ffffff">
 <meta name="color-scheme" content="light">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="KEDGE Revisions">
-<meta property="og:title" content="Cours · KEDGE Revisions">
-<meta property="og:description" content="Toutes les matières de ta bibliothèque de révision.">
+<meta property="og:title" content="Favoris · KEDGE Revisions">
+<meta property="og:description" content="Tes fiches et matières favorites.">
 <meta property="og:image" content="https://enzopitre.github.io/revisions-kedge/assets/icons/icon-512.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -45,11 +45,12 @@
 <header class="deskbar"><a class="brand" href="../"><img src="../assets/icons/favicon.svg" alt="" width="36" height="36"><span>KEDGE Revisions</span></a>
   <a class="avatar" href="../progress/" aria-label="Mes révisions">E</a></header>
 <main id="main" tabindex="-1">
-<header class="head"><h1>Cours</h1><p>Tes matières apparaîtront ici</p></header>
-<div class="search" data-search data-limit="8"><form class="searchbox" role="search" action="../search/" method="get"><label class="sr" for="q-c">Rechercher une fiche, une matière ou un mot-clé</label><svg class="ic " aria-hidden="true" focusable="false"><use href="#i-search"/></svg><input id="q-c" name="q" type="search" placeholder="Rechercher" autocomplete="off" enterkeyhint="search"><button class="circle dark" type="submit" aria-label="Lancer la recherche"><svg class="ic " aria-hidden="true" focusable="false"><use href="#i-sliders"/></svg></button></form><div class="search-results" data-results aria-live="polite"></div></div>
-<section class="block"><div class="welcome"><i class="circle"><svg class="ic " aria-hidden="true" focusable="false"><use href="#i-book"/></svg></i><h3>Ta bibliothèque est prête</h3><p>Aucune matière pour l’instant. Envoie tes premiers cours : chaque document deviendra une fiche de révision avec flashcards, quiz et exercices corrigés.</p></div></section>
+<header class="head"><h1>Favoris</h1><p>Retrouve vite ce qui compte le plus.</p></header>
+<section class="block" data-fav-subjects hidden><h2>Matières</h2><div class="hscroll hscroll-big" data-fav-subjects-list></div></section>
+<section class="block" data-fav-pages hidden><h2>Fiches</h2><div class="list" data-fav-pages-list></div></section>
+<div data-fav-empty class="block"><div class="welcome"><i class="circle"><svg class="ic " aria-hidden="true" focusable="false"><use href="#i-book"/></svg></i><h3>Aucun favori</h3><p>Touche le cœur d’une matière ou d’une fiche pour la retrouver ici.</p></div></div>
 </main>
-<nav class="dock" aria-label="Navigation principale"><a class="dk" href="../"><i><svg class="ic " aria-hidden="true" focusable="false"><use href="#i-home"/></svg></i><span class="dk-l">Accueil</span></a><a class="dk is-active" href="../subjects/" aria-current="page"><i><svg class="ic " aria-hidden="true" focusable="false"><use href="#i-list"/></svg></i><span class="dk-l">Cours</span></a><a class="dk" href="../progress/"><i><svg class="ic " aria-hidden="true" focusable="false"><use href="#i-dots"/></svg></i><span class="dk-l">Révisions</span></a><a class="dk" href="../favorites/"><i><svg class="ic " aria-hidden="true" focusable="false"><use href="#i-heart"/></svg></i><span class="dk-l">Favoris</span></a></nav>
+<nav class="dock" aria-label="Navigation principale"><a class="dk" href="../"><i><svg class="ic " aria-hidden="true" focusable="false"><use href="#i-home"/></svg></i><span class="dk-l">Accueil</span></a><a class="dk" href="../subjects/"><i><svg class="ic " aria-hidden="true" focusable="false"><use href="#i-list"/></svg></i><span class="dk-l">Cours</span></a><a class="dk" href="../progress/"><i><svg class="ic " aria-hidden="true" focusable="false"><use href="#i-dots"/></svg></i><span class="dk-l">Révisions</span></a><a class="dk is-active" href="../favorites/" aria-current="page"><i><svg class="ic " aria-hidden="true" focusable="false"><use href="#i-heart"/></svg></i><span class="dk-l">Favoris</span></a></nav>
 
 <script src="../assets/js/app.js?v=3" defer></script>
 </body>

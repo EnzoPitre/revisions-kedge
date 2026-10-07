@@ -21,6 +21,14 @@ Terminer chaque chapitre par « Ce que je dois absolument savoir » (5–10 poin
 - `assets/css/style.css`, `assets/js/app.js` : UI. Incrémenter `assetVersion` dans `site.config.json` après modif CSS/JS. `assets/vendor/katex` : KaTeX local (chargé seulement si la page contient `\( \)`, `\[ \]` ou `.formula`).
 - `tools/make_icons.py` : régénère les icônes PWA. Chemins toujours relatifs (site sous `/revisions-kedge/`).
 
+## Design system (refonte « app iOS premium »)
+Référence visuelle : application mobile de voyage fournie par Enzo (cartes très arrondies, photos immersives, quasi monochrome, barre flottante anthracite, pills, CTA noir pleine largeur). Tous les tokens sont en tête de `assets/css/style.css` (`--background, --surface*, --text-*, --accent-dark, --radius-*, --shadow-soft`). Ne jamais coder de valeurs en dur : réutiliser les tokens. Couleur = apportée par les photos (`cover`), pas par l'UI. Pas de rouge/orange/bleu décoratifs.
+Pages : accueil (greeting, recherche, « Continuer », pills de matières, cartes), Cours, matière (hero + panneau blanc), fiche (header + onglets + accordéons + CTA), Révisions (suivi + lien Exercices), Favoris. Sur mobile, la barre flottante est masquée sur matière/fiche (CTA à la place), comme dans la référence.
+
+## Structure d'une fiche (onglets)
+Le corps est découpé en sections : `<section data-tab="fiche|retenir|flashcards|quiz|exercices">…</section>`. Les onglets sont générés à partir des sections présentes (≥ 2). Si une page `kind: exercices` a `for: <slug>`, la fiche reçoit un onglet-lien « Exercices ». Dans l'onglet fiche, découper les notions en accordéons :
+`<details class="acc" open><summary><span class="acc-n">01</span><span class="acc-t"><small>Notion</small>Titre</span></summary><div class="acc-in">…</div></details>` (les notions essentielles ouvertes par défaut).
+
 ## Blocs de contenu disponibles
 `<div class="callout retenir|definition|formula|method|example|warning|exercise|correction|gap"><p class="callout-t">Titre</p>…</div>` ·
 correction repliable `<details class="correction"><summary>Voir la correction</summary><div class="corr">…</div></details>` ·

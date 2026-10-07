@@ -36,6 +36,8 @@ function plainText(html) {
     .replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/\s+/g, ' ').trim();
 }
 
+const TAB_LABELS = { fiche: 'Fiche', retenir: 'À retenir', flashcards: 'Flashcards', quiz: 'Quiz', exercices: 'Exercices' };
+const TAB_ORDER = Object.keys(TAB_LABELS);
 // ids + sommaire à partir des <h2>/<h3>, tableaux dans un conteneur scrollable
 function enhanceBody(html) {
   const toc = []; const used = new Set();
@@ -47,8 +49,14 @@ function enhanceBody(html) {
     toc.push({ level: +lvl, id, text: plainText(inner) });
     return `<h${lvl}${idm ? attrs : `${attrs || ''} id="${id}"`}>${inner}</h${lvl}>`;
   });
+  const tabs = [];
+  html = html.replace(/<section([^>]*?)\sdata-tab="(\w+)"([^>]*)>/g, (all, a, key, b) => {
+    if (!TAB_LABELS[key]) return all;
+    tabs.push(key);
+    return `<section${a} data-tab="${key}"${b} class="panel" id="tab-${key}" role="tabpanel">`;
+  });
   html = html.replace(/<table[\s\S]*?<\/table>/g, (t) => `<div class="table-wrap" tabindex="0" role="region" aria-label="Tableau défilable">${t}</div>`);
-  return { html, toc };
+  return { html, toc, tabs: TAB_ORDER.filter((k) => tabs.includes(k)) };
 }
 
 const needsMath = (html) => /\\\(|\\\[|class="[^"]*\bformula\b|data-math/.test(html);
@@ -68,7 +76,7 @@ if (fs.existsSync(CONTENT)) {
       const { meta, body } = parseFrontMatter(fs.readFileSync(file, 'utf8'), file);
       if (!meta.title) throw new Error(`title manquant : ${file}`);
       const slug = f.replace(/\.html$/, '');
-      const { html, toc } = enhanceBody(body);
+      const { html, toc, tabs } = enhanceBody(body);
       const text = plainText(body);
       pages.push({
         id: `${dir}/${slug}`, subject: dir, slug,
@@ -78,7 +86,7 @@ if (fs.existsSync(CONTENT)) {
         keywords: (meta.keywords || '').split(',').map((k) => k.trim()).filter(Boolean),
         sources: meta.sources || '', created: meta.created || '', updated: meta.updated || meta.created || '',
         cover: meta.cover || '', coverAlt: meta.coverAlt || '',
-        html, toc, text, math: needsMath(body), minutes: Math.max(1, Math.round(text.split(' ').length / 200)),
+        html, toc, tabs, text, math: needsMath(body), minutes: Math.max(1, Math.round(text.split(' ').length / 200)),
         url: `subjects/${dir}/${slug}/`,
       });
     }
@@ -96,32 +104,40 @@ for (const p of pages) {
 // ---------- gabarits ----------
 const I = (n, c = '') => `<svg class="ic ${c}" aria-hidden="true" focusable="false"><use href="#i-${n}"/></svg>`;
 const SPRITE = `<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
-<symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 9.5V20h14V9.5"/></symbol>
-<symbol id="i-grid" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></symbol>
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M3.5 10.8L12 3.5l8.5 7.3V19a1.5 1.5 0 01-1.5 1.5h-3.5V15h-7v5.5H5A1.5 1.5 0 013.5 19z"/></symbol>
+<symbol id="i-list" viewBox="0 0 24 24"><rect x="4" y="3.5" width="16" height="17" rx="5"/><path d="M8.5 9.5h7M8.5 14h7"/></symbol>
+<symbol id="i-dots" viewBox="0 0 24 24"><circle cx="7.5" cy="7.5" r="2.4"/><circle cx="16.5" cy="7.5" r="2.4"/><circle cx="7.5" cy="16.5" r="2.4"/><circle cx="16.5" cy="16.5" r="2.4"/></symbol>
+<symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20.2S4 15.4 4 9.6A4.6 4.6 0 0112 7a4.6 4.6 0 018 2.6c0 5.8-8 10.6-8 10.6z"/></symbol>
 <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20.5 20.5L16 16"/></symbol>
+<symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 8h5M15 8h5M4 16h9M19 16h1"/><circle cx="12" cy="8" r="2.6"/><circle cx="16" cy="16" r="2.6"/></symbol>
 <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></symbol>
-<symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol>
 <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
 <symbol id="i-arrow-r" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
-<symbol id="i-arrow-l" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+<symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
 <symbol id="i-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
 <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
 <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0115.5-6.2L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 01-15.5 6.2L3 16"/><path d="M3 21v-5h5"/></symbol>
 <symbol id="i-book" viewBox="0 0 24 24"><path d="M3.5 5.5Q8 4 12 6q4-2 8.5-.5v13Q16 17 12 19q-4-2-8.5-.5zM12 6v13"/></symbol>
-<symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></symbol>
+<symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol>
 </defs></svg>`;
 
-function layout({ title, desc, base, active, body, math = false, pageId = '', ogImage = '' }) {
+const media = (cover, alt, hue, base, eager = false) => cover
+  ? `<img src="${base}${esc(cover)}" alt="${esc(alt || '')}" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async">`
+  : `<div class="ph" style="--h:${hue}" aria-hidden="true"></div>`;
+const heart = (id, label) => `<button type="button" class="round heart" data-fav="${esc(id)}" aria-pressed="false" aria-label="Ajouter aux favoris : ${esc(label)}">${I('heart')}</button>`;
+const coverOf = (p) => p.cover || subjectOf(p.subject).cover || '';
+const altOf = (p) => (p.cover ? p.coverAlt : subjectOf(p.subject).coverAlt) || '';
+
+function layout({ title, desc, base, active, body, math = false, pageId = '', ogImage = '', view = '', noDock = false }) {
   const full = title === CFG.name ? title : `${title} · ${CFG.name}`;
   const abs = (CFG.siteUrl || '').replace(/\/$/, '');
   const nav = [
     ['home', 'Accueil', '', 'home'],
-    ['subjects', 'Matières', 'subjects/', 'grid'],
-    ['exercises', 'Exercices', 'exercises/', 'edit'],
-    ['search', 'Recherche', 'search/', 'search'],
-    ['progress', 'Suivi', 'progress/', 'chart'],
+    ['courses', 'Cours', 'subjects/', 'list'],
+    ['reviews', 'Révisions', 'progress/', 'dots'],
+    ['favs', 'Favoris', 'favorites/', 'heart'],
   ];
-  const link = ([k, label, href, ic], cls) => `<a class="${cls}${active === k ? ' is-active' : ''}" href="${base}${href}"${active === k ? ' aria-current="page"' : ''}>${I(ic)}<span>${label}</span></a>`;
+  const link = ([k, label, href, ic]) => `<a class="dk${active === k ? ' is-active' : ''}" href="${base}${href}"${active === k ? ' aria-current="page"' : ''}><i>${I(ic)}</i><span class="dk-l">${label}</span></a>`;
   return `<!doctype html>
 <html lang="fr">
 <head>
@@ -129,9 +145,8 @@ function layout({ title, desc, base, active, body, math = false, pageId = '', og
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>${esc(full)}</title>
 <meta name="description" content="${esc(desc || CFG.description)}">
-<meta name="theme-color" content="#f4f4f5" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#111113" media="(prefers-color-scheme: dark)">
-<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff">
+<meta name="color-scheme" content="light">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="${esc(CFG.name)}">
 <meta property="og:title" content="${esc(full)}">
@@ -148,25 +163,15 @@ function layout({ title, desc, base, active, body, math = false, pageId = '', og
 <link rel="stylesheet" href="${base}assets/css/style.css?v=${CFG.assetVersion}">
 ${math ? `<link rel="stylesheet" href="${base}assets/vendor/katex/katex.min.css">` : ''}
 </head>
-<body data-base="${base}" data-page-id="${esc(pageId)}"${math ? ' data-math="1"' : ''}>
+<body class="${view}${noDock ? ' no-dock' : ''}" data-base="${base}" data-user="${esc(CFG.userName || '')}" data-page-id="${esc(pageId)}"${math ? ' data-math="1"' : ''}>
 ${SPRITE}
 <a class="skip" href="#main">Aller au contenu</a>
-<div class="app">
-  <aside class="side" aria-label="Navigation principale">
-    <a class="brand" href="${base}"><img src="${base}assets/icons/favicon.svg" alt="" width="36" height="36"><span>${esc(CFG.name)}</span></a>
-    <nav class="side-nav">${nav.map((n) => link(n, 'side-link')).join('')}</nav>
-    <p class="side-foot">Appuie sur <kbd>/</kbd> pour chercher</p>
-  </aside>
-  <div class="col">
-    <header class="topbar"><a class="brand brand-sm" href="${base}"><img src="${base}assets/icons/favicon.svg" alt="" width="30" height="30"><span>${esc(CFG.name)}</span></a>
-      <a class="icon-btn" href="${base}search/" aria-label="Rechercher">${I('search')}</a></header>
-    <main id="main" tabindex="-1">
+<header class="deskbar"><a class="brand" href="${base}"><img src="${base}assets/icons/favicon.svg" alt="" width="36" height="36"><span>${esc(CFG.name)}</span></a>
+  <a class="avatar" href="${base}progress/" aria-label="Mes révisions">${esc((CFG.userName || 'E')[0])}</a></header>
+<main id="main" tabindex="-1">
 ${body}
-    </main>
-    <footer class="foot"><span>${esc(CFG.name)} · usage personnel</span></footer>
-  </div>
-</div>
-<nav class="tabbar" aria-label="Navigation principale">${nav.filter((n) => n[0] !== 'exercises').map((n) => link(n, 'tab')).join('')}</nav>
+</main>
+<nav class="dock" aria-label="Navigation principale">${nav.map(link).join('')}</nav>
 ${math ? `<script src="${base}assets/vendor/katex/katex.min.js" defer></script><script src="${base}assets/vendor/katex/auto-render.min.js" defer></script>` : ''}
 <script src="${base}assets/js/app.js?v=${CFG.assetVersion}" defer></script>
 </body>
@@ -174,29 +179,44 @@ ${math ? `<script src="${base}assets/vendor/katex/katex.min.js" defer></script><
 `;
 }
 
-const coverStyle = (s) => (s.cover ? '' : ` style="--h:${s.hue}"`);
-
+// Grande carte visuelle (matière) — style « Rio de Janeiro »
 function subjectCard(s, base) {
   const n = fiches(s.slug).length;
-  const img = s.cover ? `<img src="${base}${esc(s.cover)}" alt="${esc(s.coverAlt || '')}" loading="lazy" decoding="async" width="800" height="600">` : '';
-  return `<a class="scard${s.cover ? '' : ' scard-plain'}" href="${base}subjects/${s.slug}/" data-subject="${s.slug}"${coverStyle(s)}>
-  ${img}<div class="scard-in"><span class="pill pill-glass">${plural(n, 'fiche', 'fiches')}</span>
-  <div><h3>${esc(s.title)}</h3>${s.description ? `<p>${esc(s.description)}</p>` : ''}</div></div>
-  <span class="scard-go" aria-hidden="true">${I('arrow-r')}</span></a>`;
+  const ex = pagesOf(s.slug).filter((p) => p.kind === 'exercices').length;
+  const upd = pagesOf(s.slug).map((p) => p.updated).sort().pop();
+  return `<article class="scard" data-subject="${s.slug}" style="--h:${s.hue}">
+  <div class="scard-media">${media(s.cover, s.coverAlt, s.hue, base)}</div>
+  ${heart('s:' + s.slug, s.title)}
+  <div class="scard-in">
+    <p class="eyebrow">Matière</p>
+    <h3>${esc(s.title)}</h3>
+    <p class="meta">${plural(n, 'fiche', 'fiches')}${ex ? ` · ${plural(ex, 'exercice', 'exercices')}` : ''}${upd ? ` · mis à jour le ${fmtDate(upd)}` : ''}</p>
+    <a class="cta-soft stretch" href="${base}subjects/${s.slug}/"><span>Voir la matière</span><i class="circle">${I('arrow-r')}</i></a>
+  </div></article>`;
 }
 
-function pageCard(p, base) {
+// Carte de fiche (scroll horizontal) — style « Upcoming tours »
+function tCard(p, base) {
+  return `<article class="tcard" style="--h:${subjectOf(p.subject).hue}">
+  <div class="tcard-media">${media(coverOf(p), altOf(p), subjectOf(p.subject).hue, base)}${heart(p.id, p.title)}<span class="tag">${p.kind === 'exercices' ? 'Exercices' : 'Fiche'}</span></div>
+  <div class="tcard-body"><h3>${esc(p.title)}</h3><p class="meta">${I('clock')} ${p.minutes} min${p.summary ? ` · ${esc(p.summary)}` : ''}</p></div>
+  <a class="circle dark stretch" href="${base}${p.url}" aria-label="Ouvrir : ${esc(p.title)}">${I('arrow-r')}</a></article>`;
+}
+
+// Ligne compacte (listes, résultats)
+function row(p, base, extra = '') {
   const s = subjectOf(p.subject);
-  return `<a class="pcard" href="${base}${p.url}">
-  <span class="pcard-kind">${p.kind === 'exercices' ? I('edit') : I('book')}</span>
-  <span class="pcard-body"><span class="pcard-meta">${esc(s.title)}${p.chapter ? ` · ${esc(p.chapter)}` : ''}</span>
-  <strong>${esc(p.title)}</strong>${p.summary ? `<span class="pcard-sum">${esc(p.summary)}</span>` : ''}</span>
-  <span class="pcard-go" aria-hidden="true">${I('arrow-r')}</span></a>`;
+  return `<a class="row" href="${base}${p.url}"><span class="thumb">${media(coverOf(p), '', s.hue, base)}</span>
+  <span class="row-b"><span class="meta">${esc(s.title)}${p.chapter ? ` · ${esc(p.chapter)}` : ''}</span><strong>${esc(p.title)}</strong>${extra}</span>
+  <i class="circle dark sm">${I('arrow-r')}</i></a>`;
 }
-
-const EMPTY = (base) => `<div class="empty"><div class="empty-ic">${I('book')}</div>
-  <h3>Ta bibliothèque est prête</h3>
-  <p>Aucune matière pour l’instant. Envoie tes premiers cours (PDF, slides, Word, Excel…) : chaque cours deviendra une fiche de révision, avec exercices et corrections.</p></div>`;
+const mini = (p, base) => {
+  const s = subjectOf(p.subject);
+  return `<a class="mini" href="${base}${p.url}"><span class="thumb">${media(coverOf(p), '', s.hue, base)}</span><span class="row-b"><span class="meta">${esc(s.title)}</span><strong>${esc(p.title)}</strong></span></a>`;
+};
+const WELCOME = (t, msg) => `<div class="welcome"><i class="circle">${I('book')}</i><h3>${t}</h3><p>${msg}</p></div>`;
+const EMPTY = () => WELCOME('Ta bibliothèque est prête', 'Aucune matière pour l’instant. Envoie tes premiers cours : chaque document deviendra une fiche de révision avec flashcards, quiz et exercices corrigés.');
+const searchBox = (id, ph, action) => `<form class="searchbox" role="search" action="${action}" method="get"><label class="sr" for="${id}">Rechercher une fiche, une matière ou un mot-clé</label>${I('search')}<input id="${id}" name="q" type="search" placeholder="${ph}" autocomplete="off" enterkeyhint="search"><button class="circle dark" type="submit" aria-label="Lancer la recherche">${I('sliders')}</button></form>`;
 
 // ---------- écriture ----------
 const written = [];
@@ -206,69 +226,46 @@ function write(rel, content) {
   fs.writeFileSync(f, content);
   written.push(rel);
 }
-
-// copie des fichiers statiques si OUT ≠ ROOT (tests)
 if (OUT !== ROOT) {
   for (const p of ['assets', 'manifest.webmanifest', 'sw.js']) fs.cpSync(path.join(ROOT, p), path.join(OUT, p), { recursive: true });
 }
-// nettoyage du contenu généré
-for (const d of ['subjects', 'exercises', 'search', 'progress']) fs.rmSync(path.join(OUT, d), { recursive: true, force: true });
+for (const d of ['subjects', 'exercises', 'search', 'progress', 'favorites']) fs.rmSync(path.join(OUT, d), { recursive: true, force: true });
 
 // Accueil
 {
   const base = './';
-  const recent = [...pages].filter((p) => p.kind === 'fiche').sort((a, b) => (b.updated || '').localeCompare(a.updated || '') || b.order - a.order).slice(0, 4);
+  const recent = pages.filter((p) => p.kind === 'fiche').sort((a, b) => (b.updated || '').localeCompare(a.updated || '') || b.order - a.order).slice(0, 8);
   const body = `
-<section class="hero">
-  <div class="hero-glow" aria-hidden="true"></div>
-  <p class="eyebrow">KEDGE Business School</p>
-  <h1>Prêt à réviser&nbsp;?</h1>
-  <p class="hero-sub">Toutes tes fiches, exercices et corrections au même endroit.</p>
-  <div class="search" data-search data-limit="6">
-    <form class="searchbox" role="search" action="${base}search/" method="get">
-      <label class="sr" for="q-home">Rechercher une fiche, une matière ou un mot-clé</label>
-      ${I('search')}
-      <input id="q-home" name="q" type="search" placeholder="Rechercher une fiche" autocomplete="off" enterkeyhint="search">
-    </form>
-    <div class="search-results" data-results aria-live="polite"></div>
-  </div>
+<header class="greet"><div><h1>Bonjour ${esc(CFG.userName || '')}</h1><p>Prêt pour une session de révision&nbsp;?</p></div>
+  <a class="avatar" href="${base}progress/" aria-label="Mes révisions">${esc((CFG.userName || 'E')[0])}</a></header>
+<div class="search" data-search data-limit="6">${searchBox('q-home', 'Rechercher', base + 'search/')}<div class="search-results" data-results aria-live="polite"></div></div>
+
+<section class="block" data-continue hidden aria-labelledby="h-cont"><h2 id="h-cont">Continuer à réviser</h2><div data-continue-card></div></section>
+
+<section class="block" aria-labelledby="h-subjects"><div class="block-head"><h2 id="h-subjects">Mes matières</h2></div>
+  ${subjects.length ? `<div class="pills" role="group" aria-label="Filtrer par matière"><button type="button" class="pill is-on" data-filter="all" aria-pressed="true">Toutes</button>${subjects.map((s) => `<button type="button" class="pill" data-filter="${s.slug}" aria-pressed="false">${esc(s.title)}</button>`).join('')}</div>
+  <div class="hscroll hscroll-big" data-subject-list>${subjects.map((s) => subjectCard(s, base)).join('')}</div>` : EMPTY()}
 </section>
 
-<section class="block" aria-labelledby="h-subjects">
-  <div class="block-head"><h2 id="h-subjects">Matières</h2>${subjects.length ? `<a class="more" href="${base}subjects/">Tout voir ${I('arrow-r')}</a>` : ''}</div>
-  ${subjects.length ? `<div class="chips" role="list">${subjects.map((s) => `<a role="listitem" class="chip" href="${base}subjects/${s.slug}/">${esc(s.title)}</a>`).join('')}</div>
-  <div class="grid grid-subjects">${subjects.map((s) => subjectCard(s, base)).join('')}</div>` : EMPTY(base)}
-</section>
-
-<section class="block" data-todo hidden aria-labelledby="h-todo">
-  <div class="block-head"><h2 id="h-todo">À réviser</h2><a class="more" href="${base}progress/">Suivi ${I('arrow-r')}</a></div>
-  <div class="list" data-todo-list></div>
-</section>
-
-<section class="block" data-viewed hidden aria-labelledby="h-viewed">
-  <div class="block-head"><h2 id="h-viewed">Consultées récemment</h2></div>
-  <div class="list" data-viewed-list></div>
-</section>
-
-${recent.length ? `<section class="block" aria-labelledby="h-new">
-  <div class="block-head"><h2 id="h-new">Ajoutées récemment</h2></div>
-  <div class="list">${recent.map((p) => pageCard(p, base)).join('')}</div>
-</section>` : ''}`;
-  write('index.html', layout({ title: CFG.name, desc: CFG.description, base, active: 'home', body }));
+<section class="block" data-todo hidden aria-labelledby="h-todo"><div class="block-head"><h2 id="h-todo">À réviser</h2><a class="more" href="${base}progress/">Tout voir</a></div><div class="list" data-todo-list></div></section>
+${recent.length ? `<section class="block" aria-labelledby="h-new"><h2 id="h-new">Récemment ajouté</h2><div class="hscroll">${recent.map((p) => mini(p, base)).join('')}</div></section>` : ''}`;
+  write('index.html', layout({ title: CFG.name, desc: CFG.description, base, active: 'home', body, view: 'v-home' }));
 }
 
-// Liste des matières
+// Cours (liste des matières)
 {
   const base = '../';
-  const body = `<header class="page-head"><h1>Matières</h1><p>${subjects.length ? plural(subjects.length, 'matière', 'matières') : 'Aucune matière pour le moment'}</p></header>
-${subjects.length ? `<div class="grid grid-subjects">${subjects.map((s) => subjectCard(s, base)).join('')}</div>` : EMPTY(base)}`;
-  write('subjects/index.html', layout({ title: 'Matières', desc: 'Toutes les matières de ta bibliothèque de révision.', base, active: 'subjects', body }));
+  const body = `<header class="head"><h1>Cours</h1><p>${subjects.length ? plural(subjects.length, 'matière', 'matières') : 'Tes matières apparaîtront ici'}</p></header>
+<div class="search" data-search data-limit="8">${searchBox('q-c', 'Rechercher', base + 'search/')}<div class="search-results" data-results aria-live="polite"></div></div>
+<section class="block">${subjects.length ? `<div class="stack">${subjects.map((s) => subjectCard(s, base)).join('')}</div>` : EMPTY()}</section>`;
+  write('subjects/index.html', layout({ title: 'Cours', desc: 'Toutes les matières de ta bibliothèque de révision.', base, active: 'courses', body, view: 'v-list' }));
 }
 
-// Page matière
+// Page matière — hero immersif + panneau blanc
 for (const s of subjects) {
   const base = '../../';
   const fs_ = fiches(s.slug);
+  const exos = pagesOf(s.slug).filter((p) => p.kind === 'exercices');
   const groups = [];
   for (const p of fs_) {
     const name = p.chapter || 'Fiches';
@@ -277,20 +274,20 @@ for (const s of subjects) {
     g.items.push(p);
   }
   groups.sort((a, b) => a.order - b.order);
-  const exos = pagesOf(s.slug).filter((p) => p.kind === 'exercices');
-  const exoFor = (p) => exos.filter((e) => e.for === p.slug);
-  const hero = s.cover
-    ? `<div class="banner"><img src="${base}${esc(s.cover)}" alt="${esc(s.coverAlt || '')}" decoding="async" fetchpriority="high"><div class="banner-in">`
-    : `<div class="banner banner-plain" style="--h:${s.hue}"><div class="banner-in">`;
-  const body = `<nav class="crumbs" aria-label="Fil d’Ariane"><a href="${base}">Accueil</a><span>/</span><a href="${base}subjects/">Matières</a><span>/</span><span aria-current="page">${esc(s.title)}</span></nav>
-${hero}<span class="pill pill-glass">${plural(fs_.length, 'fiche', 'fiches')}${exos.length ? ` · ${plural(exos.length, 'exercice', 'exercices')}` : ''}</span><h1>${esc(s.title)}</h1>${s.description ? `<p>${esc(s.description)}</p>` : ''}</div></div>
-<div class="progress-line" data-subject-progress="${s.slug}" data-ids="${fs_.map((p) => p.id).join(',')}" hidden><div class="bar"><i></i></div><span></span></div>
-${groups.length ? groups.map((g) => `<section class="block chapter" data-chapter="${g.id}">
-  <div class="block-head"><h2>${esc(g.name)}</h2><button type="button" class="pill pill-toggle" data-master="${g.id}" aria-pressed="false">${I('check')}<span>Chapitre maîtrisé</span></button></div>
-  <div class="list">${g.items.map((p) => `${pageCard(p, base)}${exoFor(p).map((e) => `<a class="pcard pcard-sub" href="${base}${e.url}"><span class="pcard-kind">${I('edit')}</span><span class="pcard-body"><strong>${esc(e.title)}</strong><span class="pcard-meta">Exercices associés</span></span><span class="pcard-go" aria-hidden="true">${I('arrow-r')}</span></a>`).join('')}`).join('')}</div>
-</section>`).join('') : `<div class="empty"><p>Cette matière n’a pas encore de fiche.</p></div>`}
-${exos.filter((e) => !e.for || !fs_.find((p) => p.slug === e.for)).length ? `<section class="block"><div class="block-head"><h2>Exercices</h2></div><div class="list">${exos.filter((e) => !e.for || !fs_.find((p) => p.slug === e.for)).map((p) => pageCard(p, base)).join('')}</div></section>` : ''}`;
-  write(`subjects/${s.slug}/index.html`, layout({ title: s.title, desc: s.description || `Fiches de révision : ${s.title}`, base, active: 'subjects', body, ogImage: s.cover }));
+  const loose = exos.filter((e) => !e.for || !fs_.find((p) => p.slug === e.for));
+  const body = `<div class="hero-img" style="--h:${s.hue}">${media(s.cover, s.coverAlt, s.hue, base, true)}
+  <a class="round back" href="${base}subjects/" aria-label="Retour aux cours">${I('back')}</a>${heart('s:' + s.slug, s.title)}</div>
+<div class="sheet">
+  <h1>${esc(s.title)}</h1>
+  <p class="meta">${plural(fs_.length, 'fiche', 'fiches')}${exos.length ? ` · ${plural(exos.length, 'exercice', 'exercices')}` : ''}</p>
+  ${s.description ? `<p class="lead">${esc(s.description)}</p>` : ''}
+  <div class="progress-line" data-subject-progress="${s.slug}" data-ids="${fs_.map((p) => p.id).join(',')}" hidden><div class="bar"><i></i></div><span></span></div>
+  ${groups.length ? groups.map((g) => `<section class="block chapter" data-chapter="${g.id}"><div class="block-head"><h2>${esc(g.name)}</h2><button type="button" class="pill pill-check" data-master="${g.id}" aria-pressed="false">${I('check')}<span>Maîtrisé</span></button></div>
+    <div class="hscroll hscroll-t">${g.items.map((p) => tCard(p, base)).join('')}${exos.filter((e) => e.for && g.items.some((p) => p.slug === e.for)).map((e) => tCard(e, base)).join('')}</div></section>`).join('') : WELCOME('Pas encore de fiche', 'Cette matière n’a pas encore de fiche.')}
+  ${loose.length ? `<section class="block"><h2>Exercices</h2><div class="hscroll hscroll-t">${loose.map((p) => tCard(p, base)).join('')}</div></section>` : ''}
+</div>
+${fs_.length ? `<div class="cta-bar"><a class="cta" href="${base}${fs_[0].url}" data-cta-subject data-urls="${fs_.map((p) => p.url).join(',')}" data-ids="${fs_.map((p) => p.id).join(',')}"><span>Commencer la révision</span></a></div>` : ''}`;
+  write(`subjects/${s.slug}/index.html`, layout({ title: s.title, desc: s.description || `Fiches de révision : ${s.title}`, base, active: 'courses', body, ogImage: s.cover, view: 'v-subject', noDock: true }));
 }
 
 // Fiches et exercices
@@ -303,76 +300,85 @@ for (const p of pages) {
   const next = p.kind === 'fiche' && idx >= 0 && idx < siblings.length - 1 ? siblings[idx + 1] : null;
   const exos = p.kind === 'fiche' ? pagesOf(p.subject).filter((e) => e.kind === 'exercices' && e.for === p.slug) : [];
   const parent = p.kind === 'exercices' && p.for ? pages.find((q) => q.subject === p.subject && q.slug === p.for) : null;
-  const tocHtml = p.toc.length ? `<ol>${p.toc.map((t) => `<li class="l${t.level}"><a href="#${t.id}">${esc(t.text)}</a></li>`).join('')}</ol>` : '';
-  const dates = [p.created && `Créée le ${fmtDate(p.created)}`, p.updated && p.updated !== p.created && `Mise à jour le ${fmtDate(p.updated)}`].filter(Boolean);
-  const head = p.cover
-    ? `<header class="banner banner-doc"><img src="${base}${esc(p.cover)}" alt="${esc(p.coverAlt || '')}" decoding="async" fetchpriority="high"><div class="banner-in">`
-    : `<header class="banner banner-doc banner-plain" style="--h:${s.hue}"><div class="banner-in">`;
-  const body = `<nav class="crumbs" aria-label="Fil d’Ariane"><a href="${base}">Accueil</a><span>/</span><a href="${base}subjects/${s.slug}/">${esc(s.title)}</a>${p.chapter ? `<span>/</span><span>${esc(p.chapter)}</span>` : ''}</nav>
-${head}<div class="meta-row"><span class="pill pill-glass">${p.kind === 'exercices' ? 'Exercices' : 'Fiche'}</span>${p.chapter ? `<span class="pill pill-glass">${esc(p.chapter)}</span>` : ''}<span class="pill pill-glass">${I('clock')}${p.minutes} min</span></div>
-  <h1>${esc(p.title)}</h1>${p.summary ? `<p>${esc(p.summary)}</p>` : ''}</div></header>
-<div class="doc">
-  <aside class="toc toc-d" aria-label="Sommaire">${tocHtml ? `<p class="toc-t">Sommaire</p>${tocHtml}` : ''}</aside>
-  <article class="prose" data-article>
-    ${tocHtml ? `<details class="toc toc-m"><summary>Sommaire ${I('chev')}</summary>${tocHtml}</details>` : ''}
+  const tocHtml = p.toc.filter((t) => t.level === 2).length >= 3 ? `<details class="toc"><summary>Sommaire ${I('chev')}</summary><ol>${p.toc.filter((t) => t.level === 2).map((t) => `<li><a href="#${t.id}">${esc(t.text)}</a></li>`).join('')}</ol></details>` : '';
+  const dates = [p.created && `Créée le ${fmtDate(p.created)}`, p.updated && p.updated !== p.created && `mise à jour le ${fmtDate(p.updated)}`].filter(Boolean);
+  const tabKeys = p.tabs;
+  const hasExoTab = exos.length > 0 && !tabKeys.includes('exercices');
+  const showTabs = tabKeys.length + (hasExoTab ? 1 : 0) >= 2;
+  const tabs = showTabs ? `<div class="tabs" role="tablist" aria-label="Sections de la fiche">${tabKeys.map((k, i) => `<button type="button" role="tab" class="tab${i === 0 ? ' is-on' : ''}" data-tab-btn="${k}" aria-selected="${i === 0}" aria-controls="tab-${k}" id="tb-${k}">${TAB_LABELS[k]}</button>`).join('')}${hasExoTab ? `<a class="tab tab-link" href="${base}${exos[0].url}">Exercices ${I('arrow-r')}</a>` : ''}</div>` : '';
+  const cover = p.cover ? `<div class="doc-cover">${media(p.cover, p.coverAlt, s.hue, base, true)}</div>` : '';
+  const back = parent ? parent.url : `subjects/${s.slug}/`;
+  const body = `<header class="fh"><a class="round" href="${base}${back}" aria-label="${parent ? 'Retour à la fiche' : 'Retour à la matière'}">${I('back')}</a>
+  <div class="fh-t"><h1>${esc(p.title)}</h1><p>${esc(s.title)}${p.chapter ? ` · ${esc(p.chapter)}` : ''}</p></div>${heart(p.id, p.title)}</header>
+${tabs}
+<article class="doc" data-article${showTabs ? ' data-has-tabs' : ''}>
+  <div class="doc-head" data-doc-head>
+  ${cover}
+  <p class="doc-meta"><span class="chip">${I('clock')} ${p.minutes} min</span><span class="chip">${p.kind === 'exercices' ? 'Exercices' : 'Fiche'}</span>${p.summary ? `<span class="doc-sum">${esc(p.summary)}</span>` : ''}</p>
+  ${tocHtml}
+  </div>
+  <div class="prose">
 ${p.html}
-    <div class="doc-actions">
-      ${p.kind === 'fiche' ? `<button type="button" class="btn btn-dark" data-reviewed aria-pressed="false">${I('check')}<span>Marquer comme révisée</span></button>` : ''}
-      ${parent ? `<a class="btn btn-light" href="${base}${parent.url}">${I('arrow-l')}<span>Retour à la fiche</span></a>` : ''}
-      <a class="btn btn-light" href="${base}subjects/${s.slug}/">${I('grid')}<span>Retour à la matière</span></a>
-    </div>
-    ${exos.length ? `<section class="related"><h2 class="plain">Exercices associés</h2><div class="list">${exos.map((e) => pageCard(e, base)).join('')}</div></section>` : ''}
-    ${prev || next ? `<nav class="pn" aria-label="Fiches précédente et suivante">${prev ? `<a class="pn-prev" href="${base}${prev.url}">${I('arrow-l')}<span><small>Précédente</small>${esc(prev.title)}</span></a>` : '<span></span>'}${next ? `<a class="pn-next" href="${base}${next.url}"><span><small>Suivante</small>${esc(next.title)}</span>${I('arrow-r')}</a>` : '<span></span>'}</nav>` : ''}
-    <footer class="provenance">${p.sources ? `<p><strong>Sources du cours :</strong> ${esc(p.sources)}</p>` : ''}${dates.length ? `<p>${dates.join(' · ')}</p>` : ''}</footer>
-  </article>
-</div>`;
-  write(p.url + 'index.html', layout({ title: `${p.title} — ${s.title}`, desc: p.summary || `${p.title} (${s.title})`, base, active: p.kind === 'exercices' ? 'exercises' : 'subjects', body, math: p.math, pageId: p.id, ogImage: p.cover || s.cover }));
+  </div>
+  ${exos.length ? `<section class="related"><h2>Exercices associés</h2><div class="list">${exos.map((e) => row(e, base)).join('')}</div></section>` : ''}
+  ${prev || next ? `<nav class="pn" aria-label="Fiches précédente et suivante">${prev ? `<a class="pn-prev" href="${base}${prev.url}"><i class="circle">${I('back')}</i><span><small>Précédente</small>${esc(prev.title)}</span></a>` : '<span></span>'}${next ? `<a class="pn-next" href="${base}${next.url}"><span><small>Suivante</small>${esc(next.title)}</span><i class="circle">${I('arrow-r')}</i></a>` : '<span></span>'}</nav>` : ''}
+  <footer class="provenance">${p.sources ? `<p><strong>Sources du cours :</strong> ${esc(p.sources)}</p>` : ''}${dates.length ? `<p>${dates.join(' · ')}</p>` : ''}</footer>
+</article>
+${p.kind === 'fiche' ? `<div class="cta-bar"><button type="button" class="cta" data-reviewed aria-pressed="false">${I('check')}<span>Marquer comme révisée</span></button></div>` : parent ? `<div class="cta-bar"><a class="cta" href="${base}${parent.url}"><span>Retour à la fiche</span></a></div>` : ''}`;
+  write(p.url + 'index.html', layout({ title: `${p.title} — ${s.title}`, desc: p.summary || `${p.title} (${s.title})`, base, active: p.kind === 'exercices' ? 'reviews' : 'courses', body, math: p.math, pageId: p.id, ogImage: p.cover || s.cover, view: 'v-fiche', noDock: true }));
 }
 
-// Exercices (zone dédiée)
+// Exercices
 {
   const base = '../';
   const exos = pages.filter((p) => p.kind === 'exercices');
   const bySub = subjects.map((s) => ({ s, list: exos.filter((e) => e.subject === s.slug) })).filter((x) => x.list.length);
-  const body = `<header class="page-head"><h1>Exercices</h1><p>QCM, flashcards et exercices corrigés.</p></header>
-${bySub.length ? bySub.map(({ s, list }) => `<section class="block"><div class="block-head"><h2>${esc(s.title)}</h2></div><div class="list">${list.map((p) => pageCard(p, base)).join('')}</div></section>`).join('') : `<div class="empty"><div class="empty-ic">${I('edit')}</div><h3>Pas encore d’exercices</h3><p>Les exercices d’entraînement et leurs corrections apparaîtront ici avec tes premiers cours.</p></div>`}`;
-  write('exercises/index.html', layout({ title: 'Exercices', desc: 'Zone d’entraînement : QCM, flashcards, exercices corrigés.', base, active: 'exercises', body }));
+  const body = `<header class="head"><a class="round" href="${base}progress/" aria-label="Retour aux révisions">${I('back')}</a><h1>Exercices</h1><p>QCM, flashcards et exercices corrigés.</p></header>
+${bySub.length ? bySub.map(({ s, list }) => `<section class="block"><h2>${esc(s.title)}</h2><div class="list">${list.map((p) => row(p, base)).join('')}</div></section>`).join('') : WELCOME('Pas encore d’exercices', 'Les exercices d’entraînement et leurs corrections apparaîtront ici avec tes premiers cours.')}`;
+  write('exercises/index.html', layout({ title: 'Exercices', desc: 'Zone d’entraînement.', base, active: 'reviews', body, view: 'v-list' }));
 }
 
 // Recherche
 write('search/index.html', layout({
-  title: 'Recherche', desc: 'Recherche dans toutes tes fiches.', base: '../', active: 'search',
-  body: `<header class="page-head"><h1>Recherche</h1><p>Titre, matière, chapitre, mot-clé ou contenu.</p></header>
-<div class="search search-page" data-search data-limit="40" data-autofocus>
-  <form class="searchbox" role="search" action="" method="get"><label class="sr" for="q-page">Rechercher</label>${I('search')}<input id="q-page" name="q" type="search" placeholder="Ex. : VAN, segmentation, taux…" autocomplete="off" enterkeyhint="search"></form>
-  <div class="search-results" data-results aria-live="polite"></div>
-</div>`,
+  title: 'Recherche', desc: 'Recherche dans toutes tes fiches.', base: '../', active: 'courses', view: 'v-list',
+  body: `<header class="head"><a class="round" href="../" aria-label="Retour">${I('back')}</a><h1>Recherche</h1><p>Titre, matière, chapitre, mot-clé ou contenu.</p></header>
+<div class="search" data-search data-limit="40" data-autofocus>${searchBox('q-page', 'Ex. : VAN, segmentation…', '')}<div class="search-results" data-results aria-live="polite"></div></div>`,
 }));
 
-// Suivi
+// Révisions (suivi)
 write('progress/index.html', layout({
-  title: 'Suivi', desc: 'Ton suivi de révision.', base: '../', active: 'progress',
-  body: `<header class="page-head"><h1>Suivi de révision</h1><p>Stocké uniquement sur cet appareil.</p></header>
+  title: 'Révisions', desc: 'Ton suivi de révision.', base: '../', active: 'reviews', view: 'v-list',
+  body: `<header class="head"><h1>Révisions</h1><p>Ton suivi, stocké uniquement sur cet appareil.</p></header>
+<a class="row row-link" href="../exercises/"><span class="thumb thumb-dark">${I('edit')}</span><span class="row-b"><strong>Exercices</strong><span class="meta">QCM, flashcards et exercices corrigés</span></span><i class="circle dark sm">${I('arrow-r')}</i></a>
 <div data-progress-root>
-  <section class="block" data-todo-all hidden><div class="block-head"><h2>À réviser</h2></div><div class="list" data-todo-list></div></section>
-  <section class="block" data-quiz-all hidden><div class="block-head"><h2>Résultats de QCM</h2></div><div class="list" data-quiz-list></div></section>
-  <section class="block" data-done-all hidden><div class="block-head"><h2>Fiches révisées</h2></div><div class="list" data-done-list></div></section>
-  <section class="block" data-mastered-all hidden><div class="block-head"><h2>Chapitres maîtrisés</h2></div><div class="list" data-mastered-list></div></section>
-  <div class="empty" data-progress-empty><div class="empty-ic">${I('chart')}</div><h3>Rien à suivre pour l’instant</h3><p>Ouvre une fiche : elle apparaîtra ici. Tu pourras la marquer comme révisée et suivre tes résultats de QCM.</p></div>
-  <p class="reset"><button type="button" class="btn btn-light" data-reset>${I('refresh')}<span>Réinitialiser mon suivi</span></button></p>
+  <section class="block" data-todo-all hidden><h2>À réviser</h2><div class="list" data-todo-list></div></section>
+  <section class="block" data-quiz-all hidden><h2>Résultats de QCM</h2><div class="list" data-quiz-list></div></section>
+  <section class="block" data-done-all hidden><h2>Fiches révisées</h2><div class="list" data-done-list></div></section>
+  <section class="block" data-mastered-all hidden><h2>Chapitres maîtrisés</h2><div class="list" data-mastered-list></div></section>
+  <div data-progress-empty class="block">${WELCOME('Rien à suivre pour l’instant', 'Ouvre une fiche : elle apparaîtra ici. Tu pourras la marquer comme révisée et suivre tes résultats de QCM.')}</div>
+  <p class="reset"><button type="button" class="cta-soft light" data-reset><span>Réinitialiser mon suivi</span></button></p>
 </div>`,
 }));
 
-// 404 (chemins absolus basés sur basePath)
+// Favoris
+write('favorites/index.html', layout({
+  title: 'Favoris', desc: 'Tes fiches et matières favorites.', base: '../', active: 'favs', view: 'v-list',
+  body: `<header class="head"><h1>Favoris</h1><p>Retrouve vite ce qui compte le plus.</p></header>
+<section class="block" data-fav-subjects hidden><h2>Matières</h2><div class="hscroll hscroll-big" data-fav-subjects-list></div></section>
+<section class="block" data-fav-pages hidden><h2>Fiches</h2><div class="list" data-fav-pages-list></div></section>
+<div data-fav-empty class="block">${WELCOME('Aucun favori', 'Touche le cœur d’une matière ou d’une fiche pour la retrouver ici.')}</div>`,
+}));
+
+// 404
 {
   const bp = (CFG.basePath || '').replace(/\/$/, '');
-  const html = layout({ title: 'Page introuvable', desc: 'Page introuvable', base: `${bp}/`, active: '', body: `<div class="empty"><div class="empty-ic">${I('search')}</div><h3>Page introuvable</h3><p>Cette page n’existe pas (ou plus).</p><p><a class="btn btn-dark" href="${bp}/">${I('home')}<span>Retour à l’accueil</span></a></p></div>` });
-  write('404.html', html);
+  write('404.html', layout({ title: 'Page introuvable', desc: 'Page introuvable', base: `${bp}/`, active: '', view: 'v-list', body: `<div class="block">${WELCOME('Page introuvable', 'Cette page n’existe pas (ou plus).')}<div class="cta-bar cta-inline"><a class="cta" href="${bp}/"><span>Retour à l’accueil</span></a></div></div>` }));
 }
 
 // Données JS
-const meta = pages.map((p) => ({ id: p.id, url: p.url, title: p.title, subject: p.subject, subjectTitle: subjectOf(p.subject).title, chapter: p.chapter, kind: p.kind, summary: p.summary, keywords: p.keywords, updated: p.updated, order: p.order }));
-write('assets/data/library.json', JSON.stringify({ subjects: subjects.map((s) => ({ slug: s.slug, title: s.title })), pages: meta }));
+const meta = pages.map((p) => ({ id: p.id, url: p.url, title: p.title, subject: p.subject, subjectTitle: subjectOf(p.subject).title, hue: subjectOf(p.subject).hue, cover: coverOf(p), chapter: p.chapter, kind: p.kind, summary: p.summary, keywords: p.keywords, updated: p.updated, order: p.order, minutes: p.minutes }));
+const subjMeta = subjects.map((s) => ({ slug: s.slug, title: s.title, cover: s.cover || '', coverAlt: s.coverAlt || '', hue: s.hue, count: fiches(s.slug).length }));
+write('assets/data/library.json', JSON.stringify({ subjects: subjMeta, pages: meta }));
 write('assets/data/search.json', JSON.stringify(Object.fromEntries(pages.map((p) => [p.id, p.text.slice(0, 8000)]))));
 
 console.log(`✓ ${subjects.length} matière(s), ${pages.length} page(s) — ${written.length} fichiers écrits dans ${OUT}`);

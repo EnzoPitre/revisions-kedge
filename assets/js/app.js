@@ -7,11 +7,15 @@
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const esc = (s = '') => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const norm = (s) => String(s).normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  const slug = (s) => norm(s).replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  const icon = (n) => `<svg class="ic" aria-hidden="true"><use href="#i-${n}"/></svg>`;
 
   // ---------- Stockage ----------
   const KEY = 'kr:v1';
+  const blank = () => ({ viewed: {}, reviewed: {}, mastered: {}, quiz: {}, fav: {} });
   const store = {
-    get() { try { return Object.assign({ viewed: {}, reviewed: {}, mastered: {}, quiz: {} }, JSON.parse(localStorage.getItem(KEY)) || {}); } catch { return { viewed: {}, reviewed: {}, mastered: {}, quiz: {} }; } },
+    get() { try { return Object.assign(blank(), JSON.parse(localStorage.getItem(KEY)) || {}); } catch { return blank(); } },
     set(fn) { const s = store.get(); fn(s); try { localStorage.setItem(KEY, JSON.stringify(s)); } catch { /* stockage indisponible */ } return s; },
     clear() { try { localStorage.removeItem(KEY); } catch { /* noop */ } },
   };
@@ -20,20 +24,29 @@
   let libP, textP;
   const lib = () => (libP ||= fetch(base + 'assets/data/library.json').then((r) => r.json()).catch(() => ({ subjects: [], pages: [] })));
   const texts = () => (textP ||= fetch(base + 'assets/data/search.json').then((r) => r.json()).catch(() => ({})));
-  const icon = (n) => `<svg class="ic" aria-hidden="true"><use href="#i-${n}"/></svg>`;
-  const card = (p, extra = '', cls = '') => `<a class="pcard ${cls}" href="${base}${p.url}">
-    <span class="pcard-kind">${icon(p.kind === 'exercices' ? 'edit' : 'book')}</span>
-    <span class="pcard-body"><span class="pcard-meta">${esc(p.subjectTitle)}${p.chapter ? ' · ' + esc(p.chapter) : ''}</span><strong>${esc(p.title)}</strong>${extra}</span>
-    <span class="pcard-go" aria-hidden="true">${icon('arrow-r')}</span></a>`;
 
-  // ---------- Enregistrement de la consultation + PWA ----------
+  // Mêmes gabarits que tools/build.mjs (row, scard)
+  const thumb = (p) => `<span class="thumb">${p.cover ? `<img src="${base}${esc(p.cover)}" alt="" loading="lazy" decoding="async">` : `<span class="ph" style="--h:${p.hue}"></span>`}</span>`;
+  const row = (p, extra = '', cls = '') => `<a class="row ${cls}" href="${base}${p.url}">${thumb(p)}<span class="row-b"><span class="meta">${esc(p.subjectTitle)}${p.chapter ? ' · ' + esc(p.chapter) : ''}</span><strong>${esc(p.title)}</strong>${extra}</span><i class="circle dark sm">${icon('arrow-r')}</i></a>`;
+  const heartBtn = (id, label) => `<button type="button" class="round heart" data-fav="${esc(id)}" aria-pressed="false" aria-label="Ajouter aux favoris : ${esc(label)}">${icon('heart')}</button>`;
+  const bigCard = ({ id, hue, cover, coverAlt, eyebrow, title, meta, href, cta }) => `<article class="scard" style="--h:${hue}"><div class="scard-media">${cover ? `<img src="${base}${esc(cover)}" alt="${esc(coverAlt || '')}" loading="lazy" decoding="async">` : `<div class="ph"></div>`}</div>${heartBtn(id, title)}
+    <div class="scard-in"><p class="eyebrow">${esc(eyebrow)}</p><h3>${esc(title)}</h3><p class="meta">${esc(meta)}</p><a class="cta-soft stretch" href="${href}"><span>${esc(cta)}</span><i class="circle">${icon('arrow-r')}</i></a></div></article>`;
+
+  // ---------- Consultation + PWA ----------
   if (pageId) store.set((s) => { s.viewed[pageId] = Date.now(); });
-  if ('serviceWorker' in navigator && location.protocol !== 'file:') {
-    navigator.serviceWorker.register(base + 'sw.js').catch(() => {});
-  }
+  if ('serviceWorker' in navigator && location.protocol !== 'file:') navigator.serviceWorker.register(base + 'sw.js').catch(() => {});
+
+  // ---------- Favoris (cœurs) ----------
+  const syncHearts = (root = document) => { const f = store.get().fav; $$('[data-fav]', root).forEach((b) => b.setAttribute('aria-pressed', !!f[b.dataset.fav])); };
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-fav]'); if (!b) return;
+    e.preventDefault(); e.stopPropagation();
+    store.set((s) => { s.fav[b.dataset.fav] ? delete s.fav[b.dataset.fav] : (s.fav[b.dataset.fav] = Date.now()); });
+    syncHearts(); if (renderFavs) renderFavs();
+  }, true);
+  syncHearts();
 
   // ---------- Recherche ----------
-  const norm = (s) => String(s).normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
   function search(q, pages, txt) {
     const toks = norm(q).split(/[^a-z0-9]+/).filter(Boolean);
     if (!toks.length) return [];
@@ -67,14 +80,17 @@
       if (q !== input.value.trim()) return;
       const res = search(q, l.pages, t);
       out.innerHTML = res.length
-        ? `<p class="res-count">${res.length} résultat${res.length > 1 ? 's' : ''}</p>` + res.slice(0, limit).map((r) => card(r.p, snippet(r.x, r.toks, r.p))).join('')
+        ? `<p class="res-count">${res.length} résultat${res.length > 1 ? 's' : ''}</p>` + res.slice(0, limit).map((r) => row(r.p, snippet(r.x, r.toks, r.p))).join('')
         : `<p class="res-empty">Aucun résultat pour « ${esc(q)} ».</p>`;
     };
     let tm; input.addEventListener('input', () => { clearTimeout(tm); tm = setTimeout(run, 120); });
     const q0 = new URLSearchParams(location.search).get('q');
-    if (q0 && root.hasAttribute('data-autofocus')) { input.value = q0; run(); }
-    if (root.hasAttribute('data-autofocus') && !q0 && matchMedia('(hover: hover)').matches) input.focus();
-    if (root.classList.contains('search-page')) $('form', root).addEventListener('submit', (e) => { e.preventDefault(); run(); });
+    if (root.hasAttribute('data-autofocus')) {
+      if (q0) { input.value = q0; run(); } else if (matchMedia('(hover: hover)').matches) input.focus();
+      $('form', root).addEventListener('submit', (e) => { e.preventDefault(); run(); });
+    } else {
+      // sur l'accueil / les cours : Entrée ouvre la page de recherche
+    }
     input.addEventListener('keydown', (e) => { if (e.key === 'Escape') { input.value = ''; out.innerHTML = ''; } });
   });
   document.addEventListener('keydown', (e) => {
@@ -84,9 +100,19 @@
     }
   });
 
-  // ---------- Accueil / Suivi ----------
-  if ($('[data-todo]') || $('[data-progress-root]')) {
-    lib().then(({ pages }) => {
+  // ---------- Accueil : filtre des matières ----------
+  $$('.pills [data-filter]').forEach((b) => b.addEventListener('click', () => {
+    const f = b.dataset.filter;
+    $$('.pills [data-filter]').forEach((x) => { const on = x === b; x.classList.toggle('is-on', on); x.setAttribute('aria-pressed', on); });
+    $$('[data-subject-list] [data-subject]').forEach((c) => { c.hidden = f !== 'all' && c.dataset.subject !== f; });
+    const list = $('[data-subject-list]'); if (list) list.scrollTo({ left: 0 });
+  }));
+
+  // ---------- Accueil / Révisions / Favoris ----------
+  let renderFavs = null;
+  const needsLib = $('[data-todo]') || $('[data-progress-root]') || $('[data-continue]') || $('[data-fav-pages]');
+  if (needsLib) {
+    lib().then(({ pages, subjects }) => {
       const s = store.get();
       const by = Object.fromEntries(pages.map((p) => [p.id, p]));
       const viewed = Object.entries(s.viewed).filter(([id]) => by[id]).sort((a, b) => b[1] - a[1]);
@@ -94,28 +120,56 @@
       const weak = Object.entries(s.quiz).filter(([k, v]) => by[k.split('#')[0]] && v.score / v.total < 0.7).map(([k]) => by[k.split('#')[0]]);
       const toDo = [...new Map([...weak, ...todo].map((p) => [p.id, p])).values()];
       const fill = (sec, listSel, items, html) => { const el = $(sec); if (!el) return; el.hidden = !items.length; $(listSel, el).innerHTML = items.map(html).join(''); };
-      const asTodo = (p) => card(p, weak.includes(p) ? '<span class="pcard-meta">QCM à refaire</span>' : '<span class="pcard-meta">Consultée, pas encore révisée</span>');
+      const asTodo = (p) => row(p, `<span class="meta">${weak.includes(p) ? 'QCM à refaire' : 'Consultée, pas encore révisée'}</span>`);
+
+      // Continuer à réviser
+      const cont = $('[data-continue]');
+      if (cont) {
+        const last = viewed.map(([id]) => by[id]).find((p) => p.kind === 'fiche');
+        if (last) {
+          cont.hidden = false;
+          $('[data-continue-card]', cont).innerHTML = bigCard({ id: last.id, hue: last.hue, cover: last.cover, eyebrow: last.subjectTitle, title: last.title, meta: `${last.chapter ? last.chapter + ' · ' : ''}${last.minutes} min${s.reviewed[last.id] ? ' · révisée' : ''}`, href: base + last.url, cta: 'Continuer' });
+          syncHearts(cont);
+        }
+      }
       fill('[data-todo]', '[data-todo-list]', toDo.slice(0, 4), asTodo);
-      fill('[data-viewed]', '[data-viewed-list]', viewed.slice(0, 4).map(([id]) => by[id]), (p) => card(p));
+
       if ($('[data-progress-root]')) {
         fill('[data-todo-all]', '[data-todo-list]', toDo, asTodo);
         const quizzes = Object.entries(s.quiz).filter(([k]) => by[k.split('#')[0]]).sort((a, b) => b[1].ts - a[1].ts);
-        fill('[data-quiz-all]', '[data-quiz-list]', quizzes, ([k, v]) => card(by[k.split('#')[0]], `<span class="pcard-meta">Score : ${v.score}/${v.total}</span>`));
-        fill('[data-done-all]', '[data-done-list]', pages.filter((p) => s.reviewed[p.id]), (p) => card(p, '', 'done'));
+        fill('[data-quiz-all]', '[data-quiz-list]', quizzes, ([k, v]) => row(by[k.split('#')[0]], `<span class="meta">Score : ${v.score}/${v.total}</span>`));
+        fill('[data-done-all]', '[data-done-list]', pages.filter((p) => s.reviewed[p.id]), (p) => row(p, '', 'done'));
         const m = Object.keys(s.mastered);
         const mEl = $('[data-mastered-all]'); mEl.hidden = !m.length;
-        $('[data-mastered-list]').innerHTML = m.map((id) => { const [sub, ch] = id.split('/'); const sj = pages.find((p) => p.subject === sub); const ex = pages.find((p) => p.subject === sub && p.id && id === `${sub}/${slug(p.chapter || 'Fiches')}`); return `<a class="pcard done" href="${base}subjects/${esc(sub)}/"><span class="pcard-kind">${icon('check')}</span><span class="pcard-body"><span class="pcard-meta">${esc(sj ? sj.subjectTitle : sub)}</span><strong>${esc(ex ? (ex.chapter || 'Fiches') : ch)}</strong></span></a>`; }).join('');
+        $('[data-mastered-list]').innerHTML = m.map((id) => {
+          const [sub] = id.split('/'); const ref = pages.find((p) => p.subject === sub && id === `${sub}/${slug(p.chapter || 'Fiches')}`);
+          return `<a class="row done" href="${base}subjects/${esc(sub)}/"><span class="thumb thumb-dark">${icon('check')}</span><span class="row-b"><span class="meta">${esc(ref ? ref.subjectTitle : sub)}</span><strong>${esc(ref ? (ref.chapter || 'Fiches') : id)}</strong></span><i class="circle dark sm">${icon('arrow-r')}</i></a>`;
+        }).join('');
         $('[data-progress-empty]').hidden = !!(toDo.length || quizzes.length || m.length || Object.keys(s.reviewed).length);
       }
-    });
-    $('[data-reset]')?.addEventListener('click', () => { if (confirm('Effacer tout ton suivi (fiches révisées, QCM, chapitres maîtrisés) sur cet appareil ?')) { store.clear(); location.reload(); } });
-  }
-  function slug(s) { return norm(s).replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''); }
 
-  // ---------- Page matière : maîtrise + progression ----------
+      // Favoris
+      if ($('[data-fav-pages]')) {
+        renderFavs = () => {
+          const f = store.get().fav;
+          const fs = subjects.filter((x) => f['s:' + x.slug]);
+          const fp = pages.filter((p) => f[p.id]);
+          const a = $('[data-fav-subjects]'), b = $('[data-fav-pages]');
+          a.hidden = !fs.length; b.hidden = !fp.length; $('[data-fav-empty]').hidden = !!(fs.length || fp.length);
+          $('[data-fav-subjects-list]', a).innerHTML = fs.map((x) => bigCard({ id: 's:' + x.slug, hue: x.hue, cover: x.cover, coverAlt: x.coverAlt, eyebrow: 'Matière', title: x.title, meta: `${x.count} fiche${x.count > 1 ? 's' : ''}`, href: `${base}subjects/${x.slug}/`, cta: 'Voir la matière' })).join('');
+          $('[data-fav-pages-list]', b).innerHTML = fp.map((p) => row(p)).join('');
+          syncHearts();
+        };
+        renderFavs();
+      }
+    });
+    $('[data-reset]')?.addEventListener('click', () => { if (confirm('Effacer tout ton suivi (fiches révisées, QCM, chapitres maîtrisés, favoris) sur cet appareil ?')) { store.clear(); location.reload(); } });
+  }
+
+  // ---------- Page matière ----------
   $$('[data-master]').forEach((b) => {
     const id = b.dataset.master;
-    const sync = () => { const on = !!store.get().mastered[id]; b.setAttribute('aria-pressed', on); $('span', b).textContent = on ? 'Chapitre maîtrisé ✓' : 'Chapitre maîtrisé'; };
+    const sync = () => { const on = !!store.get().mastered[id]; b.setAttribute('aria-pressed', on); $('span', b).textContent = on ? 'Maîtrisé ✓' : 'Maîtrisé'; };
     sync();
     b.addEventListener('click', () => { store.set((s) => { s.mastered[id] ? delete s.mastered[id] : (s.mastered[id] = Date.now()); }); sync(); });
   });
@@ -123,25 +177,46 @@
     const ids = el.dataset.ids.split(',').filter(Boolean); if (!ids.length) return;
     const s = store.get(); const n = ids.filter((i) => s.reviewed[i]).length;
     el.hidden = false; $('i', el).style.width = `${(n / ids.length) * 100}%`; $('span', el).textContent = `${n}/${ids.length} révisées`;
-    $$('.pcard').forEach((c) => { const m = /subjects\/([^/]+)\/([^/]+)\/$/.exec(c.getAttribute('href')); if (m && s.reviewed[`${m[1]}/${m[2]}`]) c.classList.add('done'); });
   });
+  const cta = $('[data-cta-subject]');
+  if (cta) {
+    const urls = cta.dataset.urls.split(','), ids = cta.dataset.ids.split(','); const s = store.get();
+    const i = ids.findIndex((id) => !s.reviewed[id]); const done = ids.filter((id) => s.reviewed[id]).length;
+    cta.href = base + urls[i === -1 ? 0 : i];
+    $('span', cta).textContent = i === -1 ? 'Tout revoir' : done ? 'Continuer la révision' : 'Commencer la révision';
+  }
 
-  // ---------- Fiche ----------
+  // ---------- Fiche : révisée ----------
   const rv = $('[data-reviewed]');
   if (rv) {
-    const sync = () => { const on = !!store.get().reviewed[pageId]; rv.setAttribute('aria-pressed', on); $('span', rv).textContent = on ? 'Fiche révisée ✓' : 'Marquer comme révisée'; };
+    const sync = () => { const on = !!store.get().reviewed[pageId]; rv.setAttribute('aria-pressed', on); $('span', rv).textContent = on ? 'Fiche révisée' : 'Marquer comme révisée'; };
     sync();
     rv.addEventListener('click', () => { store.set((s) => { s.reviewed[pageId] ? delete s.reviewed[pageId] : (s.reviewed[pageId] = Date.now()); }); sync(); });
   }
-  // Sommaire : section active (bureau)
-  const links = $$('.toc-d a');
-  if (links.length && 'IntersectionObserver' in window) {
-    const map = new Map(links.map((a) => [a.getAttribute('href').slice(1), a]));
-    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { links.forEach((a) => a.removeAttribute('aria-current')); map.get(e.target.id)?.setAttribute('aria-current', 'true'); } }), { rootMargin: '-10% 0px -80% 0px' });
-    map.forEach((_, id) => { const h = document.getElementById(id); h && io.observe(h); });
+
+  // ---------- Fiche : onglets ----------
+  const tabBtns = $$('[data-tab-btn]');
+  if (tabBtns.length) {
+    const panel = (k) => document.getElementById('tab-' + k);
+    const activate = (k, focus) => {
+      tabBtns.forEach((b) => { const on = b.dataset.tabBtn === k; b.classList.toggle('is-on', on); b.setAttribute('aria-selected', on); b.tabIndex = on ? 0 : -1; if (on) { if (focus) b.focus(); b.scrollIntoView({ inline: 'center', block: 'nearest' }); } });
+      tabBtns.forEach((b) => { const p = panel(b.dataset.tabBtn); if (p) p.hidden = b.dataset.tabBtn !== k; });
+      const dh = $('[data-doc-head]'); if (dh) dh.hidden = k !== tabBtns[0].dataset.tabBtn;
+    };
+    const fromHash = () => {
+      const h = decodeURIComponent(location.hash.slice(1)); if (!h) return false;
+      const el = document.getElementById(h); if (!el) return false;
+      const p = el.closest('.panel'); if (!p) return false;
+      activate(p.dataset.tab); el.closest('details')?.setAttribute('open', ''); setTimeout(() => el.scrollIntoView({ block: 'start' }), 30); return true;
+    };
+    tabBtns.forEach((b, i) => {
+      b.addEventListener('click', () => { activate(b.dataset.tabBtn); });
+      b.addEventListener('keydown', (e) => { const d = { ArrowRight: 1, ArrowLeft: -1 }[e.key]; if (d) { e.preventDefault(); activate(tabBtns[(i + d + tabBtns.length) % tabBtns.length].dataset.tabBtn, true); } });
+    });
+    if (!fromHash()) activate(tabBtns[0].dataset.tabBtn);
+    window.addEventListener('hashchange', fromHash);
   }
-  // Fermer le sommaire mobile après navigation
-  $$('.toc-m a').forEach((a) => a.addEventListener('click', () => { $('.toc-m').open = false; }));
+  $$('.toc a').forEach((a) => a.addEventListener('click', () => { $('.toc').open = false; }));
 
   // ---------- QCM ----------
   // <div class="quiz" data-quiz-id="id"><script type="application/json">{"questions":[{"q":"…","options":["…"],"answer":0,"explain":"…"}]}</script></div>
@@ -186,7 +261,7 @@
     if (!cards.length) return;
     let i = 0;
     el.classList.add('deck'); el.innerHTML = `<button type="button" class="fcard" aria-pressed="false" aria-live="polite"><span class="fcard-in"><span class="fcard-f"><small>Question</small><span data-q></span></span><span class="fcard-b"><small>Réponse</small><span data-a></span></span></span></button>
-      <div class="deck-nav"><button type="button" class="btn btn-light btn-sm" data-prev aria-label="Carte précédente">${icon('arrow-l')}</button><span data-n></span><button type="button" class="btn btn-dark btn-sm" data-next aria-label="Carte suivante">${icon('arrow-r')}</button></div>`;
+      <div class="deck-nav"><button type="button" class="circle" data-prev aria-label="Carte précédente">${icon('back')}</button><span data-n></span><button type="button" class="circle dark" data-next aria-label="Carte suivante">${icon('arrow-r')}</button></div>`;
     const fc = $('.fcard', el);
     const show = () => { fc.setAttribute('aria-pressed', 'false'); $('[data-q]', el).innerHTML = cards[i].q; $('[data-a]', el).innerHTML = cards[i].a; $('[data-n]', el).textContent = `${i + 1} / ${cards.length}`; if (window.renderMathInElement) mathify(el); };
     fc.addEventListener('click', () => fc.setAttribute('aria-pressed', fc.getAttribute('aria-pressed') !== 'true'));
