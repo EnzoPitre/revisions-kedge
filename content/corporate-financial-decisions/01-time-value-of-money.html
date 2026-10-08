@@ -1,0 +1,224 @@
+---
+title: Time Value of Money, Loans & Amortization
+chapter: Session 1
+order: 1
+kind: fiche
+summary: PV, FV, compound interest, annuities, APR vs EAR, loan payments and amortization schedules.
+keywords: time value of money, present value, future value, compound interest, simple interest, annuity, PMT, APR, EAR, TAEG, Fisher effect, amortization schedule, loan, timeline
+sources: Cours | Corporate Financial Decisions.pdf ; LectureTVMStudent.pdf ; Amortization ScheduleStudents.pdf ; LoanExample.pdf
+created: 2026-10-08
+---
+<section data-tab="fiche">
+
+<div class="callout retenir"><p class="callout-t">Idée centrale</p>
+<p>Money received at different dates cannot be compared directly. To compare “apples with apples”, we bring every amount to the <strong>same point in time</strong>: forward (future value) or backward (present value).</p></div>
+
+<details class="acc" open><summary><span class="acc-n">01</span><span class="acc-t"><small>Notion</small>Why money has a time value</span></summary><div class="acc-in">
+<ul>
+<li><strong>Inflation</strong>: in 5 years, the same €100 may buy fewer goods.</li>
+<li><strong>Investment</strong>: €100 today invested 1 year at 10% becomes €110. The extra €10 is the return (here, the interest).</li>
+</ul>
+<div class="callout example"><p class="callout-t">Exemple du cours</p><p>A generous uncle offers €100: today or in 5 years. Most people choose today.</p></div>
+<div class="callout definition"><p class="callout-t">Definitions</p>
+<ul>
+<li><strong>Future value (FV)</strong>: the value that a current amount of money will have at a future date after earning interest.</li>
+<li><strong>Present value (PV)</strong>: the value today of an amount of money to be received or paid in the future.</li></ul></div>
+<p>With 10%: €100 today → €110 in one year (FV). €100 received in one year is worth \(100/1.10 \approx 90.90\) today (PV).</p>
+</div></details>
+
+<details class="acc" open><summary><span class="acc-n">02</span><span class="acc-t"><small>Notion</small>Why interest rates exist</span></summary><div class="acc-in">
+<ul>
+<li><strong>Impatience</strong> (“myopia”): people prefer to use money today; the future is valued less than the present.</li>
+<li><strong>Opportunity cost of waiting</strong>: a lender who lends €100 cannot use it. The interest compensates this wait (lend €100, get €110 → €10 of interest).</li>
+<li><strong>Inflation</strong>: higher inflation → the lender requires a higher rate.</li>
+</ul>
+<div class="callout definition"><p class="callout-t">Fisher effect</p>
+<p>Nominal interest rate = real interest rate + expected inflation.</p></div>
+<div class="callout example"><p class="callout-t">Exemple du cours</p><p>Real return wanted 4%, expected inflation 6% → nominal rate of about 10%.</p></div>
+</div></details>
+
+<details class="acc" open><summary><span class="acc-n">03</span><span class="acc-t"><small>Notion</small>Simple vs compound interest</span></summary><div class="acc-in">
+<table>
+<thead><tr><th></th><th>Simple interest</th><th>Compound interest</th></tr></thead>
+<tbody>
+<tr><td>Interest is…</td><td>not reinvested (spent)</td><td>reinvested: interest earns interest</td></tr>
+<tr><td>€100 at 10%, 3 years</td><td>€10 per year → €30 of interest in total</td><td>€110 → €121 → €133.10</td></tr>
+<tr><td>Where used</td><td>specific contexts: trust funds, charitable organizations, university endowments (principal untouched, only the income is spent)</td><td>the usual way financial markets work</td></tr>
+</tbody></table>
+<div class="callout formula"><p class="callout-t">Future value (compound)</p>
+<p>\[ FV = PV \times (1+i)^n \]</p>
+<p>Example du cours : \( 100 \times 1.10^3 = 133.10 \). The exponent is the number of periods.</p></div>
+<div class="callout formula"><p class="callout-t">Present value</p>
+<p>\[ PV = \dfrac{FV}{(1+i)^n} \]</p>
+<p>Example du cours : \( 121 / 1.10^2 = 100 \).</p></div>
+<p>Banks use present value calculations to set loans: the payments happen in the future, but they must be related to the amount lent today.</p>
+</div></details>
+
+<details class="acc" open><summary><span class="acc-n">04</span><span class="acc-t"><small>Méthode</small>Timelines & multiple cash flows</span></summary><div class="acc-in">
+<div class="callout method"><p class="callout-t">Method</p>
+<ol><li>Draw a timeline (year 0, 1, 2, 3…).</li><li>Move <strong>each</strong> cash flow separately to the chosen date (compound it forward or discount it back).</li><li>Add the results.</li></ol></div>
+<div class="callout example"><p class="callout-t">Exemple du cours — future value</p>
+<p>€100 today and €100 in year 1, rate 10%, value in year 2: \(100\times1.10^2 = 121\) and \(100\times1.10 = 110\) → <strong>€231</strong>.</p>
+<p>The interest earned on the first €100 is reinvested (compound interest). The second €100 earns interest for one year only.</p></div>
+<div class="callout example"><p class="callout-t">Exemple du cours — present value</p>
+<p>€100 in year 1 and €100 in year 2, rate 10%: \(100/1.10 = 90.90\) and \(100/1.10^2 = 82.64\) → <strong>€173.54</strong>.</p>
+<p>With €173.54 invested at 10% today, you can pay €100 in year 1 and €100 in year 2.</p></div>
+<p>The amounts don’t have to be equal (€60, €42, €100…). Each has a different value depending on when it is received: this is the common reference point for CFOs and finance teams evaluating projects.</p>
+</div></details>
+
+<details class="acc" open><summary><span class="acc-n">05</span><span class="acc-t"><small>Notion</small>Annuities</span></summary><div class="acc-in">
+<div class="callout definition"><p class="callout-t">Annuity</p><p>Equal (constant) cash flows at regular intervals. Most loans are annuities: mortgage loans, business loans, many standard bank loans.</p></div>
+<p>Notation in the course: <strong>A</strong> (or <em>a</em>) = regular payment, <strong>i</strong> = interest rate, <strong>n</strong> = number of periods. Spreadsheet names: <strong>PVA</strong> (present value of an annuity), <strong>FVA</strong> (future value of an annuity), <strong>PMT</strong> (payment).</p>
+<table><thead><tr><th>Unknown</th><th>Given</th><th>Excel (French version)</th></tr></thead><tbody>
+<tr><td>PV (lump sum)</td><td>FV, i, n</td><td>VA</td></tr>
+<tr><td>FV (lump sum)</td><td>PV, i, n</td><td>VC</td></tr>
+<tr><td>PVA</td><td>a, i, n</td><td>VA</td></tr>
+<tr><td>FVA</td><td>a, i, n</td><td>VC</td></tr>
+<tr><td>PMT (from a loan amount PVA)</td><td>PVA, i, n</td><td>VPM</td></tr>
+<tr><td>PMT (to reach a target FVA)</td><td>FVA, i, n</td><td>VPM</td></tr>
+</tbody></table>
+<div class="callout gap"><p class="callout-t">Information absente des notes</p>
+<p>The PV-of-an-annuity formula itself is not written in the text of the notes (the professor says it is more important to understand than to memorize it). The logic is: PVA = sum of the present values of each payment. The spreadsheet exercises use the Excel functions above. Computation check below uses that logic.</p></div>
+<p>Understanding rule (professor): <em>understand how it works and what each element represents</em>; experiment in Excel by changing payment, rate or periods.</p>
+</div></details>
+
+<details class="acc" open><summary><span class="acc-n">06</span><span class="acc-t"><small>Distinction</small>APR vs EAR</span></summary><div class="acc-in">
+<table><thead><tr><th></th><th>APR (annual percentage rate)</th><th>EAR (effective annual rate)</th></tr></thead><tbody>
+<tr><td>What it is</td><td>Annual rate used to <strong>derive the periodic rate</strong>. Information in the loan contract, not the rate you really pay.</td><td>The rate you actually pay <strong>per year</strong>, once compounding is taken into account.</td></tr>
+<tr><td>Link</td><td>Periodic rate = APR / number of periods (monthly: APR/12 ; daily: APR/365)</td><td>Compound the periodic rate over the periods of one year, then subtract the €1 borrowed</td></tr>
+<tr><td>Size</td><td>Smaller</td><td>Bigger (the gap can be significant)</td></tr>
+<tr><td>In France</td><td>Taux débiteur annuel — both must be declared, but the APR is the one most cited because it is smaller</td><td>TAEG (taux annuel effectif global) — lets you compare offers</td></tr>
+</tbody></table>
+<div class="callout formula"><p class="callout-t">Conversions (course method)</p>
+<p>\[ APR = \text{periodic rate} \times \text{number of periods per year} \]</p>
+<p>\[ EAR = (1+\text{periodic rate})^{m} - 1 \quad (m = \text{periods per year}) \]</p>
+<p>EAR method of the professor: borrow €1 for the 12 months (or 365 days) at the periodic rate, compute the future value (compounding), subtract the €1 borrowed.</p></div>
+<div class="callout example"><p class="callout-t">Exemple du cours</p>
+<p>Credit card with a <strong>daily rate of 0.05%</strong>: APR = 0.05% × 365 = <strong>18.25%</strong>. In the US, card rates above 15% a year were common; a card announcing “15% APR” may really cost about 17% (“a couple of percentage points more”).</p></div>
+<div class="callout warning"><p class="callout-t">Pièges</p>
+<p>The APR is <em>not</em> what you pay. When a problem gives an APR with monthly payments, use <strong>APR/12</strong> as the periodic rate and <strong>years × 12</strong> as n.</p></div>
+<div class="callout gap"><p class="callout-t">Incohérence dans les documents</p>
+<p>The “EAR” spreadsheet shows a periodic rate of <strong>0.1%</strong> but its statement says <strong>0.05%</strong> daily. The expected answer is therefore unclear. Computed with the statement (0.05%): EAR = 1.0005<sup>365</sup> − 1 ≈ <strong>20.02%</strong>. With 0.1% it would be ≈ 44.03%. The lecture transcript is also partly garbled on this topic; only the clear parts are kept here.</p></div>
+</div></details>
+
+<details class="acc" open><summary><span class="acc-n">07</span><span class="acc-t"><small>Application</small>Amortization schedule</span></summary><div class="acc-in">
+<div class="callout method"><p class="callout-t">Method (for each year / period)</p>
+<ol>
+<li><strong>PMT</strong> from the loan amount (PVA), the rate and n (Excel VPM).</li>
+<li><strong>Interest paid</strong> = beginning balance × rate.</li>
+<li><strong>Principal paid</strong> = payment − interest paid.</li>
+<li><strong>Ending balance</strong> = beginning balance − principal paid (= next period’s beginning balance). Last ending balance = 0.</li>
+</ol></div>
+<div class="callout example"><p class="callout-t">Exemple du cours — borrow €5,000, 5 years, 9%, yearly payment = €1,285.46</p>
+<table><thead><tr><th>Year</th><th>Beginning balance</th><th>Payment</th><th>Interest</th><th>Principal</th><th>Ending balance</th></tr></thead><tbody>
+<tr><td>1</td><td>5,000</td><td>1,285.46</td><td>450</td><td>835.46</td><td>4,164.54</td></tr>
+<tr><td>2</td><td>4,164.54</td><td>1,285.46</td><td>374.81</td><td>910.65</td><td>3,253.88</td></tr>
+<tr><td>3</td><td>3,253.88</td><td>1,285.46</td><td>292.85</td><td>992.61</td><td>2,261.27</td></tr>
+<tr><td>4</td><td>2,261.27</td><td>1,285.46</td><td>203.51</td><td>1,081.95</td><td>1,179.32</td></tr>
+<tr><td>5</td><td>1,179.32</td><td>1,285.46</td><td>106.14</td><td>1,179.32</td><td>0.00</td></tr>
+</tbody></table></div>
+<div class="callout example"><p class="callout-t">Exemple du cours — building worth €1 million, 10 years, 8.5%, yearly payment = €152,407.71</p>
+<table><thead><tr><th>Year</th><th>Beginning balance</th><th>Interest</th><th>Principal</th><th>Ending balance</th></tr></thead><tbody>
+<tr><td>1</td><td>1,000,000</td><td>85,000</td><td>67,407.71</td><td>932,592.29</td></tr>
+<tr><td>2</td><td>932,592.29</td><td>79,270.35</td><td>73,137.36</td><td>859,454.93</td></tr>
+<tr><td>3</td><td>859,454.93</td><td>73,053.67</td><td>79,354.04</td><td>780,100.90</td></tr>
+<tr><td>4</td><td>780,100.90</td><td>66,308.58</td><td>86,099.13</td><td>694,001.77</td></tr>
+<tr><td>5</td><td>694,001.77</td><td>58,990.15</td><td>93,417.55</td><td>600,584.22</td></tr>
+<tr><td>6</td><td>600,584.22</td><td>51,049.66</td><td>101,358.05</td><td>499,226.17</td></tr>
+<tr><td>7</td><td>499,226.17</td><td>42,434.22</td><td>109,973.48</td><td>389,252.69</td></tr>
+<tr><td>8</td><td>389,252.69</td><td>33,086.48</td><td>119,321.23</td><td>269,931.46</td></tr>
+<tr><td>9</td><td>269,931.46</td><td>22,944.17</td><td>129,463.53</td><td>140,467.93</td></tr>
+<tr><td>10</td><td>140,467.93</td><td>11,939.77</td><td>140,467.93</td><td>0.00</td></tr>
+</tbody></table></div>
+<p><strong>Pattern visible in both tables:</strong> the payment is constant, the interest part falls each period and the principal part rises.</p>
+</div></details>
+
+<details class="acc" open><summary><span class="acc-n">08</span><span class="acc-t"><small>Cas réel</small>Reading a loan contract (LoanExample)</span></summary><div class="acc-in">
+<p>Pre-contractual information sheet (French consumer credit). The professor’s annotations on the document tell you which number is which input:</p>
+<table><thead><tr><th>In the contract</th><th>Value</th><th>Professor’s note</th></tr></thead><tbody>
+<tr><td>Total amount of credit</td><td>€8,000.00</td><td>The base for the PV</td></tr>
+<tr><td>Duration</td><td>38 months</td><td><strong>Careful: the loan payments start in 2 months</strong></td></tr>
+<tr><td>Payments</td><td>36 monthly payments of €231.74 (excluding optional insurance)</td><td>The annuity payment (PMT)</td></tr>
+<tr><td>Total amount to repay</td><td>€8,342.64</td><td>Total repayments (careful: <strong>not</strong> the FV)</td></tr>
+<tr><td>Fixed annual debit rate</td><td>2.472%</td><td>The APR</td></tr>
+<tr><td>TAEG</td><td>2.500%</td><td>The EAR</td></tr>
+<tr><td>Optional insurance</td><td>€10.35 per month, total €372.60</td><td>Total insurance payments</td></tr>
+<tr><td>Insurance annual effective rate</td><td>3.00%</td><td>The added EAR, “which leads to a new EAR of 5.5%”</td></tr>
+</tbody></table>
+<p>Checks: 36 × 231.74 = 8,342.64 and 36 × 10.35 = 372.60. Also, compounding the monthly rate: (1 + 2.472%/12)<sup>12</sup> − 1 ≈ 2.50%, which is the TAEG — the APR/EAR link in practice.</p>
+<div class="callout gap"><p class="callout-t">Non précisé</p><p>The documents do not show how the 2-month delay enters the PV calculation (no timeline or answer is given), so no PV recomputation is presented here.</p></div>
+</div></details>
+
+<details class="acc"><summary><span class="acc-n">09</span><span class="acc-t"><small>Contexte</small>Course organization (useful info)</span></summary><div class="acc-in">
+<ul>
+<li>Session 1: fundamental tools · Sessions 2–3: investment decisions · Session 4: stocks and bonds · Final session: corporate financing decisions.</li>
+<li>One quiz around session 3 or 4 (covers everything up to then) · one group assignment in session 4 (tables and calculations used to decide on buying a machine / an investment) · final exam: individual, about 60% of the grade.</li>
+<li>Recommended work: about 2 hours a week reviewing the material; use the “Test Yourself” exercises.</li>
+</ul></div></details>
+
+</section>
+
+<section data-tab="retenir">
+
+<h2>Fiche express</h2>
+<div class="callout formula"><p class="callout-t">Formules</p>
+<p>\( FV = PV(1+i)^n \) · \( PV = FV/(1+i)^n \)</p>
+<p>Fisher : nominal ≈ real + expected inflation</p>
+<p>APR = periodic rate × periods/year · EAR = \((1+\text{periodic})^m - 1\)</p>
+<p>Amortization : interest = beginning balance × rate ; principal = PMT − interest</p></div>
+<table><thead><tr><th>Quantity</th><th>Excel</th></tr></thead><tbody>
+<tr><td>PV / PVA</td><td>VA</td></tr><tr><td>FV / FVA</td><td>VC</td></tr><tr><td>PMT</td><td>VPM</td></tr></tbody></table>
+
+<h2>Ce que je dois absolument savoir</h2>
+<ol class="must">
+<li>Expliquer pourquoi €100 today ≠ €100 in 5 years (inflation, investment).</li>
+<li>Définir future value et present value, et passer de l’une à l’autre.</li>
+<li>Différencier simple interest et compound interest (€133.10 vs €130).</li>
+<li>Calculer avec une timeline la FV et la PV de plusieurs flux (231 et 173.54).</li>
+<li>Reconnaître une annuity et choisir PVA, FVA ou PMT.</li>
+<li>Expliquer APR vs EAR, convertir l’un en l’autre.</li>
+<li>Utiliser APR/12 et années × 12 pour des paiements mensuels.</li>
+<li>Construire un amortization schedule (intérêts, principal, solde).</li>
+<li>Lire un contrat de prêt : montant = base du PV, mensualité = PMT, TAEG = EAR.</li>
+</ol>
+
+<h2>Teste-toi</h2>
+<ul>
+<li>Can you explain the Fisher effect with the 4% / 6% example?</li>
+<li>Why does the interest part of the payment fall over time in an amortization schedule?</li>
+<li>Which rate do you use as periodic rate when the APR is 5% and payments are monthly?</li>
+<li>What is the difference between the “total amount you must pay” and a future value?</li>
+</ul>
+</section>
+
+<section data-tab="flashcards">
+<div class="flashcards">
+<div class="fc"><div class="fc-q">Future value (definition)</div><div class="fc-a">Value that a current amount of money will have at a future date after earning interest.</div></div>
+<div class="fc"><div class="fc-q">Present value (definition)</div><div class="fc-a">Value today of an amount of money to be received or paid in the future.</div></div>
+<div class="fc"><div class="fc-q">Fisher effect</div><div class="fc-a">Nominal interest rate = real interest rate + expected inflation.</div></div>
+<div class="fc"><div class="fc-q">Simple interest</div><div class="fc-a">Interest is not reinvested: same interest each year (€10 a year on €100 at 10%).</div></div>
+<div class="fc"><div class="fc-q">Compound interest</div><div class="fc-a">Interest is reinvested and earns interest: €100 × 1.10³ = €133.10.</div></div>
+<div class="fc"><div class="fc-q">FV formula</div><div class="fc-a">FV = PV × (1+i)^n</div></div>
+<div class="fc"><div class="fc-q">PV formula</div><div class="fc-a">PV = FV / (1+i)^n</div></div>
+<div class="fc"><div class="fc-q">How do you value several cash flows?</div><div class="fc-a">Move each one separately to the same date, then add.</div></div>
+<div class="fc"><div class="fc-q">Annuity</div><div class="fc-a">Equal cash flows at regular intervals (e.g. most loans).</div></div>
+<div class="fc"><div class="fc-q">APR</div><div class="fc-a">Annual rate used to derive the periodic rate (APR/12 monthly, APR/365 daily). Not what you really pay.</div></div>
+<div class="fc"><div class="fc-q">EAR (TAEG in France)</div><div class="fc-a">The rate actually paid per year, after compounding: (1+periodic)^m − 1.</div></div>
+<div class="fc"><div class="fc-q">Interest part of a loan payment</div><div class="fc-a">Beginning balance × rate. Principal = payment − interest.</div></div>
+<div class="fc"><div class="fc-q">Loan contract: “montant total du crédit”</div><div class="fc-a">The base for the PV.</div></div>
+<div class="fc"><div class="fc-q">Loan contract: “montant total à payer”</div><div class="fc-a">Total repayments — not a future value.</div></div>
+</div>
+</section>
+
+<section data-tab="quiz">
+<div class="quiz" data-quiz-id="tvm-1"><script type="application/json">{"questions":[
+{"q":"€100 invested for 3 years at 10% with COMPOUND interest gives:","options":["€130","€133.10","€110","€121"],"answer":1,"explain":"100 × 1.10³ = 133.10. €130 would be simple interest (€10 per year)."},
+{"q":"What is the present value of €100 received in 2 years at 10%?","options":["€80.00","€90.90","€82.64","€120.00"],"answer":2,"explain":"100 / 1.10² = 82.64 (90.90 is for one year only)."},
+{"q":"According to the Fisher effect, a lender wants a 4% real return and expects 6% inflation. The nominal rate is about:","options":["2%","4%","6%","10%"],"answer":3,"explain":"Nominal = real + expected inflation = 4% + 6%."},
+{"q":"Which statement about APR and EAR is correct?","options":["EAR is the rate used to derive the monthly rate","The APR is the rate you really pay each year","The EAR is bigger than the APR when there is compounding within the year","They are always equal"],"answer":2,"explain":"The APR is used to derive the periodic rate; the EAR is the rate actually paid per year, which is bigger because of compounding."},
+{"q":"A credit card charges 0.05% per day. The APR is:","options":["0.05%","1.5%","18.25%","20.02%"],"answer":2,"explain":"APR = periodic rate × 365 = 18.25%. (20.02% would be the EAR.)"},
+{"q":"Loan of €10,000, 5 years, APR 5%, monthly payments. Which inputs for the payment function?","options":["rate 5%, n = 5","rate 5%/12, n = 60","rate 5%/12, n = 5","rate 5%, n = 60"],"answer":1,"explain":"Periodic rate = APR/12 and n = years × 12."},
+{"q":"In an amortization schedule with a constant payment, over time:","options":["interest rises and principal falls","both stay constant","interest falls and principal rises","the ending balance rises"],"answer":2,"explain":"Interest = beginning balance × rate, and the balance falls, so principal = payment − interest rises."},
+{"q":"In the loan contract of the course, “8 342,64 euros” is:","options":["the base for the PV","the total repayments (not the FV)","the APR","the annuity payment"],"answer":1,"explain":"36 × 231.74 = 8,342.64 is the total to repay."}
+]}</script></div>
+</section>

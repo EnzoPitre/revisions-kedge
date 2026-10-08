@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Time Value of Money — Exercises — Corporate Financial Decisions · KEDGE Revisions</title>
+<meta name="description" content="Excel exercises of the course (PV, FV, APR/EAR, annuities, loans) with corrections, plus generated practice exercises.">
+<meta name="theme-color" content="#ffffff">
+<meta name="color-scheme" content="light">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="KEDGE Revisions">
+<meta property="og:title" content="Time Value of Money — Exercises — Corporate Financial Decisions · KEDGE Revisions">
+<meta property="og:description" content="Excel exercises of the course (PV, FV, APR/EAR, annuities, loans) with corrections, plus generated practice exercises.">
+<meta property="og:image" content="https://enzopitre.github.io/revisions-kedge/assets/images/subjects/corporate-financial-decisions.jpg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="KEDGE Rev.">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="../../../manifest.webmanifest">
+<link rel="icon" href="../../../assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../../../assets/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=3">
+<link rel="stylesheet" href="../../../assets/vendor/katex/katex.min.css">
+</head>
+<body class="v-fiche no-dock" data-base="../../../" data-user="Enzo" data-page-id="corporate-financial-decisions/01-time-value-of-money-exercices" data-math="1">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M3.5 10.8L12 3.5l8.5 7.3V19a1.5 1.5 0 01-1.5 1.5h-3.5V15h-7v5.5H5A1.5 1.5 0 013.5 19z"/></symbol>
+<symbol id="i-list" viewBox="0 0 24 24"><rect x="4" y="3.5" width="16" height="17" rx="5"/><path d="M8.5 9.5h7M8.5 14h7"/></symbol>
+<symbol id="i-dots" viewBox="0 0 24 24"><circle cx="7.5" cy="7.5" r="2.4"/><circle cx="16.5" cy="7.5" r="2.4"/><circle cx="7.5" cy="16.5" r="2.4"/><circle cx="16.5" cy="16.5" r="2.4"/></symbol>
+<symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20.2S4 15.4 4 9.6A4.6 4.6 0 0112 7a4.6 4.6 0 018 2.6c0 5.8-8 10.6-8 10.6z"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20.5 20.5L16 16"/></symbol>
+<symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 8h5M15 8h5M4 16h9M19 16h1"/><circle cx="12" cy="8" r="2.6"/><circle cx="16" cy="16" r="2.6"/></symbol>
+<symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+<symbol id="i-arrow-r" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+<symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+<symbol id="i-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+<symbol id="i-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0115.5-6.2L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 01-15.5 6.2L3 16"/><path d="M3 21v-5h5"/></symbol>
+<symbol id="i-book" viewBox="0 0 24 24"><path d="M3.5 5.5Q8 4 12 6q4-2 8.5-.5v13Q16 17 12 19q-4-2-8.5-.5zM12 6v13"/></symbol>
+<symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol>
+</defs></svg>
+<a class="skip" href="#main">Aller au contenu</a>
+<header class="deskbar"><a class="brand" href="../../../"><img src="../../../assets/icons/favicon.svg" alt="" width="36" height="36"><span>KEDGE Revisions</span></a>
+  <a class="avatar" href="../../../progress/" aria-label="Mes révisions">E</a></header>
+<main id="main" tabindex="-1">
+<header class="fh"><a class="round" href="../../../subjects/corporate-financial-decisions/01-time-value-of-money/" aria-label="Retour à la fiche"><svg class="ic " aria-hidden="true" focusable="false"><use href="#i-back"/></svg></a>
+  <div class="fh-t"><h1>Time Value of Money — Exercises</h1><p>Corporate Financial Decisions · Session 1</p></div><button type="button" class="round heart" data-fav="corporate-financial-decisions/01-time-value-of-money-exercices" aria-pressed="false" aria-label="Ajouter aux favoris : Time Value of Money — Exercises"><svg class="ic " aria-hidden="true" focusable="false"><use href="#i-heart"/></svg></button></header>
+
+<article class="doc" data-article>
+  <div class="doc-head" data-doc-head>
+  
+  <p class="doc-meta"><span class="chip"><svg class="ic " aria-hidden="true" focusable="false"><use href="#i-clock"/></svg> 5 min</span><span class="chip">Exercices</span><span class="doc-sum">Excel exercises of the course (PV, FV, APR/EAR, annuities, loans) with corrections, plus generated practice exercises.</span></p>
+  
+  </div>
+  <div class="prose">
+<section data-tab="exercices" class="panel" id="tab-exercices" role="tabpanel">
+<h2 id="exercices-du-cours-excel">Exercices du cours (Excel)</h2>
+<p>Statements are those of the professor’s spreadsheet. Answers marked <em>(corrigé du fichier)</em> are shown in the document; the others are blank in the document and were <strong>calculées</strong> here with the course method.</p>
+
+<div class="callout exercise"><p class="callout-t">Exercice 1 — PV</p>
+<p>A legal settlement states that you have to pay $10,000 in 2 years. If the rate of return is 2%, how much money do you need to invest today to get that amount?</p>
+<details class="correction"><summary>Voir la correction</summary><div class="corr">
+<p>Given: FV = 10,000 ; i = 2% ; n = 2. Formula: \(PV = FV/(1+i)^n\).</p>
+<p>\(PV = 10{,}000 / 1.02^2 = 9{,}611.69\) <em>(corrigé du fichier)</em>. Excel: VA.</p></div></details></div>
+
+<div class="callout exercise"><p class="callout-t">Exercice 2 — FV</p>
+<p>You have $12,000 to invest at 9% (US stock market) for 30 years. How much at the end?</p>
+<details class="correction"><summary>Voir la correction</summary><div class="corr">
+<p>Given: PV = 12,000 ; i = 9% ; n = 30. Formula: \(FV = PV(1+i)^n\).</p>
+<p>\(FV = 12{,}000 \times 1.09^{30} = 159{,}212.14\) <em>(corrigé du fichier)</em>. Excel: VC.</p></div></details></div>
+
+<div class="callout exercise"><p class="callout-t">Exercice 3 — APR</p>
+<p>Your credit card charges a daily interest rate of 0.05%. What is the APR?</p>
+<details class="correction"><summary>Voir la correction</summary><div class="corr">
+<p>APR = periodic rate × periods per year = 0.05% × 365 = <strong>18.25%</strong> (value also given in the lecture).</p></div></details></div>
+
+<div class="callout exercise"><p class="callout-t">Exercice 4 — EAR</p>
+<p>Same card (daily rate 0.05% in the statement). What is the EAR?</p>
+<details class="correction"><summary>Voir la correction</summary><div class="corr">
+<p>Formula: \(EAR = (1+\text{periodic})^{365} - 1\).</p>
+<p>\(1.0005^{365} - 1 \approx 0.2002\) → <strong>≈ 20.02%</strong> <em>(calculé)</em>.</p>
+<div class="callout gap"><p class="callout-t">Attention</p><p>The spreadsheet cell shows a periodic rate of 0.1% (not 0.05%). With 0.1%: \(1.001^{365}-1 \approx 44.03\%\). The two documents are inconsistent; check with the professor which one is expected.</p></div></div></details></div>
+
+<div class="callout exercise"><p class="callout-t">Exercice 5 — PVA</p>
+<p>You pay €600 rent per month for the next 2 years. Your parents put enough money in a bank account (2% per year) to pay exactly the rent. How much did they give you?</p>
+<details class="correction"><summary>Voir la correction</summary><div class="corr">
+<p>Given: a = 600 ; n = 2 × 12 = 24 ; periodic rate = 2%/12 (assumed: the statement says “2% per year”, and the other exercises use APR/12).</p>
+<p>PVA = sum of the PV of the 24 payments (Excel VA) ≈ <strong>€14,104.29</strong> <em>(calculé)</em>.</p></div></details></div>
+
+<div class="callout exercise"><p class="callout-t">Exercice 6 — FVA</p>
+<p>A landlord receives €100 rent per month for 3 years and reinvests at 2% per year. How much after 3 years?</p>
+<details class="correction"><summary>Voir la correction</summary><div class="corr">
+<p>Given: a = 100 ; n = 36 ; periodic rate = 2%/12 (same assumption).</p>
+<p>FVA (Excel VC) ≈ <strong>€3,707.01</strong> <em>(calculé)</em>.</p></div></details></div>
+
+<div class="callout exercise"><p class="callout-t">Exercice 7 — PMT from a loan</p>
+<p>You borrow €10,000 for 5 years at an APR of 5%. Monthly payment?</p>
+<details class="correction"><summary>Voir la correction</summary><div class="corr">
+<p>Given: PVA = 10,000 ; i = 5%/12 ; n = 60. Excel: VPM.</p>
+<p>PMT ≈ <strong>€188.71</strong> <em>(calculé)</em>.</p></div></details></div>
+
+<div class="callout exercise"><p class="callout-t">Exercice 8 — PMT to reach a future amount</p>
+<p>Your uncle will give you €30,000 in 4 years. You ask for monthly payments instead. How much per month if his bank pays an APR of 2%?</p>
+<details class="correction"><summary>Voir la correction</summary><div class="corr">
+<p>Given: FVA = 30,000 ; i = 2%/12 ; n = 48. Excel: VPM.</p>
+<p>PMT ≈ <strong>€600.85</strong> <em>(calculé)</em>.</p></div></details></div>
+
+<div class="callout exercise"><p class="callout-t">Exercice 9 — Yearly payment (loans)</p>
+<p>(a) Borrow €5,000, 5 years, 9%. (b) Borrow €1 million, 10 years, 8.5%. Yearly payment? Then build the amortization schedule.</p>
+<details class="correction"><summary>Voir la correction</summary><div class="corr">
+<p>(a) PMT = <strong>€1,285.46</strong> · (b) PMT = <strong>€152,407.71</strong> <em>(corrigés du fichier)</em>. Full schedules: see the chapter sheet (section 07).</p></div></details></div>
+
+<h2 id="exercices-d-entrainement">Exercices d’entraînement</h2>
+
+<div class="callout exercise"><span class="generated">Exercice d’entraînement généré</span>
+<p class="callout-t">A — Present value</p>
+<p>You owe €25,000 in 3 years. The rate of return is 4%. How much must you invest today?</p>
+<details class="correction"><summary>Voir la correction</summary><div class="corr">
+<p>1. Données : FV = 25,000 ; i = 4% ; n = 3.</p><p>2. Formule : \(PV = FV/(1+i)^n\).</p>
+<p>3. Remplacement : \(PV = 25{,}000/1.04^3\).</p><p>4. Calcul : \(1.04^3 = 1.124864\) → \(25{,}000/1.124864 \approx 22{,}224.91\).</p>
+<p>5. Résultat : <strong>€22,224.91</strong>. Si tu trouves 25,000/1.04 ou 25,000/1.12 : l’exposant n’est pas appliqué correctement.</p></div></details></div>
+
+<div class="callout exercise"><span class="generated">Exercice d’entraînement généré</span>
+<p class="callout-t">B — Future value of an annuity</p>
+<p>You save €150 a month for 5 years in an account paying an APR of 3%. How much do you have at the end?</p>
+<details class="correction"><summary>Voir la correction</summary><div class="corr">
+<p>1. Données : a = 150 ; periodic rate = 3%/12 = 0.25% ; n = 5 × 12 = 60.</p>
+<p>2. Méthode : FVA (Excel VC) = somme des FV de chaque versement.</p>
+<p>3–4. Calcul (Excel) : FVA ≈ 9,697.01.</p>
+<p>5. Résultat : <strong>≈ €9,697.01</strong> (versements totaux : 150 × 60 = 9,000 ; le reste, ≈ 697, vient des intérêts).</p></div></details></div>
+
+<div class="callout exercise"><span class="generated">Exercice d’entraînement généré</span>
+<p class="callout-t">C — APR and EAR</p>
+<p>A loan charges 1.5% per month. Find the APR and the EAR.</p>
+<details class="correction"><summary>Voir la correction</summary><div class="corr">
+<p>1. Données : periodic rate = 1.5% ; m = 12.</p>
+<p>2. APR = periodic × m = 1.5% × 12 = <strong>18%</strong>.</p>
+<p>3. EAR = \((1.015)^{12} - 1\) ; \(1.015^{12} \approx 1.19562\).</p>
+<p>4. Résultat : EAR ≈ <strong>19.56%</strong>.</p>
+<p>5. Interprétation : le taux réellement payé par an (19.56%) est supérieur à l’APR (18%).</p></div></details></div>
+
+<div class="callout exercise"><span class="generated">Exercice d’entraînement généré</span>
+<p class="callout-t">D — Loan and first schedule lines</p>
+<p>Borrow €20,000 for 4 years at 6%, yearly payments. Find the payment and build the amortization schedule.</p>
+<details class="correction"><summary>Voir la correction</summary><div class="corr">
+<p>1. Données : PVA = 20,000 ; i = 6% ; n = 4. Excel : VPM.</p>
+<p>2. PMT ≈ <strong>€5,771.83</strong>.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Tableau défilable"><table><thead><tr><th>Year</th><th>Beginning</th><th>Interest (balance × 6%)</th><th>Principal (PMT − interest)</th><th>Ending</th></tr></thead><tbody>
+<tr><td>1</td><td>20,000.00</td><td>1,200.00</td><td>4,571.83</td><td>15,428.17</td></tr>
+<tr><td>2</td><td>15,428.17</td><td>925.69</td><td>4,846.14</td><td>10,582.03</td></tr>
+<tr><td>3</td><td>10,582.03</td><td>634.92</td><td>5,136.91</td><td>5,445.12</td></tr>
+<tr><td>4</td><td>5,445.12</td><td>326.71</td><td>5,445.12</td><td>0.00</td></tr></tbody></table></div>
+<p>Contrôle : le solde final est 0 et les intérêts baissent chaque année.</p></div></details></div>
+</section>
+
+  </div>
+  
+  
+  <footer class="provenance"><p><strong>Sources du cours :</strong> LectureTVMStudent.pdf ; Amortization ScheduleStudents.pdf ; Cours | Corporate Financial Decisions.pdf</p><p>Créée le 8 octobre 2026</p></footer>
+</article>
+<div class="cta-bar"><a class="cta" href="../../../subjects/corporate-financial-decisions/01-time-value-of-money/"><span>Retour à la fiche</span></a></div>
+</main>
+<nav class="dock" aria-label="Navigation principale"><a class="dk" href="../../../"><i><svg class="ic " aria-hidden="true" focusable="false"><use href="#i-home"/></svg></i><span class="dk-l">Accueil</span></a><a class="dk" href="../../../subjects/"><i><svg class="ic " aria-hidden="true" focusable="false"><use href="#i-list"/></svg></i><span class="dk-l">Cours</span></a><a class="dk is-active" href="../../../progress/" aria-current="page"><i><svg class="ic " aria-hidden="true" focusable="false"><use href="#i-dots"/></svg></i><span class="dk-l">Révisions</span></a><a class="dk" href="../../../favorites/"><i><svg class="ic " aria-hidden="true" focusable="false"><use href="#i-heart"/></svg></i><span class="dk-l">Favoris</span></a></nav>
+<script src="../../../assets/vendor/katex/katex.min.js" defer></script><script src="../../../assets/vendor/katex/auto-render.min.js" defer></script>
+<script src="../../../assets/js/app.js?v=3" defer></script>
+</body>
+</html>

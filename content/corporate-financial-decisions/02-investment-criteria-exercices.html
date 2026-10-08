@@ -1,0 +1,93 @@
+---
+title: Investment Criteria — Exercises
+chapter: Sessions 2–3
+order: 2
+kind: exercices
+for: 02-investment-criteria
+summary: The five in-class NPV/IRR exercises with corrections, plus generated practice on NPV, IRR, PI, payback and discounted payback.
+keywords: NPV, IRR, exercises, profitability index, payback, discounted payback, break-even, perpetuity, terminal value, salvage
+sources: NPV_IRR_Exercises_STUDENT-1.pdf ; InclassNPVIRRStudents.pdf ; Investment Criteria and Capital Budgeting (CDV) (2).pdf
+created: 2026-10-08
+---
+<section data-tab="exercices">
+<h2>Exercices du cours (NPV / IRR, in $ thousands)</h2>
+<p>Ex. 1 and 2 are filled in the document <em>(corrigé du fichier)</em>. Ex. 3, 4 and 5 are blank in the document: their results were <strong>calculés</strong> here from the data with the course formulas (Excel NPV/IRR logic; NPV = \(\sum CF_t/(1+i)^t\)).</p>
+
+<div class="callout exercise"><p class="callout-t">Exercise 1 — Baseline decision and discount-rate sensitivity</p>
+<p>Initial outlay 230, then cash flows for years 1–10: 23, 12, 34, 45, 50, 50, 50, 50, 50, 50. (a) PV of each CF, NPV at 6% and IRR; accept? (b) NPV at 8%, 10%, 12%; what changes between 10% and 12%? (c) How does the IRR relate to (b)?</p>
+<details class="correction"><summary>Voir la correction</summary><div class="corr">
+<p><strong>(a)</strong> PV of CFs at 6%: 21.70 ; 10.68 ; 28.55 ; 35.64 ; 37.36 ; 35.25 ; 33.25 ; 31.37 ; 29.59 ; 27.92. Sum = 291.32, minus 230 → <strong>NPV = 61.32</strong>, <strong>IRR = 10.5%</strong> <em>(corrigé du fichier)</em>.</p>
+<p>Decision: <strong>accept</strong> — NPV &gt; 0 and IRR (10.5%) &gt; 6%.</p>
+<p><strong>(b)</strong> NPV at 8% = 31.55 ; at 10% = 5.84 ; at 12% = −16.46. Between 10% and 12% the NPV becomes negative (from 5.84 to −16.46).</p>
+<p><strong>(c)</strong> IRR ≈ 10.5%, so the NPV becomes zero between 10% and 12%: above the IRR the NPV is negative.</p></div></details></div>
+
+<div class="callout exercise"><p class="callout-t">Exercise 2 — Rooftop solar installation</p>
+<p>A café chain invests 400 today. Net energy savings, years 1–10: 40, 60, 80, 90, 100, 100, 100, 90, 80, 120 (year 10 includes resale value). Cost of capital 8%. (a) NPV and IRR; invest? (b) NPV profile at 0, 4, 8, 12, 16%; estimate the IRR. (c) Supplier raises the price to 500: new NPV at 8%, and maximum price?</p>
+<details class="correction"><summary>Voir la correction</summary><div class="corr">
+<p><strong>(a)</strong> NPV = <strong>151.79</strong>, IRR = <strong>14.80%</strong> → accept (NPV &gt; 0) <em>(corrigé du fichier)</em>.</p>
+<table><thead><tr><th>Rate</th><th>0%</th><th>4%</th><th>8%</th><th>12%</th><th>16%</th></tr></thead><tbody><tr><td>NPV</td><td>460.00</td><td>282.24</td><td>151.79</td><td>54.16</td><td>−20.24</td></tr></tbody></table>
+<p><strong>(b)</strong> NPV changes sign between 12% and 16% → IRR ≈ 14.8%, where NPV = 0.</p>
+<p><strong>(c)</strong> New NPV = 151.79 − (500 − 400) = <strong>51.79</strong> → still positive, the decision does not change. Maximum price (NPV = 0) = 400 + 151.79 = <strong>551.79</strong>.</p></div></details></div>
+
+<div class="callout exercise"><p class="callout-t">Exercise 3 — Shortening the project (still 10 periods)</p>
+<p>Original project of Exercise 1 (outlay 230, 6%). Management considers closing it at year 7 and selling the equipment for 120 that year; cash flows after year 7 are zero. (a) Fill the “Shortened CF” column, compute NPV and IRR of both plans: is shortening better or worse? (b) Which salvage value at year 7 makes the firm indifferent? (c) NPV of the shortened plan for salvage 0, 60, 100, 150; minimum salvage for NPV ≥ 0?</p>
+<details class="correction"><summary>Voir la correction</summary><div class="corr">
+<p><strong>(a)</strong> Shortened CFs: −230, 23, 12, 34, 45, 50, 50, <strong>50 + 120 = 170</strong>, 0, 0, 0 <em>(calculé)</em>.</p>
+<table><thead><tr><th></th><th>Original</th><th>Shortened</th></tr></thead><tbody><tr><td>NPV @6%</td><td>61.32</td><td>52.24</td></tr><tr><td>IRR</td><td>10.50%</td><td>10.34%</td></tr></tbody></table>
+<p>Shortening is <strong>worse</strong> (lower NPV and lower IRR) with a salvage of 120.</p>
+<p><strong>(b)</strong> Each unit of salvage adds \(1/1.06^7\) to the NPV. Shortened NPV with salvage 0 = −27.57; needed 61.32 → salvage = (61.32 + 27.57) × 1.06<sup>7</sup> ≈ <strong>133.65</strong>.</p>
+<table><thead><tr><th>Salvage</th><th>0</th><th>60</th><th>100</th><th>150</th></tr></thead><tbody><tr><td>NPV shortened</td><td>−27.57</td><td>12.34</td><td>38.94</td><td>72.19</td></tr></tbody></table>
+<p><strong>(c)</strong> Minimum salvage for NPV ≥ 0: 27.57 × 1.06<sup>7</sup> ≈ <strong>41.45</strong>. Comment: shortening beats the original only if the salvage exceeds ≈133.65 (above 120); at 150 it does (72.19 &gt; 61.32).</p></div></details></div>
+
+<div class="callout exercise"><p class="callout-t">Exercise 4 — Break-even outlay and Goal Seek</p>
+<p>Same project as Exercise 1 (6%); only the initial investment changes. (a) Maximum outlay (NPV = 0)? (b) Supplier offers 200 instead of 230: new NPV and IRR. (c) Why does a 30 reduction raise the NPV by exactly 30 but the IRR by only about 2.9 points?</p>
+<details class="correction"><summary>Voir la correction</summary><div class="corr">
+<p><strong>(a)</strong> PV of years 1–10 = 291.32 → <strong>maximum outlay = 291.32</strong> <em>(calculé)</em> (Goal Seek on NPV = 0 gives the same).</p>
+<p><strong>(b)</strong> NPV = 291.32 − 200 = <strong>91.32</strong> (original: 61.32). IRR: 10.50% → <strong>13.37%</strong>; change = +30 in NPV and about +2.87 points of IRR.</p>
+<p><strong>(c)</strong> The NPV is in money units: lowering the outlay by 30 at time 0 adds exactly 30 (time 0 is not discounted). The IRR is a rate: a 30 saving on 230 changes the return on the later cash flows only moderately, hence ≈2.9 points.</p></div></details></div>
+
+<div class="callout exercise"><p class="callout-t">Exercise 5 — The vineyard: plant now (A) or wait (B)?</p>
+<p>Discount rate 7%. <strong>Plan A</strong> (15 periods): −500 (year 0), −40 (years 1–2), 30 (y3), 80 (y4), 120 (y5), then 150 a year years 6–15; nothing after. <strong>Plan B</strong>: −600 in year 2, −40 in years 3–4, then 40, 120, 180 (y5–7), 220 a year (y8–10); afterwards a <strong>perpetuity of 60</strong> a year from year 11. (a) NPV and IRR of A. (b) For B: terminal value at year 10, its PV, NPV of B (total), and IRR with TV in year 10. (c) Which plan? NPV of B with explicit years only? (d) NPVs at 5, 9, 10, 12%: where does the ranking reverse?</p>
+<details class="correction"><summary>Voir la correction</summary><div class="corr">
+<p><strong>(a)</strong> NPV(A) at 7% ≈ <strong>349.92</strong>; IRR(A) ≈ <strong>13.24%</strong> <em>(calculé)</em>.</p>
+<p><strong>(b)</strong> Terminal value at year 10 of the perpetuity = 60 / 0.07 ≈ <strong>857.14</strong>; PV today = 857.14 / 1.07<sup>10</sup> ≈ <strong>435.73</strong>. NPV of B with explicit years 0–10 only ≈ <strong>−7.11</strong>; NPV of B total ≈ −7.11 + 435.73 = <strong>428.62</strong>. IRR of B (TV added to year 10 CF: 220 + 857.14) ≈ <strong>16.27%</strong>.</p>
+<p><strong>(c)</strong> At 7%, <strong>Plan B</strong> (428.62 &gt; 349.92). But B’s explicit years alone have a negative NPV (−7.11): <em>all</em> of B’s value comes from the perpetuity assumption (435.73 of PV), so the choice is very sensitive to that assumption.</p>
+<table><thead><tr><th>Rate</th><th>NPV A</th><th>NPV B (incl. TV)</th><th>B − A</th></tr></thead><tbody>
+<tr><td>5%</td><td>518.91</td><td>799.61</td><td>+280.70</td></tr>
+<tr><td>7%</td><td>349.92</td><td>428.62</td><td>+78.70</td></tr>
+<tr><td>9%</td><td>213.12</td><td>218.03</td><td>+4.90</td></tr>
+<tr><td>10%</td><td>154.56</td><td>143.78</td><td>−10.78</td></tr>
+<tr><td>12%</td><td>53.60</td><td>32.72</td><td>−20.88</td></tr></tbody></table>
+<p><strong>(d)</strong> The ranking reverses between 9% and 10% (crossover at ≈ 9.25%). Here the TV is recomputed at each rate as 60 / rate. IRR(B) 16.27% &gt; IRR(A) 13.24% but the NPV ranking depends on the discount rate.</p></div></details></div>
+
+<h2>Exercices d’entraînement</h2>
+
+<div class="callout exercise"><span class="generated">Exercice d’entraînement généré</span>
+<p class="callout-t">A — Four criteria on one project</p>
+<p>Investment 1,200 at t=0; CFs: 300, 400, 500, 600 (years 1–4). Required return 8%. Compute NPV, IRR, PI, payback and discounted payback.</p>
+<details class="correction"><summary>Voir la correction</summary><div class="corr">
+<p><strong>NPV</strong> = 300/1.08 + 400/1.08² + 500/1.08³ + 600/1.08⁴ − 1,200. PVs: 277.78 ; 342.94 ; 396.92 ; 441.02 → sum 1,458.65 → <strong>NPV ≈ 258.65</strong> &gt; 0.</p>
+<p><strong>IRR</strong> (Excel, range incl. t=0) ≈ <strong>16.28%</strong> &gt; 8% → accept.</p>
+<p><strong>PI</strong> = 1 + 258.65/1,200 ≈ <strong>1.22</strong> &gt; 1 → accept.</p>
+<p><strong>Payback</strong>: cumulative CFs 300, 700, 1,200 → recovered exactly at the end of year 3 → <strong>3.0 years</strong>.</p>
+<p><strong>Discounted payback</strong>: cumulative PVs 277.78 ; 620.71 ; 1,017.63 ; 1,458.65 → remainder after year 3 = 1,200 − 1,017.63 = 182.37 → 3 + 182.37/441.02 ≈ <strong>3.41 years</strong>.</p>
+<p>Interprétation : le projet est accepté par NPV, IRR et PI ; le discounted payback (3.41) est plus long que le payback (3.0) car il tient compte de la valeur temps.</p></div></details></div>
+
+<div class="callout exercise"><span class="generated">Exercice d’entraînement généré</span>
+<p class="callout-t">B — Limited budget (weighted average PI)</p>
+<p>Budget 160. X: investment 100, NPV 30. Y: investment 60, NPV 24. Z: investment 50, NPV 10. Which combination?</p>
+<details class="correction"><summary>Voir la correction</summary><div class="corr">
+<p>PI = 1 + NPV/Investment: X = 1.30 ; Y = 1.40 ; Z = 1.20. Possible combinations within 160: XY (160), XZ (150), YZ (110), alone X / Y / Z.</p>
+<p>WAPI (unused money at PI = 0, as in the course):</p>
+<ul><li>WAPI(XY) = (1.30×100 + 1.40×60)/160 = 214/160 ≈ <strong>1.34</strong></li>
+<li>WAPI(XZ) = (130 + 1.20×50)/160 = 190/160 ≈ 1.19</li>
+<li>WAPI(YZ) = (84 + 60)/160 = 0.90</li></ul>
+<p>Résultat : choisir <strong>X et Y</strong> (WAPI le plus élevé).</p></div></details></div>
+
+<div class="callout exercise"><span class="generated">Exercice d’entraînement généré</span>
+<p class="callout-t">C — IRR rule on a one-year project</p>
+<p>Cost 800 today, sale for 900 in one year; foregone investment opportunity 10%. Accept?</p>
+<details class="correction"><summary>Voir la correction</summary><div class="corr">
+<p>Return = (900 − 800)/800 = 12.5% (same method as the course’s office-building example). 12.5% &gt; 10% → accept by the IRR rule.</p>
+<p>Check with NPV: 900/1.10 − 800 = 818.18 − 800 = <strong>+18.18</strong> &gt; 0 → same decision.</p></div></details></div>
+</section>

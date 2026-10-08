@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Investment Criteria (NPV, IRR, PI, Payback) — Corporate Financial Decisions · KEDGE Revisions</title>
+<meta name="description" content="Capital budgeting decision rules: NPV, IRR, profitability index, payback and discounted payback.">
+<meta name="theme-color" content="#ffffff">
+<meta name="color-scheme" content="light">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="KEDGE Revisions">
+<meta property="og:title" content="Investment Criteria (NPV, IRR, PI, Payback) — Corporate Financial Decisions · KEDGE Revisions">
+<meta property="og:description" content="Capital budgeting decision rules: NPV, IRR, profitability index, payback and discounted payback.">
+<meta property="og:image" content="https://enzopitre.github.io/revisions-kedge/assets/images/subjects/corporate-financial-decisions.jpg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="KEDGE Rev.">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="../../../manifest.webmanifest">
+<link rel="icon" href="../../../assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../../../assets/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=3">
+<link rel="stylesheet" href="../../../assets/vendor/katex/katex.min.css">
+</head>
+<body class="v-fiche no-dock" data-base="../../../" data-user="Enzo" data-page-id="corporate-financial-decisions/02-investment-criteria" data-math="1">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M3.5 10.8L12 3.5l8.5 7.3V19a1.5 1.5 0 01-1.5 1.5h-3.5V15h-7v5.5H5A1.5 1.5 0 013.5 19z"/></symbol>
+<symbol id="i-list" viewBox="0 0 24 24"><rect x="4" y="3.5" width="16" height="17" rx="5"/><path d="M8.5 9.5h7M8.5 14h7"/></symbol>
+<symbol id="i-dots" viewBox="0 0 24 24"><circle cx="7.5" cy="7.5" r="2.4"/><circle cx="16.5" cy="7.5" r="2.4"/><circle cx="7.5" cy="16.5" r="2.4"/><circle cx="16.5" cy="16.5" r="2.4"/></symbol>
+<symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20.2S4 15.4 4 9.6A4.6 4.6 0 0112 7a4.6 4.6 0 018 2.6c0 5.8-8 10.6-8 10.6z"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20.5 20.5L16 16"/></symbol>
+<symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 8h5M15 8h5M4 16h9M19 16h1"/><circle cx="12" cy="8" r="2.6"/><circle cx="16" cy="16" r="2.6"/></symbol>
+<symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+<symbol id="i-arrow-r" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+<symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+<symbol id="i-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+<symbol id="i-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0115.5-6.2L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 01-15.5 6.2L3 16"/><path d="M3 21v-5h5"/></symbol>
+<symbol id="i-book" viewBox="0 0 24 24"><path d="M3.5 5.5Q8 4 12 6q4-2 8.5-.5v13Q16 17 12 19q-4-2-8.5-.5zM12 6v13"/></symbol>
+<symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol>
+</defs></svg>
+<a class="skip" href="#main">Aller au contenu</a>
+<header class="deskbar"><a class="brand" href="../../../"><img src="../../../assets/icons/favicon.svg" alt="" width="36" height="36"><span>KEDGE Revisions</span></a>
+  <a class="avatar" href="../../../progress/" aria-label="Mes révisions">E</a></header>
+<main id="main" tabindex="-1">
+<header class="fh"><a class="round" href="../../../subjects/corporate-financial-decisions/" aria-label="Retour à la matière"><svg class="ic " aria-hidden="true" focusable="false"><use href="#i-back"/></svg></a>
+  <div class="fh-t"><h1>Investment Criteria (NPV, IRR, PI, Payback)</h1><p>Corporate Financial Decisions · Sessions 2–3</p></div><button type="button" class="round heart" data-fav="corporate-financial-decisions/02-investment-criteria" aria-pressed="false" aria-label="Ajouter aux favoris : Investment Criteria (NPV, IRR, PI, Payback)"><svg class="ic " aria-hidden="true" focusable="false"><use href="#i-heart"/></svg></button></header>
+<div class="tabs" role="tablist" aria-label="Sections de la fiche"><button type="button" role="tab" class="tab is-on" data-tab-btn="fiche" aria-selected="true" aria-controls="tab-fiche" id="tb-fiche">Fiche</button><button type="button" role="tab" class="tab" data-tab-btn="retenir" aria-selected="false" aria-controls="tab-retenir" id="tb-retenir">À retenir</button><button type="button" role="tab" class="tab" data-tab-btn="flashcards" aria-selected="false" aria-controls="tab-flashcards" id="tb-flashcards">Flashcards</button><button type="button" role="tab" class="tab" data-tab-btn="quiz" aria-selected="false" aria-controls="tab-quiz" id="tb-quiz">Quiz</button><a class="tab tab-link" href="../../../subjects/corporate-financial-decisions/02-investment-criteria-exercices/">Exercices <svg class="ic " aria-hidden="true" focusable="false"><use href="#i-arrow-r"/></svg></a></div>
+<article class="doc" data-article data-has-tabs>
+  <div class="doc-head" data-doc-head>
+  
+  <p class="doc-meta"><span class="chip"><svg class="ic " aria-hidden="true" focusable="false"><use href="#i-clock"/></svg> 9 min</span><span class="chip">Fiche</span><span class="doc-sum">Capital budgeting decision rules: NPV, IRR, profitability index, payback and discounted payback.</span></p>
+  <details class="toc"><summary>Sommaire <svg class="ic " aria-hidden="true" focusable="false"><use href="#i-chev"/></svg></summary><ol><li><a href="#fiche-express">Fiche express</a></li><li><a href="#ce-que-je-dois-absolument-savoir">Ce que je dois absolument savoir</a></li><li><a href="#teste-toi">Teste-toi</a></li></ol></details>
+  </div>
+  <div class="prose">
+<section data-tab="fiche" class="panel" id="tab-fiche" role="tabpanel">
+
+<div class="callout retenir"><p class="callout-t">Idée centrale</p>
+<p><strong>Capital budgeting</strong> = decision process corporations use when they invest capital in new ventures: the comparison of <strong>costs versus future profits</strong> (advertising campaign, R&amp;D, acquiring a competitor…).</p></div>
+
+<details class="acc" open><summary><span class="acc-n">01</span><span class="acc-t"><small>Méthode</small>Criteria &amp; standard steps</span></summary><div class="acc-in">
+<p>Criteria most often used: <strong>NPV</strong>, <strong>IRR</strong>, <strong>Profitability Index (PI)</strong>, <strong>Payback Period</strong> (“not so good”), <strong>Discounted Payback Period</strong>.</p>
+<div class="callout method"><p class="callout-t">Standard steps</p>
+<ol><li>Estimate CFs (inflows &amp; outflows).</li><li>Assess riskiness of CFs.</li><li>Determine the cost of capital <em>i</em> for the project.</li><li>Find NPV and/or IRR and/or PI.</li><li>Accept if <strong>NPV &gt; 0</strong> and/or <strong>IRR &gt; WACC</strong> and/or <strong>PI &gt; 1</strong>.</li></ol></div>
+</div></details>
+
+<details class="acc" open><summary><span class="acc-n">02</span><span class="acc-t"><small>Critère</small>Net Present Value (NPV)</span></summary><div class="acc-in">
+<div class="callout definition"><p class="callout-t">Definition</p>
+<p>NPV = Present Value minus the monetary value of the initial investment (“Net” because the initial investment is taken into account). For a project: the value of the income generated in excess of the initial investment (cost of the project). The discount rate <em>i</em> is generally the cost of capital appropriate for the company and its project.</p></div>
+<div class="callout formula"><p class="callout-t">Formula</p>
+<p>\[ NPV = \sum_{t=0}^{n} \frac{CF_t}{(1+i)^t} = \sum_{t=1}^{n} \frac{CF_t}{(1+i)^t} + CF_0 \]</p>
+<p>\(i\) = discount rate · \(CF_t\) = cash flow at time t · \(CF_0\) = initial investment (usually a negative number)</p>
+<p>NPV = PV inflows − PV of cost = net gain in wealth.</p></div>
+<div class="callout method"><p class="callout-t">Decision rule</p>
+<ul><li><strong>NPV &gt; 0</strong>: PV of the income stream is greater than the cost → <strong>accept</strong> (above-normal profits).</li><li><strong>NPV &lt; 0</strong>: cost is greater than the income stream → <strong>reject</strong>.</li></ul></div>
+<p><strong>Properties:</strong> the most used criterion · considers the time value of money · absolute measure of wealth (positive NPVs increase the owner’s wealth, negative ones decrease it) · discount rate = cost of capital · project CFs are assumed reinvested at the cost of capital.</p>
+<p><strong>How a firm can generate above-normal profits:</strong> buyers’ preference for established brand names · control of distribution systems · patent control · exclusive ownership of superior natural resources · access to lower-cost financial resources · economies of scale · access to superior labor or management talents.</p>
+<div class="callout example"><p class="callout-t">Exemple du cours — Project A, WACC = 10%</p>
+<p>CFs: −100 (t=0), 10, 60, 80. PVs: 9.09 + 49.59 + 60.11 = 118.79 (rounded), so NPV<sub>A</sub> ≈ <strong>18.79</strong> → positive → accept. (Unrounded: 18.78.)</p></div>
+<div class="callout warning"><p class="callout-t">Excel trap (from the exercises’ tip)</p>
+<p><code>NPV(rate, range)</code> discounts the <strong>first</strong> value by one period. So write <code>=NPV(rate, CF1:CFn)+CF0</code>. <code>IRR</code> needs the full range <strong>including time 0</strong>.</p></div>
+</div></details>
+
+<details class="acc" open><summary><span class="acc-n">03</span><span class="acc-t"><small>Notion</small>NPV and the discount rate</span></summary><div class="acc-in">
+<p>The higher the discount rate, the smaller the NPV (everything else equal); the smaller the rate, the larger the NPV.</p>
+<div class="callout example"><p class="callout-t">Exemple du cours — PV of a CF of 10 at t=1</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Tableau défilable"><table><thead><tr><th>Rate</th><th>PV</th></tr></thead><tbody><tr><td>1%</td><td>10/1.01 = 9.90</td></tr><tr><td>10%</td><td>10/1.10 = 9.09</td></tr><tr><td>20%</td><td>10/1.20 = 8.33</td></tr></tbody></table></div></div>
+<p><strong>Reading the NPV-vs-rate graph</strong> (rate on x-axis, NPV on y-axis): the curve falls as the rate rises; there is a rate where NPV = 0, and beyond it NPV is negative. In the course graph, NPV reaches 0 at almost 17%, and the NPV at 4% is 21.83 (cash flows of that Excel application are not shown in the notes).</p>
+</div></details>
+
+<details class="acc" open><summary><span class="acc-n">04</span><span class="acc-t"><small>Critère</small>Internal Rate of Return (IRR)</span></summary><div class="acc-in">
+<div class="callout definition"><p class="callout-t">Definition</p>
+<p>The IRR is the <strong>rate at which the NPV is zero</strong>: the break-even point (expected cash flows cover exactly the cost of the project, considering the time value of money).</p></div>
+<div class="callout formula"><p class="callout-t">Formula</p><p>\[ NPV = \sum_{t=0}^{n} \frac{CF_t}{(1+IRR)^t} = 0 \]</p>
+<p>Excel: IRR (French version: TRI).</p></div>
+<div class="callout method"><p class="callout-t">Decision rule</p>
+<p>Accept if <strong>IRR &gt; discount rate</strong> (also called required return, cost of capital or “hurdle rate”). Intuition: the expected return exceeds the required rate of return.</p></div>
+<ul>
+<li>In investment projects we speak of <strong>required return</strong> to stress that investors demand it (chapter 5, WACC).</li>
+<li>IRR usually gives the same decision as NPV.</li>
+<li><strong>Limit:</strong> for purely algebraic reasons, solving for the IRR may lead to <em>several</em> solutions. <strong>Conclusion of the course: it is better to use the NPV rule.</strong></li>
+</ul>
+<div class="callout example"><p class="callout-t">Exemple du cours — office building (foregone opportunity 14%)</p>
+<p>Cost \(C_0\) = $370m; sale in year 1 \(C_1\) = $420m. Return = (420,000 − 370,000)/370,000 = 0.135 = <strong>13.5%</strong>. It is below 14%, so by the IRR rule the project is not accepted (the notes show the computation, not the written verdict).</p></div>
+<div class="callout example"><p class="callout-t">Exemple du cours — investment project</p>
+<p>NPV = 52.07 (positive → accept). IRR = 9.49% &gt; 7% required → green-lighted: the project gives more income than its cost. The NPV graph shows NPV &gt; 0 for rates below 9.49% (project accepted) and NPV &lt; 0 above (rejected).</p>
+<p>The cash flows of this example are in an embedded Excel not reproduced in the notes.</p></div>
+<div class="callout example"><p class="callout-t">Exemple du cours — Projects S and L (cost of capital 14%)</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Tableau défilable"><table><thead><tr><th>t</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>IRR</th></tr></thead><tbody>
+<tr><td>S</td><td>−1,000</td><td>500</td><td>400</td><td>300</td><td>100</td><td>14.49%</td></tr>
+<tr><td>L</td><td>−1,000</td><td>100</td><td>300</td><td>400</td><td>675</td><td>13.55%</td></tr></tbody></table></div>
+<p>S: IRR 14.49% &gt; 14% → accept. L: IRR 13.55% &lt; 14% → reject.</p></div>
+<div class="callout gap"><p class="callout-t">Écart dans le document</p>
+<p>The course sheet shows NPV<sub>S</sub> = 7.09 and NPV<sub>L</sub> = −10.35. Recomputed with the standard formula at 14%: <strong>NPV<sub>S</sub> = 8.08</strong> and <strong>NPV<sub>L</sub> = −11.80</strong>. The sheet’s values equal these divided by 1.14: they correspond to the Excel trap above (NPV function applied to the range including t=0). Signs and decisions are unchanged.</p></div>
+</div></details>
+
+<details class="acc" open><summary><span class="acc-n">05</span><span class="acc-t"><small>Critère</small>Profitability Index (PI)</span></summary><div class="acc-in">
+<div class="callout formula"><p class="callout-t">Formula</p><p>\[ PI = 1 + \frac{NPV}{\text{Investment}} \]</p></div>
+<ul><li>Accept a project if <strong>PI &gt; 1</strong>; do not accept if PI &lt; 1.</li>
+<li>When <strong>resources are limited</strong>, PI helps select among project combinations: the <strong>highest weighted average PI</strong> indicates which projects to select.</li></ul>
+<div class="callout example"><p class="callout-t">Exemple du cours — three projects</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Tableau défilable"><table><thead><tr><th>Project</th><th>C0</th><th>C1</th><th>C2</th><th>NPV @10%</th><th>Investment</th><th>PI</th></tr></thead><tbody>
+<tr><td>A</td><td>−10</td><td>+30</td><td>+5</td><td>21</td><td>10</td><td>3.1</td></tr>
+<tr><td>B</td><td>−5</td><td>+5</td><td>+20</td><td>16</td><td>5</td><td>4.2</td></tr>
+<tr><td>C</td><td>−5</td><td>+5</td><td>+15</td><td>12</td><td>5</td><td>3.4</td></tr></tbody></table></div>
+<p>Ex: PI(A) = 1 + 21/10 = 3.1 ($ millions).</p></div>
+<div class="callout example"><p class="callout-t">Exemple du cours — only $300,000 to invest</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Tableau défilable"><table><thead><tr><th>Proj</th><th>NPV</th><th>Investment</th><th>PI</th></tr></thead><tbody>
+<tr><td>A</td><td>230,000</td><td>200,000</td><td>2.15</td></tr><tr><td>B</td><td>141,250</td><td>125,000</td><td>2.13</td></tr>
+<tr><td>C</td><td>194,250</td><td>175,000</td><td>2.11</td></tr><tr><td>D</td><td>162,000</td><td>150,000</td><td>2.08</td></tr></tbody></table></div>
+<p>Weighted average PI (unused money counts with PI = 0):</p>
+<ul><li>WAPI(BD) = (2.13×125 + 2.08×150 + 0×25)/300 = <strong>1.93</strong></li>
+<li>WAPI(A) = <strong>1.43</strong></li>
+<li>WAPI(BC) = <strong>2.12</strong> ← highest</li></ul>
+<p><strong>So investing in B and C is the best option.</strong> (Even though A has the highest individual PI.)</p></div>
+</div></details>
+
+<details class="acc" open><summary><span class="acc-n">06</span><span class="acc-t"><small>Critère</small>Payback &amp; discounted payback</span></summary><div class="acc-in">
+<div class="callout definition"><p class="callout-t">Payback period</p>
+<p>The number of years required to recover a project’s cost: how long does it take to get the business’s money back?</p></div>
+<div class="callout formula"><p class="callout-t">Computation</p>
+<p>Payback = last <strong>full</strong> period where accumulated cash flows are still below the initial investment + last (partial) period.</p>
+<p>Partial period = (remainder still to recover) / (next cash flow).</p></div>
+<div class="callout gap"><p class="callout-t">Remarque</p><p>The notes word the partial period as “next cash flow / remainder”, but all their examples compute remainder ÷ next cash flow (30/80, 30/50). Use the examples’ version.</p></div>
+<div class="callout example"><p class="callout-t">Exemple du cours — Project B (CFs mostly in later years)</p>
+<p>CFs: −100, 10, 60, 80 · cumulative: −100, −90, −30, +50 → payback = 2 + 30/80 = <strong>2.375 years</strong> (shown as 2.4).</p></div>
+<div class="callout example"><p class="callout-t">Exemple du cours — Project C (CFs come quickly)</p>
+<p>CFs: −100, 70, 50, 20 · cumulative: −100, −30, +20, +40 → payback = 1 + 30/50 = <strong>1.6 years</strong>.</p></div>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Tableau défilable"><table><thead><tr><th>Strengths</th><th>Weaknesses</th></tr></thead><tbody><tr><td>Gives an indication of a project’s <strong>risk and liquidity</strong>; easy to calculate and understand</td><td>Ignores the <strong>time value of money</strong>; ignores CFs occurring <strong>after</strong> the payback period</td></tr></tbody></table></div>
+<div class="callout definition"><p class="callout-t">Discounted payback</p><p>Same method but with <strong>discounted</strong> rather than raw CFs.</p></div>
+<div class="callout example"><p class="callout-t">Exemple du cours — Project A at 10%</p>
+<p>CFs −100, 10, 60, 80 → PV: −100, 9.09, 49.59, 60.11 · cumulative: −100, −90.91, −41.32, +18.79 → discounted payback = 2 + 41.32/60.11 = <strong>2.7 years</strong>. Reading: investment <em>and</em> capital costs recovered in 2.7 years.</p></div>
+</div></details>
+
+<details class="acc" open><summary><span class="acc-n">07</span><span class="acc-t"><small>Comparaison</small>Which criterion says what?</span></summary><div class="acc-in">
+<div class="table-wrap" tabindex="0" role="region" aria-label="Tableau défilable"><table><thead><tr><th>Criterion</th><th>Accept if</th><th>Uses TVM?</th><th>Remark from the course</th></tr></thead><tbody>
+<tr><td>NPV</td><td>NPV &gt; 0</td><td>Yes</td><td>Most used; absolute measure of wealth</td></tr>
+<tr><td>IRR</td><td>IRR &gt; required return</td><td>Yes</td><td>May have several solutions → prefer NPV</td></tr>
+<tr><td>PI</td><td>PI &gt; 1</td><td>Yes (via NPV)</td><td>Useful with limited resources</td></tr>
+<tr><td>Payback</td><td>(no threshold given in the notes)</td><td>No</td><td>Risk/liquidity indication; “not so good”</td></tr>
+<tr><td>Discounted payback</td><td>(no threshold given in the notes)</td><td>Yes</td><td>Uses discounted CFs</td></tr>
+</tbody></table></div></div></details>
+
+</section>
+
+<section data-tab="retenir" class="panel" id="tab-retenir" role="tabpanel">
+<h2 id="fiche-express">Fiche express</h2>
+<div class="callout formula"><p class="callout-t">Formules</p>
+<p>\( NPV = \sum_{t=0}^{n} CF_t/(1+i)^t \) · accept if NPV &gt; 0</p>
+<p>IRR: \( NPV=0 \) · accept if IRR &gt; required return</p>
+<p>\( PI = 1 + NPV/\text{Investment} \) · accept if PI &gt; 1</p>
+<p>Payback = last full year + remainder/next CF</p></div>
+
+<h2 id="ce-que-je-dois-absolument-savoir">Ce que je dois absolument savoir</h2>
+<ol class="must">
+<li>Citer les 5 étapes du capital budgeting et les 5 critères.</li>
+<li>Écrire la formule de la NPV (notations \(CF_t\), \(i\), \(CF_0\)) et la règle d’acceptation.</li>
+<li>Expliquer pourquoi la NPV baisse quand le discount rate monte.</li>
+<li>Définir l’IRR (NPV = 0) et comparer avec le required return / hurdle rate.</li>
+<li>Expliquer pourquoi la NPV est préférée à l’IRR (plusieurs solutions possibles).</li>
+<li>Calculer un PI et choisir un portefeuille de projets avec un budget limité (WAPI).</li>
+<li>Calculer payback et discounted payback ; donner forces et faiblesses.</li>
+<li>Éviter le piège Excel : <code>NPV(rate, CF1:CFn)+CF0</code>.</li>
+<li>Interpréter un graphe NPV vs taux (zone acceptée / rejetée, IRR au croisement de l’axe).</li>
+</ol>
+
+<h2 id="teste-toi">Teste-toi</h2>
+<ul>
+<li>Peux-tu expliquer sans regarder pourquoi NPV &gt; 0 signifie « above-normal profits » ?</li>
+<li>Pour le bâtiment (370 → 420), quelle règle utilises-tu et quelle est la décision à 14% ?</li>
+<li>Pourquoi A (PI 2.15) n’est-il pas le meilleur choix avec 300,000 ?</li>
+<li>Quelles sont les deux faiblesses du payback ? Laquelle le discounted payback corrige-t-il ?</li>
+</ul>
+</section>
+
+<section data-tab="flashcards" class="panel" id="tab-flashcards" role="tabpanel">
+<div class="flashcards">
+<div class="fc"><div class="fc-q">Capital budgeting</div><div class="fc-a">Decision process for investing capital in new ventures: comparison of costs versus future profits.</div></div>
+<div class="fc"><div class="fc-q">NPV (definition)</div><div class="fc-a">Present value of the cash flows minus the initial investment.</div></div>
+<div class="fc"><div class="fc-q">NPV formula</div><div class="fc-a">Σ (t=0..n) CF_t / (1+i)^t</div></div>
+<div class="fc"><div class="fc-q">NPV decision rule</div><div class="fc-a">NPV &gt; 0: accept. NPV &lt; 0: reject.</div></div>
+<div class="fc"><div class="fc-q">What does the discount rate do to NPV?</div><div class="fc-a">Higher rate → smaller NPV.</div></div>
+<div class="fc"><div class="fc-q">IRR (definition)</div><div class="fc-a">The rate at which NPV = 0 (break-even point).</div></div>
+<div class="fc"><div class="fc-q">IRR decision rule</div><div class="fc-a">Accept if IRR &gt; discount rate (required return / hurdle rate / WACC).</div></div>
+<div class="fc"><div class="fc-q">Main limit of IRR</div><div class="fc-a">May give several solutions (algebraic) → better to use NPV.</div></div>
+<div class="fc"><div class="fc-q">Profitability Index</div><div class="fc-a">PI = 1 + NPV / Investment. Accept if PI &gt; 1.</div></div>
+<div class="fc"><div class="fc-q">When is PI especially useful?</div><div class="fc-a">When resources are limited: choose the combination with the highest weighted average PI.</div></div>
+<div class="fc"><div class="fc-q">Payback period</div><div class="fc-a">Years needed to recover the project’s cost.</div></div>
+<div class="fc"><div class="fc-q">Payback weaknesses</div><div class="fc-a">Ignores TVM; ignores CFs after the payback period.</div></div>
+<div class="fc"><div class="fc-q">Payback strengths</div><div class="fc-a">Indicates risk and liquidity; easy to calculate.</div></div>
+<div class="fc"><div class="fc-q">Discounted payback</div><div class="fc-a">Payback computed with discounted cash flows.</div></div>
+<div class="fc"><div class="fc-q">Excel NPV formula</div><div class="fc-a">=NPV(rate, CF1:CFn) + CF0 (NPV discounts the first value by one period).</div></div>
+</div>
+</section>
+
+<section data-tab="quiz" class="panel" id="tab-quiz" role="tabpanel">
+<div class="quiz" data-quiz-id="crit-1"><script type="application/json">{"questions":[
+{"q":"Project A: WACC 10%, CFs −100, 10, 60, 80. The NPV is about:","options":["−18.79","0","18.78","80"],"answer":2,"explain":"10/1.1 + 60/1.21 + 80/1.331 − 100 = 118.78 − 100 ≈ 18.78 (the course shows 18.79 with rounded PVs). Positive → accept."},
+{"q":"A project has an IRR of 9.49% and a required return of 7%. Decision?","options":["Reject: IRR is above the hurdle rate","Accept: IRR > required return","Cannot decide without the payback","Reject: NPV is negative"],"answer":1,"explain":"Accept when IRR > discount rate; NPV is then positive at 7%."},
+{"q":"Why does the course recommend the NPV rule over the IRR rule?","options":["IRR ignores the time value of money","IRR may have several algebraic solutions","IRR is harder to compute in Excel","NPV always gives a higher value"],"answer":1,"explain":"Solving for IRR may lead to several possible solutions."},
+{"q":"Limited budget of $300,000: A (200k, PI 2.15), B (125k, 2.13), C (175k, 2.11), D (150k, 2.08). The best selection is:","options":["A alone","B and D","B and C","A and D"],"answer":2,"explain":"WAPI(BC)=2.12 > WAPI(BD)=1.93 > WAPI(A)=1.43. (A and D would cost 350k.)"},
+{"q":"Payback for CFs −100, 70, 50, 20:","options":["1.6 years","2.0 years","1.3 years","2.375 years"],"answer":0,"explain":"After year 1 cumulative = −30; year 2 CF = 50 → 1 + 30/50 = 1.6."},
+{"q":"Which is a weakness of the (simple) payback?","options":["It is hard to understand","It ignores the time value of money","It cannot indicate liquidity","It uses discounted cash flows"],"answer":1,"explain":"Payback ignores TVM and CFs after the payback period."},
+{"q":"In Excel, the correct NPV with CF0 in B2 and CF1…CFn in B3:B12 is:","options":["=NPV(rate, B2:B12)","=NPV(rate, B3:B12)+B2","=NPV(rate, B2:B12)+B2","=IRR(B3:B12)"],"answer":1,"explain":"NPV discounts the first value by one period, so CF0 is added outside the function."},
+{"q":"When the discount rate increases, the NPV of a project with normal cash flows:","options":["increases","decreases","stays the same","becomes the IRR"],"answer":1,"explain":"Higher rate → smaller NPV; it crosses zero at the IRR."}
+]}</script></div>
+</section>
+
+  </div>
+  <section class="related"><h2>Exercices associés</h2><div class="list"><a class="row" href="../../../subjects/corporate-financial-decisions/02-investment-criteria-exercices/"><span class="thumb"><img src="../../../assets/images/subjects/corporate-financial-decisions.jpg" alt="" loading="lazy" decoding="async"></span>
+  <span class="row-b"><span class="meta">Corporate Financial Decisions · Sessions 2–3</span><strong>Investment Criteria — Exercises</strong></span>
+  <i class="circle dark sm"><svg class="ic " aria-hidden="true" focusable="false"><use href="#i-arrow-r"/></svg></i></a></div></section>
+  <nav class="pn" aria-label="Fiches précédente et suivante"><a class="pn-prev" href="../../../subjects/corporate-financial-decisions/01-time-value-of-money/"><i class="circle"><svg class="ic " aria-hidden="true" focusable="false"><use href="#i-back"/></svg></i><span><small>Précédente</small>Time Value of Money, Loans &amp; Amortization</span></a><a class="pn-next" href="../../../subjects/corporate-financial-decisions/03-ocf-capital-budgeting/"><span><small>Suivante</small>Operating Cash Flows &amp; Capital Budgeting</span><i class="circle"><svg class="ic " aria-hidden="true" focusable="false"><use href="#i-arrow-r"/></svg></i></a></nav>
+  <footer class="provenance"><p><strong>Sources du cours :</strong> Investment Criteria and Capital Budgeting (CDV) (2).pdf ; InclassNPVIRRStudents.pdf ; NPV_IRR_Exercises_STUDENT-1.pdf</p><p>Créée le 8 octobre 2026</p></footer>
+</article>
+<div class="cta-bar"><button type="button" class="cta" data-reviewed aria-pressed="false"><svg class="ic " aria-hidden="true" focusable="false"><use href="#i-check"/></svg><span>Marquer comme révisée</span></button></div>
+</main>
+<nav class="dock" aria-label="Navigation principale"><a class="dk" href="../../../"><i><svg class="ic " aria-hidden="true" focusable="false"><use href="#i-home"/></svg></i><span class="dk-l">Accueil</span></a><a class="dk is-active" href="../../../subjects/" aria-current="page"><i><svg class="ic " aria-hidden="true" focusable="false"><use href="#i-list"/></svg></i><span class="dk-l">Cours</span></a><a class="dk" href="../../../progress/"><i><svg class="ic " aria-hidden="true" focusable="false"><use href="#i-dots"/></svg></i><span class="dk-l">Révisions</span></a><a class="dk" href="../../../favorites/"><i><svg class="ic " aria-hidden="true" focusable="false"><use href="#i-heart"/></svg></i><span class="dk-l">Favoris</span></a></nav>
+<script src="../../../assets/vendor/katex/katex.min.js" defer></script><script src="../../../assets/vendor/katex/auto-render.min.js" defer></script>
+<script src="../../../assets/js/app.js?v=3" defer></script>
+</body>
+</html>

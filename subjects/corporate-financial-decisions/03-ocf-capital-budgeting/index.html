@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Operating Cash Flows &amp; Capital Budgeting — Corporate Financial Decisions · KEDGE Revisions</title>
+<meta name="description" content="Cash flow statement review, OCF and FCF, incremental cash flows, project cash-flow rules and a full capital budgeting example.">
+<meta name="theme-color" content="#ffffff">
+<meta name="color-scheme" content="light">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="KEDGE Revisions">
+<meta property="og:title" content="Operating Cash Flows &amp; Capital Budgeting — Corporate Financial Decisions · KEDGE Revisions">
+<meta property="og:description" content="Cash flow statement review, OCF and FCF, incremental cash flows, project cash-flow rules and a full capital budgeting example.">
+<meta property="og:image" content="https://enzopitre.github.io/revisions-kedge/assets/images/subjects/corporate-financial-decisions.jpg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="KEDGE Rev.">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="../../../manifest.webmanifest">
+<link rel="icon" href="../../../assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../../../assets/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=3">
+<link rel="stylesheet" href="../../../assets/vendor/katex/katex.min.css">
+</head>
+<body class="v-fiche no-dock" data-base="../../../" data-user="Enzo" data-page-id="corporate-financial-decisions/03-ocf-capital-budgeting" data-math="1">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M3.5 10.8L12 3.5l8.5 7.3V19a1.5 1.5 0 01-1.5 1.5h-3.5V15h-7v5.5H5A1.5 1.5 0 013.5 19z"/></symbol>
+<symbol id="i-list" viewBox="0 0 24 24"><rect x="4" y="3.5" width="16" height="17" rx="5"/><path d="M8.5 9.5h7M8.5 14h7"/></symbol>
+<symbol id="i-dots" viewBox="0 0 24 24"><circle cx="7.5" cy="7.5" r="2.4"/><circle cx="16.5" cy="7.5" r="2.4"/><circle cx="7.5" cy="16.5" r="2.4"/><circle cx="16.5" cy="16.5" r="2.4"/></symbol>
+<symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20.2S4 15.4 4 9.6A4.6 4.6 0 0112 7a4.6 4.6 0 018 2.6c0 5.8-8 10.6-8 10.6z"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20.5 20.5L16 16"/></symbol>
+<symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 8h5M15 8h5M4 16h9M19 16h1"/><circle cx="12" cy="8" r="2.6"/><circle cx="16" cy="16" r="2.6"/></symbol>
+<symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+<symbol id="i-arrow-r" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+<symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+<symbol id="i-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+<symbol id="i-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0115.5-6.2L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 01-15.5 6.2L3 16"/><path d="M3 21v-5h5"/></symbol>
+<symbol id="i-book" viewBox="0 0 24 24"><path d="M3.5 5.5Q8 4 12 6q4-2 8.5-.5v13Q16 17 12 19q-4-2-8.5-.5zM12 6v13"/></symbol>
+<symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol>
+</defs></svg>
+<a class="skip" href="#main">Aller au contenu</a>
+<header class="deskbar"><a class="brand" href="../../../"><img src="../../../assets/icons/favicon.svg" alt="" width="36" height="36"><span>KEDGE Revisions</span></a>
+  <a class="avatar" href="../../../progress/" aria-label="Mes révisions">E</a></header>
+<main id="main" tabindex="-1">
+<header class="fh"><a class="round" href="../../../subjects/corporate-financial-decisions/" aria-label="Retour à la matière"><svg class="ic " aria-hidden="true" focusable="false"><use href="#i-back"/></svg></a>
+  <div class="fh-t"><h1>Operating Cash Flows &amp; Capital Budgeting</h1><p>Corporate Financial Decisions · Sessions 2–3</p></div><button type="button" class="round heart" data-fav="corporate-financial-decisions/03-ocf-capital-budgeting" aria-pressed="false" aria-label="Ajouter aux favoris : Operating Cash Flows &amp; Capital Budgeting"><svg class="ic " aria-hidden="true" focusable="false"><use href="#i-heart"/></svg></button></header>
+<div class="tabs" role="tablist" aria-label="Sections de la fiche"><button type="button" role="tab" class="tab is-on" data-tab-btn="fiche" aria-selected="true" aria-controls="tab-fiche" id="tb-fiche">Fiche</button><button type="button" role="tab" class="tab" data-tab-btn="retenir" aria-selected="false" aria-controls="tab-retenir" id="tb-retenir">À retenir</button><button type="button" role="tab" class="tab" data-tab-btn="flashcards" aria-selected="false" aria-controls="tab-flashcards" id="tb-flashcards">Flashcards</button><button type="button" role="tab" class="tab" data-tab-btn="quiz" aria-selected="false" aria-controls="tab-quiz" id="tb-quiz">Quiz</button><a class="tab tab-link" href="../../../subjects/corporate-financial-decisions/03-ocf-capital-budgeting-exercices/">Exercices <svg class="ic " aria-hidden="true" focusable="false"><use href="#i-arrow-r"/></svg></a></div>
+<article class="doc" data-article data-has-tabs>
+  <div class="doc-head" data-doc-head>
+  
+  <p class="doc-meta"><span class="chip"><svg class="ic " aria-hidden="true" focusable="false"><use href="#i-clock"/></svg> 9 min</span><span class="chip">Fiche</span><span class="doc-sum">Cash flow statement review, OCF and FCF, incremental cash flows, project cash-flow rules and a full capital budgeting example.</span></p>
+  <details class="toc"><summary>Sommaire <svg class="ic " aria-hidden="true" focusable="false"><use href="#i-chev"/></svg></summary><ol><li><a href="#fiche-express">Fiche express</a></li><li><a href="#ce-que-je-dois-absolument-savoir">Ce que je dois absolument savoir</a></li><li><a href="#teste-toi">Teste-toi</a></li></ol></details>
+  </div>
+  <div class="prose">
+<section data-tab="fiche" class="panel" id="tab-fiche" role="tabpanel">
+
+<div class="callout retenir"><p class="callout-t">Idée centrale</p>
+<p>Determining cash flows is <strong>“the most important and difficult task in capital budgeting”</strong>. Only <strong>incremental, after-tax cash flows</strong> matter — not accounting profit.</p>
+<p><strong>OCF = EBIT − Taxes + Depreciation</strong> and <strong>FCF = OCF − Capex − ΔNWC</strong>.</p></div>
+
+<details class="acc" open><summary><span class="acc-n">01</span><span class="acc-t"><small>Révision</small>The statement of cash flows</span></summary><div class="acc-in">
+<p>Net income mixes accrual revenues and expenses, so it rarely equals the cash generated. The cash flow statement reclassifies every cash movement into three buckets:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Tableau défilable"><table><thead><tr><th>Bucket</th><th>Content</th><th>Meaning</th></tr></thead><tbody>
+<tr><td><strong>Operating (CFO)</strong></td><td>Collections from customers · payments to suppliers &amp; employees · interest paid/received, taxes paid</td><td>The engine of the business — day-to-day cash generation</td></tr>
+<tr><td><strong>Investing (CFI)</strong></td><td>Purchases of PP&amp;E / capex · sales of PP&amp;E or land · purchases &amp; sales of financial investments</td><td>Building (or shrinking) the firm’s productive capacity</td></tr>
+<tr><td><strong>Financing (CFF)</strong></td><td>New borrowings &amp; loan repayments · share issuance &amp; buybacks · dividends paid</td><td>How the firm is funded — debt, equity, and payouts</td></tr>
+</tbody></table></div>
+<h3 id="direct-vs-indirect-method-same-answer-two-routes">Direct vs indirect method — same answer, two routes</h3>
+<ul>
+<li><strong>Direct</strong>: lists actual cash receipts and payments (needs access to the cash account). Optional under IFRS / US GAAP, but firms using it must still disclose the indirect reconciliation.</li>
+<li><strong>Indirect</strong>: starts from net income and adjusts for non-cash items — presented in the course as the mandatory presentation under IFRS &amp; US GAAP.</li>
+</ul>
+<div class="callout formula"><p class="callout-t">Indirect method</p>
+<p>CFO = Net income + Depreciation − Non-op. gains + Non-op. losses − ΔOperating assets + ΔOperating liabilities</p></div>
+<div class="callout example"><p class="callout-t">Exemple du cours (fictitious) — both methods give CFO = 93</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Tableau défilable"><table><thead><tr><th>Direct</th><th></th><th>Indirect</th><th></th></tr></thead><tbody>
+<tr><td>Collections from customers</td><td>+1,191</td><td>Net income</td><td>55</td></tr>
+<tr><td>Payments to suppliers</td><td>−782</td><td>+ Depreciation (non-cash)</td><td>+54</td></tr>
+<tr><td>Payments to employees</td><td>−280</td><td>− Gain on land sale (non-operating)</td><td>−4</td></tr>
+<tr><td>Interest &amp; taxes paid</td><td>−36</td><td>− Δ Accounts receivable / inventory</td><td>−15</td></tr>
+<tr><td><strong>CFO</strong></td><td><strong>93</strong></td><td>+ Δ Payables (A/P, interest payable)</td><td>+3</td></tr>
+<tr><td></td><td></td><td><strong>CFO</strong></td><td><strong>93</strong></td></tr>
+</tbody></table></div></div>
+<div class="callout example"><p class="callout-t">Exemple du cours — Adobe Inc., FY2025 (10-K, $ millions)</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Tableau défilable"><table><thead><tr><th>Item</th><th>$M</th></tr></thead><tbody>
+<tr><td>Net income</td><td>7,130</td></tr><tr><td>Depreciation &amp; other non-cash items</td><td>2,296</td></tr><tr><td>Change in working capital</td><td>605</td></tr>
+<tr><td><strong>CFO</strong></td><td><strong>10,031</strong></td></tr>
+<tr><td>Capital expenditures</td><td>−179</td></tr><tr><td>Acquisitions, net of investment sales/purchases</td><td>−1,008</td></tr>
+<tr><td><strong>CFI</strong></td><td><strong>−1,187</strong></td></tr>
+<tr><td>Share repurchases</td><td>−11,281</td></tr><tr><td>Share issuance &amp; net debt activity</td><td>+845</td></tr><tr><td>Other financing activities</td><td>−624</td></tr>
+<tr><td><strong>CFF</strong></td><td><strong>−11,060</strong></td></tr>
+</tbody></table></div>
+<p><strong>Cash bridge:</strong> beginning cash $7,613M + CFO 10,031 + CFI (−1,187) + CFF (−11,060) + FX effect 34 = ending cash <strong>$5,431M</strong> (net change −2,182). Despite $10.0B of operating cash flow, cash fell — driven by $11.3B of share repurchases, the largest use of cash.</p>
+<p><strong>Free cash flow FY2025</strong> = CFO 10,031 − Capex 179 = <strong>$9,852M</strong>. Capex is only ~2% of CFO in FY2025 vs ~5% in FY2021 (asset-light subscription software model). CFO up 39% since FY2021; CFF consistently negative (buybacks dominate).</p></div>
+</div></details>
+
+<details class="acc" open><summary><span class="acc-n">02</span><span class="acc-t"><small>Formules</small>Operating cash flow &amp; free cash flow</span></summary><div class="acc-in">
+<div class="callout formula"><p class="callout-t">OCF (project-level formula)</p>
+<p>\[ OCF = EBIT - Taxes + Depreciation \]</p>
+<p>Start from operating profit, remove cash taxes, add back the non-cash depreciation charge.</p></div>
+<div class="callout formula"><p class="callout-t">FCF (firm-level formula) = Cash flow from assets</p>
+<p>\[ FCF = OCF - Capex - \Delta NWC \]</p>
+<p>Cash left after reinvesting in fixed assets and working capital — available to repay debt and reward shareholders. (In the notes: “change in net operating working capital”.)</p></div>
+<p>The same logic used to evaluate a single project scales up to a whole company.</p>
+</div></details>
+
+<details class="acc" open><summary><span class="acc-n">03</span><span class="acc-t"><small>Principes</small>Project evaluation: which cash flows count?</span></summary><div class="acc-in">
+<div class="callout definition"><p class="callout-t">Definitions</p>
+<ul>
+<li><strong>Project evaluation</strong>: applying one or more capital budgeting decision rules to the estimated relevant project cash flows to make the investment decision.</li>
+<li><strong>Relevant cash flows</strong>: the incremental cash flows associated with the decision to invest in a project — any and all changes in the firm’s future cash flows that are a direct consequence of taking the project.</li>
+<li><strong>Stand-alone principle</strong>: evaluating a project based on its incremental cash flows; view each project as a “mini-firm” with its own assets, revenues and costs. If projects interact, they can be bunched together.</li>
+</ul></div>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Tableau défilable"><table><thead><tr><th>Issue</th><th>Rule</th></tr></thead><tbody>
+<tr><td>Only cash flow</td><td>Estimate on an <strong>incremental</strong> basis (how the project changes the firm’s cash flows — especially relevant to depreciation); always <strong>after tax</strong></td></tr>
+<tr><td>Sunk costs</td><td><strong>Do not include</strong>: past, irreversible outflows, not affected by the accept/reject decision</td></tr>
+<tr><td>Opportunity costs</td><td><strong>Include</strong></td></tr>
+<tr><td>Side effects</td><td><strong>Include</strong> all incidental effects</td></tr>
+<tr><td>Net working capital</td><td><strong>Include</strong>: new projects often require cash, inventories and receivables; often recovered when the project ends</td></tr>
+<tr><td>Financing costs</td><td><strong>Not</strong> counted (interest, principal on debt, dividends): the discount rate takes care of them</td></tr>
+</tbody></table></div>
+<p>Key issues listed: when is a cash flow incremental · terminology: A. sunk costs, B. opportunity costs, C. side effects, D. net working capital, E. financing costs, F. other issues.</p>
+<p>Capital expenditure decisions listed: expand an existing product line · working capital · refunding · leasing · merger and acquisition · enter a new line of business · replacement · advertising campaign · R&amp;D · education and training.</p>
+</div></details>
+
+<details class="acc" open><summary><span class="acc-n">04</span><span class="acc-t"><small>Méthode</small>Specific rules for cash flow accounting</span></summary><div class="acc-in">
+<div class="callout method"><p class="callout-t">1. Initial outlay</p>
+<ul>
+<li>(−) Cost of the asset (installed)</li>
+<li>(−) Additional working capital investments</li>
+<li>(+) Cash flow from sale of an old asset (replacement situation):
+<ul><li>Selling price &gt; book value: tax = (selling price − book value) × tax rate; CF = selling price − tax</li>
+<li>Selling price &lt; book value: tax concession = (book value − selling price) × tax rate; CF = selling price + tax concession</li></ul></li></ul></div>
+<div class="callout method"><p class="callout-t">2. Intermediate cash flows (operations)</p>
+<ul><li>(+) Added revenues · (−) increased expenses, including overhead · (+) savings: labor and material</li>
+<li>(+) Depreciation expense (add back)</li>
+<li><strong>Do not include interest expense.</strong></li></ul></div>
+<div class="callout method"><p class="callout-t">3. Terminal cash flow (closing the business)</p>
+<ul><li>(+) Sale of fixed assets (after the tax effect above)</li><li>(+) Recapture of working capital</li></ul></div>
+<h3 id="depreciation">Depreciation</h3>
+<ul>
+<li><strong>Straight line</strong>: a fixed percentage of the asset base.</li>
+<li><strong>Modified ACRS (MACRS)</strong>: the 1986 Tax Reform Act allows firms to “front-load” depreciation charges.</li></ul>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Tableau défilable"><table><thead><tr><th>MACRS class</th><th>Property</th></tr></thead><tbody>
+<tr><td>3-year</td><td>Equipment used in research</td></tr><tr><td>5-year</td><td>Autos, computers</td></tr><tr><td>7-year</td><td>Most industrial equipment (furniture)</td></tr><tr><td>10-year</td><td>Certain long-lived types of equipment</td></tr>
+<tr><td>27.5-year</td><td>Residential rental real property, including commercial and industrial buildings</td></tr>
+<tr><td>31.5-year</td><td>All non-residential real property, including commercial and industrial buildings</td></tr></tbody></table></div>
+<p><strong>Land cannot be depreciated.</strong></p>
+<div class="callout gap"><p class="callout-t">Contradiction dans les notes</p><p>The 27.5-year class is described as “residential rental real property, <em>including commercial and industrial buildings</em>”, and the 31.5-year class also lists commercial and industrial buildings. The notes do not resolve this; check with the professor before relying on it.</p></div>
+</div></details>
+
+<details class="acc" open><summary><span class="acc-n">05</span><span class="acc-t"><small>Exemple</small>Norma Desmond Enterprises</span></summary><div class="acc-in">
+<div class="callout example"><p class="callout-t">Exemple du cours — data</p>
+<ol><li>Machine costs <strong>$21,000</strong>, depreciated over <strong>7 years straight-line</strong>. After 3 years, resale value expected <strong>$15,000</strong>.</li>
+<li>Additional sales: 10,000 units/year at $5/unit.</li>
+<li>Variable cost $3/unit; fixed costs $5,000/year; project life 3 years.</li>
+<li>Investment in net working capital: $10,000.</li>
+<li>Required return (cost of capital) <strong>20%</strong>; tax rate <strong>34%</strong>.</li></ol></div>
+<div class="callout method"><p class="callout-t">Step 1 — Projected income statement</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Tableau défilable"><table><thead><tr><th>Line</th><th>Amount</th></tr></thead><tbody>
+<tr><td>Sales (10,000 × 5)</td><td>$50,000</td></tr><tr><td>Variable costs (10,000 × 3)</td><td>30,000</td></tr><tr><td>(= $20,000)</td><td></td></tr>
+<tr><td>Fixed costs</td><td>5,000</td></tr><tr><td>Depreciation (21,000 / 7)</td><td>3,000</td></tr>
+<tr><td><strong>EBIT</strong></td><td><strong>$12,000</strong></td></tr><tr><td>Taxes (34%)</td><td>4,080</td></tr><tr><td>Net income</td><td>$7,920</td></tr></tbody></table></div></div>
+<div class="callout method"><p class="callout-t">Step 2 — OCF (after tax)</p>
+<p>OCF = EBIT 12,000 + Depreciation 3,000 − Taxes 4,080 = <strong>$10,920</strong>.</p></div>
+<div class="callout method"><p class="callout-t">Step 3 — Projected cash flows</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Tableau défilable"><table><thead><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th></tr></thead><tbody>
+<tr><td>Initial outlay</td><td>−21,000</td><td>—</td><td>—</td><td>—</td></tr>
+<tr><td>Salvage value</td><td>—</td><td>—</td><td>—</td><td>15,000</td></tr>
+<tr><td>Tax on sale of equipment</td><td>—</td><td>—</td><td>—</td><td>−1,020</td></tr>
+<tr><td>OCF</td><td>—</td><td>10,920</td><td>10,920</td><td>10,920</td></tr>
+<tr><td>Change in NWC</td><td>−10,000</td><td></td><td></td><td>+10,000</td></tr>
+<tr><td><strong>Total</strong></td><td><strong>−31,000</strong></td><td><strong>10,920</strong></td><td><strong>10,920</strong></td><td><strong>34,900</strong></td></tr></tbody></table></div>
+<p>Tax on sale (shown in the course: −1,020): the machine is sold above book value (book value after 3 years = 21,000 − 3 × 3,000 = 12,000), so tax = (15,000 − 12,000) × 34% = 1,020.</p></div>
+<div class="callout formula"><p class="callout-t">Step 4 — Evaluation</p>
+<p>\[ NPV = -31{,}000 + \frac{10{,}920}{1.20} + \frac{10{,}920}{1.20^2} + \frac{34{,}900}{1.20^3} = 5{,}880 \]</p>
+<p><strong>IRR = 29.5%</strong> &gt; 20% → NPV &gt; 0 and IRR &gt; required return → <strong>the firm should invest</strong> (decision derived from the course rules; the notes leave the “Why or why not?” question open).</p></div>
+<div class="callout gap"><p class="callout-t">Information absente</p><p>The “Application: DogUp / Frank business” exercise is an embedded spreadsheet whose data are not in the notes — it is not reproduced here.</p></div>
+</div></details>
+
+</section>
+
+<section data-tab="retenir" class="panel" id="tab-retenir" role="tabpanel">
+<h2 id="fiche-express">Fiche express</h2>
+<div class="callout formula"><p class="callout-t">Formules</p>
+<p>OCF = EBIT − Taxes + Depreciation</p>
+<p>FCF = OCF − Capex − ΔNWC</p>
+<p>Sale above book value: tax = (price − book value) × t ; CF = price − tax</p>
+<p>Sale below book value: tax concession = (book value − price) × t ; CF = price + concession</p></div>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Tableau défilable"><table><thead><tr><th>Include</th><th>Exclude</th></tr></thead><tbody>
+<tr><td>Incremental after-tax CFs · opportunity costs · side effects · NWC (and its recovery) · depreciation add-back · salvage (after tax)</td><td>Sunk costs · interest &amp; debt principal · dividends · accounting profit as such</td></tr></tbody></table></div>
+
+<h2 id="ce-que-je-dois-absolument-savoir">Ce que je dois absolument savoir</h2>
+<ol class="must">
+<li>Les trois catégories du cash flow statement (CFO, CFI, CFF) et ce que chacune contient.</li>
+<li>Différence direct vs indirect method (et la formule du CFO indirect).</li>
+<li>Formules OCF et FCF, avec la signification de chaque terme.</li>
+<li>Définir relevant / incremental cash flows et le stand-alone principle.</li>
+<li>Savoir quoi inclure (opportunity costs, side effects, NWC) et exclure (sunk costs, financing costs).</li>
+<li>Construire les cash flows : initial outlay, intermediate CFs, terminal CF.</li>
+<li>Traiter la vente d’un actif : prix vs book value → taxe ou tax concession.</li>
+<li>Straight line vs MACRS ; le terrain ne se déprécie pas.</li>
+<li>Refaire l’exemple Norma Desmond : OCF 10,920 ; total −31,000 / 10,920 / 10,920 / 34,900 ; NPV 5,880 ; IRR 29.5%.</li>
+</ol>
+
+<h2 id="teste-toi">Teste-toi</h2>
+<ul>
+<li>Why is interest expense not included in a project’s cash flows?</li>
+<li>Why is the NWC investment added back at the end of the project?</li>
+<li>Where does the −1,020 come from in year 3 of the Norma Desmond example?</li>
+<li>What is the difference between OCF and FCF?</li>
+</ul>
+</section>
+
+<section data-tab="flashcards" class="panel" id="tab-flashcards" role="tabpanel">
+<div class="flashcards">
+<div class="fc"><div class="fc-q">Operating cash flow (OCF)</div><div class="fc-a">EBIT − Taxes + Depreciation.</div></div>
+<div class="fc"><div class="fc-q">Free cash flow (FCF)</div><div class="fc-a">OCF − Capex − change in net working capital (= cash flow from assets).</div></div>
+<div class="fc"><div class="fc-q">Three buckets of the cash flow statement</div><div class="fc-a">Operating (CFO), Investing (CFI), Financing (CFF).</div></div>
+<div class="fc"><div class="fc-q">Direct vs indirect method</div><div class="fc-a">Direct: actual receipts and payments. Indirect: start from net income and adjust for non-cash items.</div></div>
+<div class="fc"><div class="fc-q">Relevant cash flows</div><div class="fc-a">Incremental cash flows that are a direct consequence of taking the project.</div></div>
+<div class="fc"><div class="fc-q">Stand-alone principle</div><div class="fc-a">Evaluate a project on its incremental cash flows, as a “mini-firm”.</div></div>
+<div class="fc"><div class="fc-q">Sunk cost: include?</div><div class="fc-a">No — past and irreversible, unaffected by the decision.</div></div>
+<div class="fc"><div class="fc-q">Opportunity cost: include?</div><div class="fc-a">Yes.</div></div>
+<div class="fc"><div class="fc-q">Financing costs in project CFs?</div><div class="fc-a">No — the discount rate takes care of them.</div></div>
+<div class="fc"><div class="fc-q">Net working capital in a project</div><div class="fc-a">Invested at the start (cash, inventories, receivables), often recovered at the end.</div></div>
+<div class="fc"><div class="fc-q">Sale above book value</div><div class="fc-a">Tax = (price − book value) × tax rate; CF = price − tax.</div></div>
+<div class="fc"><div class="fc-q">Sale below book value</div><div class="fc-a">Tax concession = (book value − price) × tax rate; CF = price + concession.</div></div>
+<div class="fc"><div class="fc-q">Straight-line vs MACRS</div><div class="fc-a">Fixed percentage of the asset base vs front-loaded charges (1986 Tax Reform Act).</div></div>
+<div class="fc"><div class="fc-q">Can land be depreciated?</div><div class="fc-a">No.</div></div>
+</div>
+</section>
+
+<section data-tab="quiz" class="panel" id="tab-quiz" role="tabpanel">
+<div class="quiz" data-quiz-id="ocf-1"><script type="application/json">{"questions":[
+{"q":"Which formula gives the project operating cash flow in the course?","options":["Net income − Depreciation","EBIT − Taxes + Depreciation","EBIT + Taxes − Depreciation","Sales − Capex"],"answer":1,"explain":"OCF = EBIT − Taxes + Depreciation."},
+{"q":"Which item must NOT be included in the incremental cash flows of a project?","options":["An opportunity cost","A sunk cost","A change in net working capital","A side effect on other products"],"answer":1,"explain":"Sunk costs are past and irreversible; the decision cannot affect them."},
+{"q":"Why are interest and debt principal excluded from project cash flows?","options":["They are not cash","They are sunk costs","The discount rate already accounts for financing costs","They are taxed twice"],"answer":2,"explain":"The discount rate takes care of the financing costs."},
+{"q":"Norma Desmond: sales 50,000, variable costs 30,000, fixed 5,000, depreciation 3,000, tax 34%. OCF is:","options":["12,000","7,920","10,920","15,000"],"answer":2,"explain":"EBIT 12,000 + depreciation 3,000 − taxes 4,080 = 10,920."},
+{"q":"The machine (book value 12,000 after 3 years) is sold for 15,000 with a 34% tax rate. The tax on the sale is:","options":["1,020","4,080","5,100","0"],"answer":0,"explain":"(15,000 − 12,000) × 34% = 1,020, which reduces the cash received."},
+{"q":"The $10,000 net working capital investment in the Norma Desmond example is:","options":["lost at the end","recovered in year 3","depreciated over 7 years","ignored"],"answer":1,"explain":"NWC is invested at t=0 (−10,000) and recaptured at the end of the project (+10,000)."},
+{"q":"In the indirect method, depreciation is:","options":["subtracted from net income","added back to net income","ignored","a financing flow"],"answer":1,"explain":"It is non-cash, so it is added back to net income."},
+{"q":"Which statement on depreciation is in the course?","options":["Land can be depreciated over 31.5 years","MACRS allows front-loaded charges","Straight line front-loads the charges","Depreciation is a cash outflow"],"answer":1,"explain":"The 1986 Tax Reform Act’s MACRS lets firms front-load depreciation; land cannot be depreciated."}
+]}</script></div>
+</section>
+
+  </div>
+  <section class="related"><h2>Exercices associés</h2><div class="list"><a class="row" href="../../../subjects/corporate-financial-decisions/03-ocf-capital-budgeting-exercices/"><span class="thumb"><img src="../../../assets/images/subjects/corporate-financial-decisions.jpg" alt="" loading="lazy" decoding="async"></span>
+  <span class="row-b"><span class="meta">Corporate Financial Decisions · Sessions 2–3</span><strong>OCFs &amp; Capital Budgeting — Exercises</strong></span>
+  <i class="circle dark sm"><svg class="ic " aria-hidden="true" focusable="false"><use href="#i-arrow-r"/></svg></i></a></div></section>
+  <nav class="pn" aria-label="Fiches précédente et suivante"><a class="pn-prev" href="../../../subjects/corporate-financial-decisions/02-investment-criteria/"><i class="circle"><svg class="ic " aria-hidden="true" focusable="false"><use href="#i-back"/></svg></i><span><small>Précédente</small>Investment Criteria (NPV, IRR, PI, Payback)</span></a><span></span></nav>
+  <footer class="provenance"><p><strong>Sources du cours :</strong> OCFs and Capital Budgeting (CDV) (1).pdf</p><p>Créée le 8 octobre 2026</p></footer>
+</article>
+<div class="cta-bar"><button type="button" class="cta" data-reviewed aria-pressed="false"><svg class="ic " aria-hidden="true" focusable="false"><use href="#i-check"/></svg><span>Marquer comme révisée</span></button></div>
+</main>
+<nav class="dock" aria-label="Navigation principale"><a class="dk" href="../../../"><i><svg class="ic " aria-hidden="true" focusable="false"><use href="#i-home"/></svg></i><span class="dk-l">Accueil</span></a><a class="dk is-active" href="../../../subjects/" aria-current="page"><i><svg class="ic " aria-hidden="true" focusable="false"><use href="#i-list"/></svg></i><span class="dk-l">Cours</span></a><a class="dk" href="../../../progress/"><i><svg class="ic " aria-hidden="true" focusable="false"><use href="#i-dots"/></svg></i><span class="dk-l">Révisions</span></a><a class="dk" href="../../../favorites/"><i><svg class="ic " aria-hidden="true" focusable="false"><use href="#i-heart"/></svg></i><span class="dk-l">Favoris</span></a></nav>
+<script src="../../../assets/vendor/katex/katex.min.js" defer></script><script src="../../../assets/vendor/katex/auto-render.min.js" defer></script>
+<script src="../../../assets/js/app.js?v=3" defer></script>
+</body>
+</html>
