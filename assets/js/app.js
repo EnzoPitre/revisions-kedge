@@ -13,7 +13,7 @@
 
   // ---------- Stockage ----------
   const KEY = 'kr:v1';
-  const blank = () => ({ viewed: {}, reviewed: {}, mastered: {}, quiz: {}, fav: {} });
+  const blank = () => ({ viewed: {}, reviewed: {}, mastered: {}, quiz: {}, fav: {}, fc: {} });
   const store = {
     get() { try { return Object.assign(blank(), JSON.parse(localStorage.getItem(KEY)) || {}); } catch { return blank(); } },
     set(fn) { const s = store.get(); fn(s); try { localStorage.setItem(KEY, JSON.stringify(s)); } catch { /* stockage indisponible */ } return s; },
@@ -224,12 +224,15 @@
     let data; try { data = JSON.parse($('script', el).textContent); } catch { return; }
     const key = `${pageId}#${el.dataset.quizId}`;
     const L = 'ABCDEFGH';
-    let answered, right;
-    const render = () => {
-      answered = 0; right = 0;
+    let answered, right, total;
+    let wrong = [];
+    const render = (idx) => {
+      answered = 0; right = 0; wrong = [];
+      const qs = idx ? idx.map((k) => ({ q: data.questions[k], k })) : data.questions.map((q, k) => ({ q, k }));
+      total = qs.length;
       const last = store.get().quiz[key];
-      el.innerHTML = (last ? `<p class="quiz-last">Dernier résultat : ${last.score}/${last.total}</p>` : '') + data.questions.map((q, i) => `
-        <fieldset class="q" data-i="${i}"><legend><span class="q-n">Question ${i + 1}/${data.questions.length}</span><br>${q.q}</legend>
+      el.innerHTML = (last ? `<p class="quiz-last">Dernier résultat : ${last.score}/${last.total}</p>` : '') + qs.map(({ q, k }, i) => `
+        <fieldset class="q" data-i="${k}"><legend><span class="q-n">Question ${i + 1}/${qs.length}</span><br>${q.q}</legend>
         <div class="opts">${q.options.map((o, j) => `<button type="button" class="opt" data-j="${j}"><span class="opt-l">${L[j]}</span><span>${o}</span></button>`).join('')}</div>
         <div class="explain" hidden>${q.explain || ''}</div></fieldset>`).join('') + '<div class="quiz-res" hidden role="status"></div>';
       if (window.renderMathInElement) mathify(el);
@@ -238,17 +241,18 @@
       const b = e.target.closest('.opt'); if (b) {
         const fs = b.closest('.q'); const q = data.questions[+fs.dataset.i]; const j = +b.dataset.j;
         $$('.opt', fs).forEach((o, k) => { o.disabled = true; if (k === q.answer) o.classList.add('is-right'); });
-        if (j !== q.answer) b.classList.add('is-wrong'); else right++;
+        if (j !== q.answer) { b.classList.add('is-wrong'); wrong.push(+fs.dataset.i); } else right++;
         if (q.explain) $('.explain', fs).hidden = false;
         answered++;
-        if (answered === data.questions.length) {
-          store.set((s) => { s.quiz[key] = { score: right, total: data.questions.length, ts: Date.now() }; });
+        if (answered === total) {
+          if (total === data.questions.length) store.set((s) => { s.quiz[key] = { score: right, total, ts: Date.now() }; });
           const res = $('.quiz-res', el); res.hidden = false;
-          res.innerHTML = `<strong>${right}/${data.questions.length}</strong>${right === data.questions.length ? 'Sans faute.' : right / data.questions.length >= 0.7 ? 'Bon résultat — relis les points manqués.' : 'À retravailler : relis la fiche puis recommence.'}<br><button type="button" class="btn" data-restart>${icon('refresh')}<span>Recommencer</span></button>`;
+          res.innerHTML = `<strong>${right}/${total}</strong>${right === total ? 'Sans faute.' : right / total >= 0.7 ? 'Bon résultat — relis les points manqués.' : 'À retravailler : relis la fiche puis recommence.'}<br><button type="button" class="btn" data-restart>${icon('refresh')}<span>Recommencer</span></button>${wrong.length ? ` <button type="button" class="btn" data-redo>${icon('check')}<span>Refaire mes erreurs (${wrong.length})</span></button>` : ''}`;
           res.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
         }
         return;
       }
+      if (e.target.closest('[data-redo]')) { render(wrong.slice()); el.scrollIntoView({ block: 'start' }); return; }
       if (e.target.closest('[data-restart]')) { render(); el.scrollIntoView({ block: 'start' }); }
     });
     render();
@@ -256,17 +260,68 @@
 
   // ---------- Flashcards ----------
   // <div class="flashcards"><div class="fc"><div class="fc-q">Question</div><div class="fc-a">Réponse</div></div>…</div>
-  $$('.flashcards').forEach((el) => {
-    const cards = $$('.fc', el).map((c) => ({ q: $('.fc-q', c).innerHTML, a: $('.fc-a', c).innerHTML }));
+  // Clavier : espace/entrée = retourner, ← → = naviguer. Suivi « Je sais / À revoir » mémorisé sur l'appareil.
+  $$('.flashcards').forEach((el, deckN) => {
+    const cards = $$('.fc', el).map((c, n) => ({ n, q: $('.fc-q', c).innerHTML, a: $('.fc-a', c).innerHTML }));
     if (!cards.length) return;
-    let i = 0;
-    el.classList.add('deck'); el.innerHTML = `<button type="button" class="fcard" aria-pressed="false" aria-live="polite"><span class="fcard-in"><span class="fcard-f"><small>Question</small><span data-q></span></span><span class="fcard-b"><small>Réponse</small><span data-a></span></span></span></button>
-      <div class="deck-nav"><button type="button" class="circle" data-prev aria-label="Carte précédente">${icon('back')}</button><span data-n></span><button type="button" class="circle dark" data-next aria-label="Carte suivante">${icon('arrow-r')}</button></div>`;
-    const fc = $('.fcard', el);
-    const show = () => { fc.setAttribute('aria-pressed', 'false'); $('[data-q]', el).innerHTML = cards[i].q; $('[data-a]', el).innerHTML = cards[i].a; $('[data-n]', el).textContent = `${i + 1} / ${cards.length}`; if (window.renderMathInElement) mathify(el); };
-    fc.addEventListener('click', () => fc.setAttribute('aria-pressed', fc.getAttribute('aria-pressed') !== 'true'));
-    $('[data-prev]', el).addEventListener('click', () => { i = (i - 1 + cards.length) % cards.length; show(); });
-    $('[data-next]', el).addEventListener('click', () => { i = (i + 1) % cards.length; show(); });
+    const fkey = (c) => `${pageId}#${deckN}.${c.n}`;
+    let order = cards.slice(), i = 0, onlyReview = false;
+    el.classList.add('deck');
+    el.innerHTML = `<div class="deck-top"><span class="deck-stat" data-stat></span><div class="deck-tools">
+      <button type="button" class="chip-btn" data-shuffle>${icon('refresh')}<span>Mélanger</span></button>
+      <button type="button" class="chip-btn" data-filter aria-pressed="false"><span>À revoir</span></button></div></div>
+      <div class="deck-bar" aria-hidden="true"><i data-bar></i></div>
+      <button type="button" class="fcard" aria-pressed="false" aria-live="polite"><span class="fcard-in"><span class="fcard-f"><small>Question</small><span data-q></span></span><span class="fcard-b"><small>Réponse</small><span data-a></span></span></span></button>
+      <div class="deck-grade" data-grade hidden><button type="button" class="grade grade-no" data-mark="0">À revoir</button><button type="button" class="grade grade-ok" data-mark="1">Je sais</button></div>
+      <div class="deck-nav"><button type="button" class="circle" data-prev aria-label="Carte précédente">${icon('back')}</button><span data-n></span><button type="button" class="circle dark" data-next aria-label="Carte suivante">${icon('arrow-r')}</button></div>
+      <p class="deck-empty" data-empty hidden>Rien à revoir ici : toutes les cartes sont marquées « Je sais ».</p>`;
+    const fc = $('.fcard', el), grade = $('[data-grade]', el);
+    const marks = () => (store.get().fc || {});
+    const stat = () => {
+      const m = marks(); const known = cards.filter((c) => m[fkey(c)] === 1).length;
+      $('[data-stat]', el).textContent = `${known}/${cards.length} maîtrisées`;
+      $('[data-bar]', el).style.width = `${(known / cards.length) * 100}%`;
+    };
+    const build = () => {
+      const m = marks();
+      order = onlyReview ? cards.filter((c) => m[fkey(c)] !== 1) : order.length === cards.length ? order : cards.slice();
+      if (i >= order.length) i = 0;
+    };
+    const show = () => {
+      fc.setAttribute('aria-pressed', 'false'); grade.hidden = true;
+      const none = !order.length; $('[data-empty]', el).hidden = !none; fc.hidden = none; $('.deck-nav', el).hidden = none;
+      if (!none) {
+        $('[data-q]', el).innerHTML = order[i].q; $('[data-a]', el).innerHTML = order[i].a;
+        $('[data-n]', el).textContent = `${i + 1} / ${order.length}`;
+        if (window.renderMathInElement) mathify(fc);
+      }
+      stat();
+    };
+    const flip = () => { const on = fc.getAttribute('aria-pressed') !== 'true'; fc.setAttribute('aria-pressed', on); grade.hidden = !on; };
+    const go = (d) => { if (!order.length) return; i = (i + d + order.length) % order.length; show(); };
+    fc.addEventListener('click', flip);
+    $('[data-prev]', el).addEventListener('click', () => go(-1));
+    $('[data-next]', el).addEventListener('click', () => go(1));
+    $('[data-shuffle]', el).addEventListener('click', () => {
+      order = cards.slice(); for (let k = order.length - 1; k > 0; k--) { const r = Math.floor(Math.random() * (k + 1)); [order[k], order[r]] = [order[r], order[k]]; }
+      onlyReview = false; $('[data-filter]', el).setAttribute('aria-pressed', 'false'); i = 0; show();
+    });
+    $('[data-filter]', el).addEventListener('click', (e) => {
+      onlyReview = !onlyReview; e.currentTarget.setAttribute('aria-pressed', onlyReview); i = 0; build(); show();
+    });
+    grade.addEventListener('click', (e) => {
+      const b = e.target.closest('[data-mark]'); if (!b) return;
+      const c = order[i];
+      store.set((s) => { s.fc = s.fc || {}; s.fc[fkey(c)] = +b.dataset.mark; });
+      if (onlyReview && +b.dataset.mark === 1) { build(); if (i >= order.length) i = 0; show(); } else go(1);
+    });
+    el.tabIndex = 0;
+    el.addEventListener('keydown', (e) => {
+      if (e.target.closest('.chip-btn,.grade')) return;
+      if (e.key === 'ArrowRight') { e.preventDefault(); go(1); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+      else if (e.key === ' ' || e.key === 'Enter') { if (e.target === el) { e.preventDefault(); flip(); } }
+    });
     show();
   });
 
