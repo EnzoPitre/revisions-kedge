@@ -277,4 +277,21 @@
     const go = () => mathify($('[data-article]') || body);
     window.addEventListener('load', () => (window.renderMathInElement ? go() : setTimeout(go, 200)));
   }
+
+  // ---------- Barre de progression de lecture (fiches) ----------
+  const art = $('[data-article]');
+  if (art) {
+    const bar = document.createElement('div');
+    bar.className = 'read-progress'; bar.setAttribute('aria-hidden', 'true');
+    bar.innerHTML = '<i></i>'; body.appendChild(bar);
+    const fill = bar.firstChild; let tick = false;
+    const upd = () => {
+      tick = false;
+      const r = art.getBoundingClientRect(), h = r.height - window.innerHeight * .6;
+      const p = h > 0 ? Math.min(1, Math.max(0, -r.top / h)) : 0;
+      fill.style.transform = 'scaleX(' + p.toFixed(3) + ')';
+    };
+    const req = () => { if (!tick) { tick = true; requestAnimationFrame(upd); } };
+    window.addEventListener('scroll', req, { passive: true }); window.addEventListener('resize', req); upd();
+  }
 })();

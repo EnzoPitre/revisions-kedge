@@ -3,7 +3,7 @@
 
 /* ---------- 1. Tokens ---------- */
 :root {
-  --background: #f7f8f8;
+  --background: #eceff0;
   --surface: #ffffff;
   --surface-secondary: #f3f4f4;
   --surface-tertiary: #eceeee;
@@ -461,3 +461,28 @@ details.correction > .corr p { margin: 0; }
   details.correction > .corr { padding: 22px 20px; }
   .prose th, .prose td { padding: 14px 16px; }
 }
+
+/* ---------- 13. Profondeur & détails (fond moins blanc, sobre) ---------- */
+body {
+  background:
+    radial-gradient(70% 38% at 100% 0%, rgba(124, 142, 150, .20), transparent 70%),
+    radial-gradient(60% 34% at 0% 18%, rgba(150, 160, 150, .14), transparent 70%),
+    linear-gradient(180deg, #e9edee 0%, #eef0f1 45%, #e8ebec 100%);
+  background-repeat: no-repeat; background-attachment: scroll;
+  min-height: 100vh;
+}
+.sheet { background: linear-gradient(180deg, #ffffff 0%, #fafbfb 100%); }
+.doc { background: linear-gradient(180deg, #ffffff, #fbfbfc); box-shadow: var(--shadow-soft), inset 0 1px 0 rgba(255, 255, 255, .9); }
+.acc-n { background: linear-gradient(145deg, #3a4144 0%, var(--accent-dark) 70%); box-shadow: 0 8px 16px -8px rgba(20, 24, 26, .55); }
+.acc[open] { background: linear-gradient(180deg, #f1f3f3, #eceeef); }
+.acc > summary:hover .acc-t { transform: translateX(2px); }
+.acc-t { transition: transform .25s var(--ease); }
+.callout { border: 1px solid rgba(20, 24, 26, .05); }
+.callout.retenir { background: linear-gradient(135deg, #ffffff 0%, #f1f4f5 100%); }
+.callout.example { border-left: 4px solid #aeb7bb; background: #f5f7f7; }
+.callout.warning { border-left: 4px solid var(--accent-dark); }
+.callout.method { border-left: 4px solid #c7cfd2; }
+.callout-t::before { box-shadow: 0 6px 12px -6px rgba(20, 24, 26, .5); }
+.tabs .tab.is-on { box-shadow: 0 10px 20px -10px rgba(20, 24, 26, .6); }
+.read-progress { position: fixed; z-index: 60; left: 0; right: 0; top: 0; height: 3px; background: rgba(20, 24, 26, .06); pointer-events: none; }
+.read-progress i { display: block; height: 100%; background: linear-gradient(90deg, #6b7a80, var(--accent-dark)); transform: scaleX(0); transform-origin: 0 50%; border-radius: 0 3px 3px 0; }
