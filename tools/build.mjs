@@ -101,6 +101,10 @@ for (const p of pages) {
   if (p.for && !pages.find((q) => q.subject === p.subject && q.slug === p.for)) console.warn(`! ${p.id}: "for: ${p.for}" introuvable`);
 }
 
+// Questions de QCM extraites des fiches (mode examen)
+const quizOf = (p) => { const out = []; for (const m of p.html.matchAll(/<script type="application\/json">([\s\S]*?)<\/script>/g)) { try { out.push(...(JSON.parse(m[1]).questions || [])); } catch { console.warn(`! QCM illisible : ${p.id}`); } } return out; };
+const quizCount = (sl) => pagesOf(sl).reduce((n, p) => n + quizOf(p).length, 0);
+
 // ---------- gabarits ----------
 const I = (n, c = '') => `<svg class="ic ${c}" aria-hidden="true" focusable="false"><use href="#i-${n}"/></svg>`;
 const SPRITE = `<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
@@ -146,7 +150,8 @@ function layout({ title, desc, base, active, body, math = false, pageId = '', og
 <title>${esc(full)}</title>
 <meta name="description" content="${esc(desc || CFG.description)}">
 <meta name="theme-color" content="#ffffff">
-<meta name="color-scheme" content="light">
+<meta name="color-scheme" content="light dark">
+<script>try{var p=JSON.parse(localStorage.getItem('kr:prefs')||'{}'),d=document.documentElement,t=p.theme||'auto';if(t==='auto')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';d.dataset.theme=t;if(p.fs)d.dataset.fs=p.fs}catch(e){}</script>
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="${esc(CFG.name)}">
 <meta property="og:title" content="${esc(full)}">
@@ -174,6 +179,7 @@ ${body}
 <nav class="dock" aria-label="Navigation principale">${nav.map(link).join('')}</nav>
 ${math ? `<script src="${base}assets/vendor/katex/katex.min.js" defer></script><script src="${base}assets/vendor/katex/auto-render.min.js" defer></script>` : ''}
 <script src="${base}assets/js/app.js?v=${CFG.assetVersion}" defer></script>
+<script src="${base}assets/js/extras.js?v=${CFG.assetVersion}" defer></script>
 </body>
 </html>
 `;
@@ -242,10 +248,18 @@ for (const d of ['subjects', 'exercises', 'search', 'progress', 'favorites']) fs
 
 <section class="block" data-continue hidden aria-labelledby="h-cont"><h2 id="h-cont">Continuer à réviser</h2><div data-continue-card></div></section>
 
+<section class="block" data-due hidden aria-labelledby="h-due"><div class="block-head"><h2 id="h-due">À revoir aujourd’hui</h2><span class="streak" data-streak hidden></span></div><div class="list" data-due-list></div></section>
+
 <section class="block" aria-labelledby="h-subjects"><div class="block-head"><h2 id="h-subjects">Mes matières</h2></div>
   ${subjects.length ? `<div class="pills" role="group" aria-label="Filtrer par matière"><button type="button" class="pill is-on" data-filter="all" aria-pressed="true">Toutes</button>${subjects.map((s) => `<button type="button" class="pill" data-filter="${s.slug}" aria-pressed="false">${esc(s.title)}</button>`).join('')}</div>
   <div class="hscroll hscroll-big" data-subject-list>${subjects.map((s) => subjectCard(s, base)).join('')}</div>` : EMPTY()}
 </section>
+
+${subjects.length ? `<section class="block" data-exams aria-labelledby="h-ex"><div class="block-head"><h2 id="h-ex">Mes contrôles</h2><button type="button" class="pill" data-exam-add>+ Ajouter</button></div>
+  <div class="exam-list" data-exam-list></div>
+  <form class="exam-form" data-exam-form hidden><label>Matière<select required>${subjects.map((x) => `<option value="${x.slug}">${esc(x.title)}</option>`).join('')}</select></label>
+    <label>Date<input type="date" required></label><label>Intitulé (facultatif)<input type="text" maxlength="60" placeholder="Ex. : Partiel de décembre"></label>
+    <button type="submit" class="cta"><span>Enregistrer</span></button></form></section>` : ''}
 
 <section class="block" data-todo hidden aria-labelledby="h-todo"><div class="block-head"><h2 id="h-todo">À réviser</h2><a class="more" href="${base}progress/">Tout voir</a></div><div class="list" data-todo-list></div></section>
 ${recent.length ? `<section class="block" aria-labelledby="h-new"><h2 id="h-new">Récemment ajouté</h2><div class="hscroll">${recent.map((p) => mini(p, base)).join('')}</div></section>` : ''}`;
@@ -281,6 +295,7 @@ for (const s of subjects) {
   <h1>${esc(s.title)}</h1>
   <p class="meta">${plural(fs_.length, 'fiche', 'fiches')}${exos.length ? ` · ${plural(exos.length, 'exercice', 'exercices')}` : ''}</p>
   ${s.description ? `<p class="lead">${esc(s.description)}</p>` : ''}
+  ${quizCount(s.slug) ? `<div class="sheet-actions"><button type="button" class="pill" data-exam-start="${s.slug}">${I('clock')}<span>Mode examen · ${quizCount(s.slug)} questions</span></button></div>` : ''}
   <div class="progress-line" data-subject-progress="${s.slug}" data-ids="${fs_.map((p) => p.id).join(',')}" hidden><div class="bar"><i></i></div><span></span></div>
   ${groups.length ? groups.map((g) => `<section class="block chapter" data-chapter="${g.id}"><div class="block-head"><h2>${esc(g.name)}</h2><button type="button" class="pill pill-check" data-master="${g.id}" aria-pressed="false">${I('check')}<span>Maîtrisé</span></button></div>
     <div class="hscroll hscroll-t">${g.items.map((p) => tCard(p, base)).join('')}${exos.filter((e) => e.for && g.items.some((p) => p.slug === e.for)).map((e) => tCard(e, base)).join('')}</div></section>`).join('') : WELCOME('Pas encore de fiche', 'Cette matière n’a pas encore de fiche.')}
@@ -356,6 +371,11 @@ write('progress/index.html', layout({
   <section class="block" data-done-all hidden><h2>Fiches révisées</h2><div class="list" data-done-list></div></section>
   <section class="block" data-mastered-all hidden><h2>Chapitres maîtrisés</h2><div class="list" data-mastered-list></div></section>
   <div data-progress-empty class="block">${WELCOME('Rien à suivre pour l’instant', 'Ouvre une fiche : elle apparaîtra ici. Tu pourras la marquer comme révisée et suivre tes résultats de QCM.')}</div>
+  <section class="block settings" aria-labelledby="h-set"><h2 id="h-set">Réglages</h2>
+    <div class="set-row"><span>Thème</span><div class="seg" role="group" aria-label="Thème"><button type="button" data-set-theme="auto" aria-pressed="true">Auto</button><button type="button" data-set-theme="light" aria-pressed="false">Clair</button><button type="button" data-set-theme="dark" aria-pressed="false">Sombre</button></div></div>
+    <div class="set-row"><span>Taille du texte</span><div class="seg" role="group" aria-label="Taille du texte"><button type="button" data-set-fs="s" aria-pressed="false">A−</button><button type="button" data-set-fs="m" aria-pressed="true">A</button><button type="button" data-set-fs="l" aria-pressed="false">A+</button></div></div>
+    <div class="set-row"><span>Sauvegarde du suivi</span><div class="seg seg-wide"><button type="button" data-export>Exporter</button><label class="seg-file">Importer<input type="file" accept="application/json" data-import hidden></label></div></div>
+    <p class="meta" data-import-msg role="status">Exporte ton suivi pour le retrouver sur un autre appareil (téléphone, ordinateur).</p></section>
   <p class="reset"><button type="button" class="cta-soft light" data-reset><span>Réinitialiser mon suivi</span></button></p>
 </div>`,
 }));
@@ -379,6 +399,7 @@ write('favorites/index.html', layout({
 const meta = pages.map((p) => ({ id: p.id, url: p.url, title: p.title, subject: p.subject, subjectTitle: subjectOf(p.subject).title, hue: subjectOf(p.subject).hue, cover: coverOf(p), chapter: p.chapter, kind: p.kind, summary: p.summary, keywords: p.keywords, updated: p.updated, order: p.order, minutes: p.minutes }));
 const subjMeta = subjects.map((s) => ({ slug: s.slug, title: s.title, cover: s.cover || '', coverAlt: s.coverAlt || '', hue: s.hue, count: fiches(s.slug).length }));
 write('assets/data/library.json', JSON.stringify({ subjects: subjMeta, pages: meta }));
+write('assets/data/quiz.json', JSON.stringify(Object.fromEntries(pages.map((p) => [p.id, { t: p.title, s: p.subject, u: p.url, q: quizOf(p) }]).filter(([, v]) => v.q.length))));
 write('assets/data/search.json', JSON.stringify(Object.fromEntries(pages.map((p) => [p.id, p.text.slice(0, 8000)]))));
 
 console.log(`✓ ${subjects.length} matière(s), ${pages.length} page(s) — ${written.length} fichiers écrits dans ${OUT}`);

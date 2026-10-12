@@ -13,11 +13,32 @@
 
   // ---------- Stockage ----------
   const KEY = 'kr:v1';
-  const blank = () => ({ viewed: {}, reviewed: {}, mastered: {}, quiz: {}, fav: {}, fc: {} });
+  const blank = () => ({ viewed: {}, reviewed: {}, mastered: {}, quiz: {}, fav: {}, fc: {}, fcs: {} });
   const store = {
     get() { try { return Object.assign(blank(), JSON.parse(localStorage.getItem(KEY)) || {}); } catch { return blank(); } },
     set(fn) { const s = store.get(); fn(s); try { localStorage.setItem(KEY, JSON.stringify(s)); } catch { /* stockage indisponible */ } return s; },
     clear() { try { localStorage.removeItem(KEY); } catch { /* noop */ } },
+  };
+
+  // Jours d'activité (série) + surlignage de mots (utilisé par la recherche et les fiches)
+  const touchDay = () => { try { const d = new Date(), k = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; const days = JSON.parse(localStorage.getItem('kr:days') || '{}'); if (!days[k]) { days[k] = 1; localStorage.setItem('kr:days', JSON.stringify(days)); } } catch { /* noop */ } };
+  window.__krMark = (root, toks, getNodes) => {
+    if (!toks.length) return 0;
+    const nodes = getNodes ? getNodes() : (() => { const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT); const a = []; while (w.nextNode()) a.push(w.currentNode); return a; })();
+    let total = 0;
+    for (const n of nodes) {
+      const nt = norm(n.data); if (nt.length !== n.data.length) continue;
+      const rs = [];
+      for (const t of toks) { let i = nt.indexOf(t); while (i >= 0) { rs.push([i, i + t.length]); i = nt.indexOf(t, i + t.length); } }
+      if (!rs.length) continue;
+      rs.sort((a, b) => a[0] - b[0]);
+      const merged = []; for (const r of rs) { const l = merged[merged.length - 1]; if (l && r[0] <= l[1]) l[1] = Math.max(l[1], r[1]); else merged.push(r.slice()); }
+      for (let k = merged.length - 1; k >= 0 && total < 60; k--) {
+        const r = document.createRange(); r.setStart(n, merged[k][0]); r.setEnd(n, merged[k][1]);
+        const m = document.createElement('mark'); m.className = 'hit'; r.surroundContents(m); total++;
+      }
+    }
+    return total;
   };
 
   // ---------- Données ----------
@@ -33,7 +54,7 @@
     <div class="scard-in"><p class="eyebrow">${esc(eyebrow)}</p><h3>${esc(title)}</h3><p class="meta">${esc(meta)}</p><a class="cta-soft stretch" href="${href}"><span>${esc(cta)}</span><i class="circle">${icon('arrow-r')}</i></a></div></article>`;
 
   // ---------- Consultation + PWA ----------
-  if (pageId) store.set((s) => { s.viewed[pageId] = Date.now(); });
+  if (pageId) { store.set((s) => { s.viewed[pageId] = Date.now(); }); touchDay(); }
   if ('serviceWorker' in navigator && location.protocol !== 'file:') navigator.serviceWorker.register(base + 'sw.js').catch(() => {});
 
   // ---------- Favoris (cœurs) ----------
@@ -73,15 +94,25 @@
   }
   $$('[data-search]').forEach((root) => {
     const input = $('input', root), out = $('[data-results]', root), limit = +root.dataset.limit || 8;
+    let subj = 'all';
+    if (root.hasAttribute('data-autofocus')) lib().then((l) => {
+      if (l.subjects.length < 2) return;
+      const bar = document.createElement('div'); bar.className = 'pills search-filter'; bar.setAttribute('role', 'group'); bar.setAttribute('aria-label', 'Filtrer par matière');
+      bar.innerHTML = [['all', 'Toutes'], ...l.subjects.map((x) => [x.slug, x.title])].map(([v, n], i) => `<button type="button" class="pill${i ? '' : ' is-on'}" data-sf="${esc(v)}" aria-pressed="${!i}">${esc(n)}</button>`).join('');
+      out.before(bar);
+      bar.addEventListener('click', (e) => { const b = e.target.closest('[data-sf]'); if (!b) return; subj = b.dataset.sf; $$('[data-sf]', bar).forEach((x) => { x.classList.toggle('is-on', x === b); x.setAttribute('aria-pressed', x === b); }); run(); });
+    });
     const run = async () => {
       const q = input.value.trim();
       if (!q) { out.innerHTML = ''; return; }
       const [l, t] = await Promise.all([lib(), texts()]);
       if (q !== input.value.trim()) return;
-      const res = search(q, l.pages, t);
+      const res = search(q, subj === 'all' ? l.pages : l.pages.filter((p) => p.subject === subj), t);
       out.innerHTML = res.length
         ? `<p class="res-count">${res.length} résultat${res.length > 1 ? 's' : ''}</p>` + res.slice(0, limit).map((r) => row(r.p, snippet(r.x, r.toks, r.p))).join('')
         : `<p class="res-empty">Aucun résultat pour « ${esc(q)} ».</p>`;
+      const toks = norm(q).split(/[^a-z0-9]+/).filter((x) => x.length > 1);
+      $$('.row', out).forEach((a) => { a.href += `?h=${encodeURIComponent(q)}`; $$('strong,.snip', a).forEach((el) => window.__krMark(el, toks)); });
     };
     let tm; input.addEventListener('input', () => { clearTimeout(tm); tm = setTimeout(run, 120); });
     const q0 = new URLSearchParams(location.search).get('q');
@@ -245,6 +276,7 @@
         if (q.explain) $('.explain', fs).hidden = false;
         answered++;
         if (answered === total) {
+          touchDay();
           if (total === data.questions.length) store.set((s) => { s.quiz[key] = { score: right, total, ts: Date.now() }; });
           const res = $('.quiz-res', el); res.hidden = false;
           res.innerHTML = `<strong>${right}/${total}</strong>${right === total ? 'Sans faute.' : right / total >= 0.7 ? 'Bon résultat — relis les points manqués.' : 'À retravailler : relis la fiche puis recommence.'}<br><button type="button" class="btn" data-restart>${icon('refresh')}<span>Recommencer</span></button>${wrong.length ? ` <button type="button" class="btn" data-redo>${icon('check')}<span>Refaire mes erreurs (${wrong.length})</span></button>` : ''}`;
@@ -312,7 +344,9 @@
     grade.addEventListener('click', (e) => {
       const b = e.target.closest('[data-mark]'); if (!b) return;
       const c = order[i];
-      store.set((s) => { s.fc = s.fc || {}; s.fc[fkey(c)] = +b.dataset.mark; });
+      const ok = +b.dataset.mark;
+      store.set((s) => { s.fc = s.fc || {}; s.fc[fkey(c)] = ok; s.fcs = s.fcs || {}; const o = s.fcs[fkey(c)] || { box: 0 }; const box = ok ? Math.min(o.box + 1, 5) : 0; s.fcs[fkey(c)] = { box, due: Date.now() + [0, 1, 3, 7, 14, 30][box] * 864e5 }; });
+      touchDay();
       if (onlyReview && +b.dataset.mark === 1) { build(); if (i >= order.length) i = 0; show(); } else go(1);
     });
     el.tabIndex = 0;
