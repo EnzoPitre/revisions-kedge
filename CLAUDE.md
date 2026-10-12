@@ -39,5 +39,7 @@ liste clé `<ol class="must">` · formules `\( … \)` / `\[ … \]` · tableaux
 ## Images
 Locales et optimisées (JPEG ≤ ~1600 px, < 250 Ko) dans `assets/images/`, thématiquement pertinentes (Unsplash), `alt` pertinent.
 
+Les espacements de lecture des fiches sont dans la section 12 de style.css (mise en page aérée, demandée par Enzo le 2026-10-12) : ne pas les resserrer.
+
 ## QA avant push
 Build sans warning ; tester via un serveur sous le préfixe `/revisions-kedge/` (liens, CSS/JS/images/manifest, pages profondes) ; viewports 375, 390, tablette, 1440 ; aucun débordement horizontal ; formules lisibles.

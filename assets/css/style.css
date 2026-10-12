@@ -419,3 +419,45 @@ details.correction > .corr > :last-child { margin-bottom: 0; }
 .callout.exercise .callout-t { --ci: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z'/%3E%3C/svg%3E"); }
 .callout.correction .callout-t { --ci: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E"); }
 .callout.gap .callout-t { --ci: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9.5 9.5a2.5 2.5 0 015 .4c0 1.7-2.5 2-2.5 3.6M12 17.3v.1'/%3E%3C/svg%3E"); }
+
+/* ---------- 12. Lecture aérée des fiches (espacements uniquement, mêmes tokens) ---------- */
+.doc { padding: 26px 20px 32px; }
+.prose { line-height: 1.8; }
+.prose p { margin: 0 0 1.15em; }
+.prose ul, .prose ol { margin: 0 0 1.4em; padding-left: 1.4em; }
+.prose li { margin: .7em 0; padding-left: .2em; }
+.prose li > ul, .prose li > ol { margin: .6em 0 .2em; }
+.prose h2 { margin: 2.4em 0 .9em; }
+.prose h3 { margin: 2em 0 .8em; }
+.acc { margin: 22px 0; }
+.acc > summary { padding: 18px 20px 18px 16px; min-height: 92px; }
+.acc-in { padding: 8px 26px 30px; }
+.acc-in > * + * { margin-top: 1.5em; }
+.acc-in > p { margin-bottom: 0; }
+.acc-in > ul, .acc-in > ol { margin-bottom: 0; }
+.callout { padding: 26px 28px; margin: 1.9em 0; }
+.callout > * + * { margin-top: 1em; }
+.callout p { margin: 0; }
+.callout ul, .callout ol { margin: 0; padding-left: 1.3em; }
+.callout li { margin: .6em 0; }
+.callout-t { margin: 0 0 1.1em; }
+.callout.formula .katex-display { margin: .9em 0; padding: 10px 0; }
+.table-wrap { margin: 1.8em 0; }
+.prose th, .prose td { padding: 16px 20px; line-height: 1.6; }
+.prose table { font-size: 15.5px; }
+details.correction { margin: 1.4em 0 .4em; }
+details.correction > .corr { padding: 26px 28px; }
+details.correction > .corr > * + * { margin-top: 1em; }
+details.correction > .corr p { margin: 0; }
+.callout.exercise > p:not(.callout-t) { margin-bottom: 1.2em; }
+.generated { margin-bottom: 1.3em; }
+.must { gap: 20px; }
+.must li { padding-left: 52px; line-height: 1.7; }
+.provenance { margin-top: 40px; padding-top: 24px; line-height: 1.7; }
+@media (max-width: 520px) {
+  .doc { padding: 20px 14px 28px; }
+  .acc-in { padding: 6px 18px 26px; }
+  .callout { padding: 22px 20px; margin: 1.6em 0; }
+  details.correction > .corr { padding: 22px 20px; }
+  .prose th, .prose td { padding: 14px 16px; }
+}
