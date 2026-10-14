@@ -168,11 +168,11 @@ function layout({ title, desc, base, active, body, math = false, pageId = '', og
 <link rel="stylesheet" href="${base}assets/css/style.css?v=${CFG.assetVersion}">
 ${math ? `<link rel="stylesheet" href="${base}assets/vendor/katex/katex.min.css">` : ''}
 </head>
-<body class="${view}${noDock ? ' no-dock' : ''}" data-base="${base}" data-user="${esc(CFG.userName || '')}" data-page-id="${esc(pageId)}"${math ? ' data-math="1"' : ''}>
+<body class="${view}${noDock ? ' no-dock' : ''}" data-base="${base}" data-page-id="${esc(pageId)}"${math ? ' data-math="1"' : ''}>
 ${SPRITE}
 <a class="skip" href="#main">Aller au contenu</a>
 <header class="deskbar"><a class="brand" href="${base}"><img src="${base}assets/icons/favicon.svg" alt="" width="36" height="36"><span>${esc(CFG.name)}</span></a>
-  <a class="avatar" href="${base}progress/" aria-label="Mes révisions">${esc((CFG.userName || 'E')[0])}</a></header>
+  <a class="avatar" href="${base}progress/" aria-label="Mes révisions">${I('chart')}</a></header>
 <main id="main" tabindex="-1">
 ${body}
 </main>
@@ -242,8 +242,8 @@ for (const d of ['subjects', 'exercises', 'search', 'progress', 'favorites']) fs
   const base = './';
   const recent = pages.filter((p) => p.kind === 'fiche').sort((a, b) => (b.updated || '').localeCompare(a.updated || '') || b.order - a.order).slice(0, 8);
   const body = `
-<header class="greet"><div><h1>Bonjour ${esc(CFG.userName || '')}</h1><p>Prêt pour une session de révision&nbsp;?</p></div>
-  <a class="avatar" href="${base}progress/" aria-label="Mes révisions">${esc((CFG.userName || 'E')[0])}</a></header>
+<header class="greet"><div><h1>Bonjour</h1><p>Prêt pour une session de révision&nbsp;?</p></div>
+  <a class="avatar" href="${base}progress/" aria-label="Mes révisions">${I('chart')}</a></header>
 <div class="search" data-search data-limit="6">${searchBox('q-home', 'Rechercher', base + 'search/')}<div class="search-results" data-results aria-live="polite"></div></div>
 
 <section class="block" data-continue hidden aria-labelledby="h-cont"><h2 id="h-cont">Continuer à réviser</h2><div data-continue-card></div></section>

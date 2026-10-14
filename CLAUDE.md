@@ -44,5 +44,7 @@ Les espacements de lecture des fiches sont dans la section 12 de style.css (mise
 ## Fonctions complémentaires (assets/js/extras.js, tout en localStorage)
 Clés : `kr:v1` (suivi, `fcs` = boîtes de révision espacée des flashcards), `kr:prefs` (thème, taille du texte), `kr:exams` (contrôles), `kr:examhist`, `kr:days` (série), `kr:hl` (surlignages), `kr:notes`. `build.mjs` génère `assets/data/quiz.json` à partir des QCM des fiches (mode examen par matière). Thème sombre : tokens `html[data-theme="dark"]` en fin de style.css ; impression : bloc ` print`.
 
+Le site est partagé avec des amis : aucune personnalisation (pas de prénom, accueil « Bonjour » neutre, avatar = icône). Ne pas réintroduire userName.
+
 ## QA avant push
 Build sans warning ; tester via un serveur sous le préfixe `/revisions-kedge/` (liens, CSS/JS/images/manifest, pages profondes) ; viewports 375, 390, tablette, 1440 ; aucun débordement horizontal ; formules lisibles.
